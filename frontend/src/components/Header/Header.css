@@ -1,0 +1,114 @@
+/* Header.css */
+
+.navbar-container {
+    width: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar {
+    padding: 10px 20px;
+}
+
+/* Brand Logo */
+.brand-logo {
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.brand-logo:hover {
+    color: #1A2F79;
+}
+
+.brand-icon {
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+/* Toggle Button */
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler .fas {
+    font-size: 24px;
+    color: #1A2F79;
+}
+
+/* Responsive Navbar Links */
+.navbar-collapse {
+    display: none; 
+}
+
+.navbar-collapse.show {
+    display: block; 
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        display: flex !important;
+    }
+}
+
+/* Nav Links */
+.navbar-nav .nav-link {
+    font-size: 16px;
+    color: #555;
+    margin: 0 8px;
+    text-decoration: none;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+    color: #1A2F79;
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #333;
+    font-size: 14px;
+    padding: 10px 20px;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #1A2F79;
+    color: #fff;
+}
+
+/* Search Icon */
+.search-icon {
+    color: #555;
+    font-size: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Search Input */
+.search-input {
+    border-radius: 20px;
+    padding: 8px 15px;
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Get Started Button */
+.get-started-btn {
+    background-color: #1A2F79;
+    border-color: #1A2F79;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.get-started-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

@@ -1,0 +1,19 @@
+.stats-section {
+    padding: 3rem 1rem;
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.stats-section h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.stats-section i {
+    color: #17a2b8;
+}
+
+.stats-section p {
+    font-size: 1.1rem;
+}
