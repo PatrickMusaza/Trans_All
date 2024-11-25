@@ -12,29 +12,33 @@ const Sidebar = ({ setActiveView }) => {
       id: 3,
       icon: "fas fa-map",
       label: "Routes",
-      view: "clients-list",
+      view: "routes",
     },
     {
       id: 4,
       icon: "fas fa-users",
       label: "Clients",
+      /*
       dropdown: [
         { label: "List of Clients", view: "clients-list" },
         { label: "Requests", view: "clients-requests" },
         { label: "Documents", view: "clients-documents" },
         { label: "Comments", view: "clients-comments" },
-      ],
+      ],*/
+      view:"clients-list",
     },
     {
       id: 5,
       icon: "fas fa-users-cog",
       label: "Drivers",
+      /*
       dropdown: [
         { label: "List of Drivers", view: "drivers-list" },
         { label: "Requests", view: "drivers-requests" },
         { label: "Documents", view: "drivers-documents" },
         { label: "Comments", view: "drivers-comments" },
-      ],
+      ],*/
+      view: "drivers-list",
     },
     { id: 6, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
     { id: 7, icon: "fas fa-chart-bar", label: "Segmentation", view: "segmentation" },
