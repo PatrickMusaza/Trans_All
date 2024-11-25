@@ -131,6 +131,7 @@
   background-color: #355ac7;
   color: white;
   font-weight: bold;
+  margin: 10px;
 }
 
 .menu ul li.active > a:hover {

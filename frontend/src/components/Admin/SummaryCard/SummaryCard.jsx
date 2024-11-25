@@ -25,10 +25,10 @@ const Overview = () => {
       setCurrentDay(day);
     };
 
-    const intervalId = setInterval(updateDateTime, 1000); // Update every second
-    updateDateTime(); // Initialize time and date immediately
+    const intervalId = setInterval(updateDateTime, 1000); 
+    updateDateTime(); 
 
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    return () => clearInterval(intervalId); 
   }, []);
 
   const stats = [
@@ -52,7 +52,7 @@ const Overview = () => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className={`stat-card ${stat.cols}`} // Corrected syntax for dynamic class
+            className={`stat-card ${stat.cols}`} 
           >
             <h3>{stat.label}</h3>
             <h1>{stat.value}</h1>

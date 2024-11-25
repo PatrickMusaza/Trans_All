@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
 
-const Sidebar = ({ setActiveView }) => {
+const Sidebar = ({ activeView,setActiveView }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -61,7 +61,7 @@ const Sidebar = ({ setActiveView }) => {
       <nav className="menu">
         <ul>
           {menuItems.map((item) => (
-            <li key={item.id} className={item.dropdown ? "dropdown" : ""}>
+            <li key={item.id} className={item.dropdown || activeView === item.view ? "dropdown active" : ""}>
               <a
                 href="#"
                 onClick={(e) => {

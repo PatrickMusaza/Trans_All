@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <Sidebar setActiveView={setActiveView} />
+      <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <div className="dashboard-main">
         <TopNav />
         <div className="dashboard-content">{renderContent()}</div>
