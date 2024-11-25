@@ -11,7 +11,7 @@ const SignInForm = () => {
     return (
         <div className="sign-in-container">
             <div className="left-section">
-                <h1>Sign In to Recharge Direct</h1>
+                <h1>Sign In to Continue with TransConnect</h1>
                 <p>
                     If you don’t have an account
                     <a href="/register" className="register-link"> Register here!</a>

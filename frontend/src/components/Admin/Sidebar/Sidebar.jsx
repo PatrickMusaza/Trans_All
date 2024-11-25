@@ -41,7 +41,8 @@ const Sidebar = ({ activeView,setActiveView }) => {
       view: "drivers-list",
     },
     { id: 6, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
-    { id: 7, icon: "fas fa-chart-bar", label: "Segmentation", view: "segmentation" },
+    { id: 7, icon: "fas fa-chart-bar", label: "Agencies", view: "agencies" },
+    { id: 8, icon: "fas fa-chart-bar", label: "Segmentation", view: "segmentation" },
   ];
 
   const toggleSidebar = () => {

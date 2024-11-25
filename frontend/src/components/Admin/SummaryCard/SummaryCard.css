@@ -30,8 +30,7 @@
 .stat-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 equal-width columns */
-    gap: 3rem;
+    gap: 2rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
