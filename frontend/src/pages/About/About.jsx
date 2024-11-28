@@ -85,12 +85,15 @@ const AboutPage = () => {
             <div className="team-card" key={member.id}>
               <img src={member.image} alt={member.name} />
               <h3>{member.name}</h3>
-              <p className="team-title">{member.title}</p>
-              <button
+              <p className="team-title">{member.title}</p><button
                 className="toggle-button"
                 onClick={() => toggleDetails(member.id)}
               >
-                {expanded === member.id ? '-' : '+'}
+                {expanded === member.id ? (
+                  <i className="fa fa-minus"></i>  // Minus icon when expanded
+                ) : (
+                  <i className="fa fa-plus"></i>   // Plus icon when collapsed
+                )}
               </button>
               {expanded === member.id && (
                 <div className="team-details">
@@ -107,19 +110,19 @@ const AboutPage = () => {
           ))}
         </div>
       </section>
-      
+
       {/* About Content Section */}
       <section className="about-content-section">
         <div className="about-text">
           <h2>Who We Are</h2>
           <p>
-            Our mission is to create innovative solutions that transform industries and improve lives. 
-            We believe in leveraging technology to drive positive change and achieve meaningful impact 
-            on a global scale. With a team of dedicated professionals, we strive for excellence in everything 
+            Our mission is to create innovative solutions that transform industries and improve lives.
+            We believe in leveraging technology to drive positive change and achieve meaningful impact
+            on a global scale. With a team of dedicated professionals, we strive for excellence in everything
             we do.
           </p>
           <p>
-            Our core values of integrity, collaboration, and innovation guide us in every step of our journey. 
+            Our core values of integrity, collaboration, and innovation guide us in every step of our journey.
             By combining expertise with passion, we aim to build lasting partnerships and deliver results that matter.
           </p>
         </div>
