@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Header.css';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const location = useLocation(); 
+    const [isScrolled, setIsScrolled] = useState(false);
+    const location = useLocation();
 
     const navLinks = [
         { name: 'Home', href: '/' },
@@ -29,8 +28,24 @@ const Header = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    // Handle scrolling
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) { // Adjust the offset to match your hero section height
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <div className="navbar-container">
+        <div className={`navbar-container ${isScrolled ? 'scrolled' : ''}`}>
             <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
                 <div className="container-fluid">
                     <a className="navbar-brand brand-logo" href="/">
@@ -49,9 +64,8 @@ const Header = () => {
                                 link.dropdown ? (
                                     <li className="nav-item dropdown" key={index}>
                                         <a
-                                            className={`nav-link dropdown-toggle ${
-                                                location.pathname === link.href ? 'active' : ''
-                                            }`}
+                                            className={`nav-link dropdown-toggle ${location.pathname === link.href ? 'active' : ''
+                                                }`}
                                             href={link.href}
                                             role="button"
                                             data-bs-toggle="dropdown"
@@ -72,9 +86,8 @@ const Header = () => {
                                 ) : (
                                     <li className="nav-item" key={index}>
                                         <a
-                                            className={`nav-link ${
-                                                location.pathname === link.href ? 'active' : ''
-                                            }`}
+                                            className={`nav-link ${location.pathname === link.href ? 'active' : ''
+                                                }`}
                                             href={link.href}
                                         >
                                             {link.name}
@@ -83,7 +96,7 @@ const Header = () => {
                                 )
                             ))}
                         </ul>
-                        <form className="d-flex" role="search">
+                        <form className="d-flex search" role="search">
                             <input
                                 className="form-control me-2 search-input"
                                 type="search"
@@ -91,7 +104,7 @@ const Header = () => {
                                 aria-label="Search"
                             />
                         </form>
-                        <i className="fas fa-search search-icon"></i>
+                            <i className="fas fa-search search-icon"></i>
                         <a href="/sign-in">
                             <button className="btn btn-primary get-started-btn">
                                 Get Started

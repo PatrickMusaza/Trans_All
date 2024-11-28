@@ -1,8 +1,21 @@
+
 /* Header.css */
 
+/* Sticky Header Base */
 .navbar-container {
+    position: fixed;
+    top: 0;
     width: 100%;
-    background-color: #f8f9fa;
+    z-index: 1000;
+    background-color: transparent !important; /* Default background */
+    box-shadow: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 600;
+}
+
+/* Scrolled State */
+.navbar-container.scrolled {
+    background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -13,7 +26,7 @@
 /* Brand Logo */
 .brand-logo {
     font-weight: bold;
-    color: #333;
+    color: #000;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -57,7 +70,7 @@
 /* Nav Links */
 .navbar-nav .nav-link {
     font-size: 16px;
-    color: #555;
+    color: #000;
     margin: 0 8px;
     text-decoration: none;
 }
@@ -71,10 +84,11 @@
 .dropdown-menu {
     background-color: #fff;
     border: 1px solid #ddd;
+    margin: 0;
 }
 
 .dropdown-menu .dropdown-item {
-    color: #333;
+    color: #000;
     font-size: 14px;
     padding: 10px 20px;
 }
@@ -86,19 +100,26 @@
 
 /* Search Icon */
 .search-icon {
-    color: #555;
+    color: #000;
     font-size: 18px;
     margin-right: 10px;
     cursor: pointer;
+    text-align: center;
 }
 
-/* Search Input */
 .search-input {
     border-radius: 20px;
     padding: 8px 15px;
     width: 100%;
     max-width: 200px;
+    border: 1px solid #1A2F79;
 }
+
+.search-input:focus {
+    border-color: #1A2F79; /* Optional: Adjust border color on focus */
+    box-shadow: none !important; /* Ensure no box-shadow on focus */
+}
+
 
 /* Get Started Button */
 .get-started-btn {
@@ -111,4 +132,27 @@
 .get-started-btn:hover {
     background-color: #0056b3;
     border-color: #0056b3;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-item .dropdown-menu {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.dropdown-item {
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #1A2F79;
+    color: #fff;
+    border-radius: 8px;
 }

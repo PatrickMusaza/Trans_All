@@ -9,6 +9,7 @@ import ContactUs from './pages/Contact Us/ContactUs';
 import Dashboard from './pages/Dashboard/Dashboard';
 import NotFound from './pages/NotFound/NotFound';
 import TopNav from './components/Admin/TopNav/TopNav';
+import AboutPage from './pages/About/About';
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/register" element={<SignUp />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/drivers" element={<TopNav />} />
+                <Route path='/about' element={<AboutPage/>}/>
             </Routes>
             {!isStandalonePage && <Footer />}
         </div>

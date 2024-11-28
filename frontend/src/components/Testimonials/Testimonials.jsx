@@ -79,7 +79,7 @@ const TestimonialsSection = () => {
             type="button"
             data-bs-target="#testimonialsCarousel"
             data-bs-slide="prev"
-          >
+          > 
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>

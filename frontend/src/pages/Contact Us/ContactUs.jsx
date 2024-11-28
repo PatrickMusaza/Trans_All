@@ -1,16 +1,33 @@
 import React from "react";
+import { motion } from "framer-motion";
 import ContactUsBackground from "../../components/Contact/Background";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ContactUs.css";
 
+const leftVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1 } }
+};
+
+const rightVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1 } }
+};
+
 const ContactUs = () => {
     return (
         <>
-        <ContactUsBackground/>
+            <ContactUsBackground />
             <div className="container py-5 contact-us-container">
                 <div className="row">
                     {/* Left Section */}
-                    <div className="col-md-6 d-flex flex-column justify-content-center contact-left">
+                    <motion.div
+                        className="col-md-6 d-flex flex-column justify-content-center contact-left"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        variants={leftVariants}
+                    >
                         <h2 className="mb-4">Let's talk with us</h2>
                         <p className="mb-4">
                             Questions, comments, or suggestions? Simply fill in the form
@@ -30,10 +47,16 @@ const ContactUs = () => {
                                 <a href="#" className="social-link">Transconnect Rwanda</a>
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Right Section */}
-                    <div className="col-md-6">
+                    <motion.div
+                        className="col-md-6"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        variants={rightVariants}
+                    >
                         <div className="contact-form bg-white p-4 rounded shadow">
                             <form>
                                 <div className="row mb-3">
@@ -83,9 +106,10 @@ const ContactUs = () => {
                                 </button>
                             </form>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
-            </div></>
+            </div>
+        </>
     );
 };
 

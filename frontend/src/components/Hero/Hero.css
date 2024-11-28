@@ -1,7 +1,7 @@
 /* Hero Section Styling */
 .hero-section {
     position: relative;
-    height: 90vh; 
+    height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +9,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: brightness(0.8); 
+    filter: brightness(1); 
   }
   
   /* Overlay content */
@@ -45,8 +45,8 @@
     transition: background-color 0.3s ease;
   }
   
-.btn .btn-primary button{
-    background-color: #e1661f;
+  .hero-buttons button{
+    background-color: #1A2F79 ;
     color: white;
   }
   
