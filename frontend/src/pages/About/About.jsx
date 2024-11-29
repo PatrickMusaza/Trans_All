@@ -90,9 +90,9 @@ const AboutPage = () => {
                 onClick={() => toggleDetails(member.id)}
               >
                 {expanded === member.id ? (
-                  <i className="fa fa-minus"></i>  // Minus icon when expanded
+                  <i className="fa fa-minus"></i>  
                 ) : (
-                  <i className="fa fa-plus"></i>   // Plus icon when collapsed
+                  <i className="fa fa-plus"></i>  
                 )}
               </button>
               {expanded === member.id && (
