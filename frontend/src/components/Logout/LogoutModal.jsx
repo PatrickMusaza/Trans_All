@@ -1,8 +1,19 @@
 import React from "react";
-import "./Logout.css"; 
+import { Navigate } from "react-router-dom";
+import "./Logout.css";
+
+
+function Logout() {
+  localStorage.clear()
+  return <Navigate to='/sign-in' />
+}
 
 const LogoutModal = ({ show, onClose, onLogout }) => {
   if (!show) return null;
+
+  if (onLogout) {
+    Logout()
+  }
 
   return (
     <div className="modal">
