@@ -7,15 +7,16 @@ const Sidebar = ({ activeView,setActiveView }) => {
 
   const menuItems = [
     { id: 1, icon: "fas fa-tachometer-alt", label: "Dashboard", view: "dashboard" },
-    { id: 2, icon: "fas fa-car", label: "Rides", view: "rides" },
+    { id: 2, icon: "fas fa-user", label: "Users", view: "users" },
+    { id: 3, icon: "fas fa-car", label: "Rides", view: "rides" },
     {
-      id: 3,
+      id: 4,
       icon: "fas fa-map",
       label: "Routes",
       view: "routes",
     },
     {
-      id: 4,
+      id: 5,
       icon: "fas fa-users",
       label: "Clients",
       /*
@@ -28,7 +29,7 @@ const Sidebar = ({ activeView,setActiveView }) => {
       view:"clients-list",
     },
     {
-      id: 5,
+      id: 6,
       icon: "fas fa-users-cog",
       label: "Drivers",
       /*
@@ -40,9 +41,9 @@ const Sidebar = ({ activeView,setActiveView }) => {
       ],*/
       view: "drivers-list",
     },
-    { id: 6, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
-    { id: 7, icon: "fas fa-handshake", label: "Agencies", view: "agencies" },
-    { id: 8, icon: "fas fa-chart-bar", label: "Segmentation", view: "segmentation" },
+    { id: 7, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
+    { id: 8, icon: "fas fa-handshake", label: "Agencies", view: "agencies" },
+   // { id: 9, icon: "fas fa-chart-bar", label: "Segmentation", view: "segmentation" },
   ];
 
   const toggleSidebar = () => {

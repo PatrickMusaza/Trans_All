@@ -1,35 +1,105 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../../api/axios";
 import "./Table.css";
 
-const Table = () => {
-  // Sample Data
-  const [data, setData] = useState([
-    { id: 1, fn: "John", ln: "Doe", age: 25, address: "123 Main St", createdAt: "2023-11-01" },
-    { id: 2, fn: "Jane", ln: "Smith", age: 30, address: "456 Maple Ave", createdAt: "2023-11-02" },
-    { id: 3, fn: "Alice", ln: "Johnson", age: 28, address: "789 Pine Rd", createdAt: "2023-11-03" },
-    { id: 4, fn: "Bob", ln: "Brown", age: 35, address: "321 Oak St", createdAt: "2023-11-04" },
-    { id: 5, fn: "Emily", ln: "Davis", age: 22, address: "654 Elm St", createdAt: "2023-11-05" },
-    { id: 6, fn: "Michael", ln: "Taylor", age: 40, address: "987 Cedar Ln", createdAt: "2023-11-06" },
-    { id: 7, fn: "Sara", ln: "Wilson", age: 27, address: "432 Birch Ave", createdAt: "2023-11-07" },
-    { id: 8, fn: "David", ln: "White", age: 45, address: "876 Walnut St", createdAt: "2023-11-08" },
-    { id: 9, fn: "Anna", ln: "Moore", age: 33, address: "219 Spruce Blvd", createdAt: "2023-11-09" },
-    { id: 10, fn: "James", ln: "Hall", age: 38, address: "556 Poplar Ct", createdAt: "2023-11-10" },
-  ]);
-
+const Table = ({ apiRoute, name }) => {
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRow, setSelectedRow] = useState(null); // To handle row details & updates
+  const [isAdding, setIsAdding] = useState(false); // Toggle add form
+  const [newUser, setNewUser] = useState({ fn: "", ln: "", age: "", address: "" });
   const rowsPerPage = 5;
 
+  // Fetch data from API
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get(apiRoute);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
+
+  // CRUD: Add new user
+  const handleAdd = async () => {
+    try {
+      const response = await axiosInstance.post(apiRoute, newUser);
+      setData((prevData) => [...prevData, response.data]);
+      setIsAdding(false);
+      setNewUser({ fn: "", ln: "", age: "", address: "" });
+    } catch (error) {
+      console.error("Error adding user", error);
+    }
+  };
+
+  // CRUD: Update user
+  const handleUpdate = async (id, updatedUser) => {
+    try {
+      const response = await axiosInstance.put(`${apiRoute}/${id}`, updatedUser);
+      setData((prevData) =>
+        prevData.map((item) => (item.id === id ? response.data : item))
+      );
+      setSelectedRow(null);
+    } catch (error) {
+      console.error("Error updating user", error);
+    }
+  };
+
+  // CRUD: Delete user
+  const handleDelete = async (id) => {
+    try {
+      await axiosInstance.delete(`${apiRoute}/${id}`);
+      setData((prevData) => prevData.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting user", error);
+    }
+  };
+
+  // Pagination
   const totalPages = Math.ceil(data.length / rowsPerPage);
   const currentData = data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
-  const handleDelete = (id) => {
-    const updatedData = data.filter((item) => item.id !== id);
-    setData(updatedData);
-  };
+  useEffect(() => {
+    fetchData();
+  }, [apiRoute]);
 
   return (
     <div className="table-container">
-      <h2>Users Table</h2>
+      <h2>{name} Table</h2>
+      {/* Add New User */}
+      <button className="add-button" onClick={() => setIsAdding(true)}>+ Add User</button>
+      {isAdding && (
+        <div className="add-form">
+          <input
+            type="text"
+            placeholder="First Name"
+            value={newUser.fn}
+            onChange={(e) => setNewUser({ ...newUser, fn: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={newUser.ln}
+            onChange={(e) => setNewUser({ ...newUser, ln: e.target.value })}
+          />
+          <input
+            type="number"
+            placeholder="Age"
+            value={newUser.age}
+            onChange={(e) => setNewUser({ ...newUser, age: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Address"
+            value={newUser.address}
+            onChange={(e) => setNewUser({ ...newUser, address: e.target.value })}
+          />
+          <button onClick={handleAdd}>Save</button>
+          <button onClick={() => setIsAdding(false)}>Cancel</button>
+        </div>
+      )}
+
+      {/* Data Table */}
       <table className="data-table">
         <thead>
           <tr>
@@ -38,26 +108,71 @@ const Table = () => {
             <th>Last Name</th>
             <th>Age</th>
             <th>Address</th>
-            <th>Created At</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {currentData.map((row) => (
-            <tr key={row.id}>
+            <tr
+              key={row.id}
+              onClick={() => setSelectedRow(selectedRow?.id === row.id ? null : row)}
+            >
               <td>{row.id}</td>
               <td>{row.fn}</td>
               <td>{row.ln}</td>
               <td>{row.age}</td>
               <td>{row.address}</td>
-              <td>{row.createdAt}</td>
               <td>
-                <button onClick={() => handleDelete(row.id)}>Delete</button>
+                <button onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(row.id);
+                }}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Row Details / Update */}
+      {selectedRow && (
+        <div className="row-details">
+          <h3>Edit User</h3>
+          <input
+            type="text"
+            value={selectedRow.fn}
+            onChange={(e) =>
+              setSelectedRow({ ...selectedRow, fn: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            value={selectedRow.ln}
+            onChange={(e) =>
+              setSelectedRow({ ...selectedRow, ln: e.target.value })
+            }
+          />
+          <input
+            type="number"
+            value={selectedRow.age}
+            onChange={(e) =>
+              setSelectedRow({ ...selectedRow, age: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            value={selectedRow.address}
+            onChange={(e) =>
+              setSelectedRow({ ...selectedRow, address: e.target.value })
+            }
+          />
+          <button
+            onClick={() => handleUpdate(selectedRow.id, selectedRow)}
+          >
+            Save
+          </button>
+          <button onClick={() => setSelectedRow(null)}>Cancel</button>
+        </div>
+      )}
 
       {/* Pagination Controls */}
       <div className="pagination">

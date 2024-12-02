@@ -13,16 +13,20 @@ const Dashboard = () => {
     switch (activeView) {
       case "dashboard":
         return <SummaryCard />;
+      case "users":
+        return <Table apiRoute="api/users/" name="Users" />;
       case "clients-list":
-        return <Table />;
+        return <Table apiRoute="api/clients/" name="Clients" />;
       case "rides":
-        return <div>Rides Content</div>;
+        return <Table apiRoute="api/rides/" name="Rides" />;
       case "routes":
-        return <div>Routes Content</div>;
+        return <Table apiRoute="api/routes/" name="Routes" />;
       case "vehicles":
-        return <div>Vehicle Content</div>;
+        return <Table apiRoute="api/vehicles/" name="Vehicles" />;
       case "drivers-list":
-        return <RecentTrip />;
+        return <Table apiRoute="api/drivers/" name="Drivers" />;
+      case "agencies":
+        return <Table apiRoute="api/agencies/" name="Agencies" />;
       default:
         return <div>Coming Soon...</div>;
     }
