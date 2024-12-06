@@ -126,3 +126,95 @@
     padding: 5px;
   }
   
+  .drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 40%;
+  background-color: #f9f9f9;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawer-content {
+  flex: 1;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.drawer.open {
+  right: 0;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.drawer-header h3 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.drawer-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.drawer-body input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.drawer-footer {
+  text-align: right;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.drawer-footer button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.drawer-footer button.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.drawer-footer button.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}

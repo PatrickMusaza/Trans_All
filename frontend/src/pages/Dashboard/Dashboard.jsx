@@ -14,7 +14,7 @@ const Dashboard = () => {
       case "dashboard":
         return <SummaryCard />;
       case "users":
-        return <Table apiRoute="api/users/" name="Users" />;
+        return <Table apiRoute="api/auth/user/" name="Users" />;
       case "clients-list":
         return <Table apiRoute="api/clients/" name="Clients" />;
       case "rides":
