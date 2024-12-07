@@ -87,10 +87,10 @@ const Table = ({ apiRoute, name }) => {
           {currentData.map((row) => (
             <tr key={row.id} onClick={() => openDrawer("edit", row)}>
               <td>{row.id}</td>
-              <td>{row.fn}</td>
-              <td>{row.ln}</td>
+              <td>{row.first_name}</td>
+              <td>{row.last_name}</td>
               <td>{row.age}</td>
-              <td>{row.address}</td>
+              <td>{row.district}</td>
               <td>
                 <button onClick={() => handleDelete(row.id)}>Delete</button>
               </td>

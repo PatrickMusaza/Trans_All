@@ -1,20 +1,29 @@
 import React, { useEffect, useRef } from "react";
 import {
   Chart as ChartJS,
+  BarElement,
   LineElement,
   PointElement,
+  ArcElement,
+  BarController,
   LineController,
+  PieController,
   CategoryScale,
   LinearScale,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
+import "./Chart.css"
 
 ChartJS.register(
+  BarElement,
   LineElement,
   PointElement,
+  ArcElement,
+  BarController,
   LineController,
+  PieController,
   CategoryScale,
   LinearScale,
   Title,
@@ -22,28 +31,41 @@ ChartJS.register(
   Legend
 );
 
-const Chart = () => {
+const Chart = ({ chartType = "bar", xField, yField, tableData }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
+
+    // Extract labels and data from tableData
+    const labels = tableData.map((item) => item[xField]);
+    const data = tableData.map((item) => item[yField]);
 
     // Destroy existing chart instance if present
     if (ChartJS.getChart(ctx)) {
       ChartJS.getChart(ctx).destroy();
     }
 
+    // Chart configuration
     new ChartJS(ctx, {
-      type: "line",
+      type: chartType,
       data: {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        labels,
         datasets: [
           {
-            label: "Earnings ($)",
-            data: [400, 600, 800, 500, 700, 900, 1000],
-            borderColor: "#1a2f79",
-            backgroundColor: "rgba(26, 47, 121, 0.1)",
-            fill: true,
+            label: `${yField} by ${xField}`,
+            data,
+            backgroundColor: [
+              "#4caf50",
+              "#ff9800",
+              "#f44336",
+              "#2196f3",
+              "#9c27b0",
+              "#00bcd4",
+              "#8bc34a",
+            ],
+            borderColor: "#ffffff",
+            borderWidth: 1,
           },
         ],
       },
@@ -55,21 +77,38 @@ const Chart = () => {
             display: true,
             position: "top",
           },
-        },
-        scales: {
-          x: {
-            beginAtZero: true,
-          },
-          y: {
-            beginAtZero: true,
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem) =>
+                `${tooltipItem.label}: ${tooltipItem.raw}`,
+            },
           },
         },
+        scales:
+          chartType === "pie"
+            ? {} // No scales for pie chart
+            : {
+                x: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: xField,
+                  },
+                },
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: yField,
+                  },
+                },
+              },
       },
     });
-  }, []);
+  }, [chartType, xField, yField, tableData]);
 
   return (
-    <div style={{ height: "300px", width: "100%" }}>
+    <div style={{ height: "400px", width: "100%" }}>
       <canvas ref={chartRef}></canvas>
     </div>
   );
