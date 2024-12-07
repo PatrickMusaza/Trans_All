@@ -4,7 +4,7 @@ import TopNav from "../../components/Admin/TopNav/TopNav";
 import SummaryCard from "../../components/Admin/SummaryCard/SummaryCard";
 import Table from "../../components/Admin/Users/Table";
 import Chart from "../../components/Admin/Chart/Chart";
-import RecentTrip from "../../components/Admin/RecentTrip/RecentTripTable";
+import RecentTrip from "../../components/User/RecentTrip/RecentTripTable";
 import "./Dashboard.css";
 import NotificationPanel from "../../components/Admin/Notification/NotificationPanel";
 
@@ -21,6 +21,24 @@ const Dashboard = () => {
     { day: "Sun", earnings: 1000 },
   ];
 
+  const sampleTableData = [
+    {
+      id: 1,
+      summary: "Bus 1 is running late",
+      details: "Bus 1 is delayed by 15 minutes due to heavy traffic near the downtown area.",
+    },
+    {
+      id: 2,
+      summary: "Seat availability updated",
+      details: "Seats on Bus 2 have been updated. 10 seats are now available for booking.",
+    },
+    {
+      id: 3,
+      summary: "New route added",
+      details: "A new route from City Center to Parkville has been added to the schedule.",
+    },
+  ];
+
   const renderContent = () => {
     switch (activeView) {
       case "dashboard":
@@ -30,10 +48,21 @@ const Dashboard = () => {
           <Chart chartType="pie" xField="day" yField="earnings" tableData={sampleData} />
         </>;
       case "users":
-        return <><Table apiRoute="api/auth/user/" name="Users" />
-        <NotificationPanel /></>;
+        return <>
+          <Table apiRoute="api/auth/user/" name="Users" />
+          <NotificationPanel
+            tableData={sampleTableData}
+            summaryField="summary"
+            detailField="details"
+          /></>
       case "clients-list":
-        return <Table apiRoute="api/clients/" name="Clients" />;
+        return <>
+          <Table apiRoute="api/clients/" name="Clients" />
+          <NotificationPanel
+            tableData={sampleTableData}
+            summaryField="summary"
+            detailField="details"
+          /></>;
       case "rides":
         return <Table apiRoute="api/rides/" name="Rides" />;
       case "routes":

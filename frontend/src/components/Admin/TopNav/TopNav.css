@@ -79,7 +79,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
     border-radius: 20px;
-    padding: 1rem;
   }
 
   .profile-dropdown .profile-details  p:hover{
@@ -109,3 +108,11 @@
     background-color: #c0392b;
   }
   
+  .profile-details a{
+    text-decoration: none;
+    color: black;
+  }
+
+  .profile-details a:hover{
+    color: #1a2f79;
+  }

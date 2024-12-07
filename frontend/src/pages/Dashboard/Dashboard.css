@@ -46,3 +46,6 @@
     color: #fff;
   }
   
+  NotificationPanel{
+    display: none;
+  }

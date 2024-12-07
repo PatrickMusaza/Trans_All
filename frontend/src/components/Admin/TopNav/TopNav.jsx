@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./TopNav.css";
 import busImage from "../../../assets/images/download.jpg";
 import LogoutModal from "../../Logout/LogoutModal";
+import { Link } from "react-router-dom";
 
 const TopNav = () => {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -49,8 +50,7 @@ const TopNav = () => {
         {profileOpen && (
           <div className="profile-dropdown">
             <div className="profile-details">
-              <p>Profile Details</p>
-              <p>View Profile</p>
+              <a href="/profile_view" >View Profile</a>
               <button onClick={showLogoutModal}>Logout</button> {/* Trigger Logout Modal */}
             </div>
           </div>
