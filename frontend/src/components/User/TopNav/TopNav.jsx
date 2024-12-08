@@ -6,21 +6,13 @@ import ViewProfile from "../../Profile/ViewProfile";
 
 const TopNav = () => {
   const [profileOpen, setProfileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [showModal, setShowModal] = useState(false); // Set initial state to false
 
   const toggleProfileDropdown = () => {
     setProfileOpen(!profileOpen);
     setCollapsed(!collapsed);
-  };
-
-  const handleOpenProfile = () => {
-    setIsProfileVisible(true); // Show the profile popup
-  };
-  
-  const handleCloseProfile = () => {
-    setIsProfileVisible(false); // Close the profile popup
   };
 
   const showLogoutModal = () => setShowModal(true); // Show modal
@@ -30,18 +22,24 @@ const TopNav = () => {
     window.location.href = "/sign-in";
   };
 
-  const user = {
-    avatar: "https://via.placeholder.com/120",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    details: {
-      Address: "123 Main Street, Springfield",
-      Phone: "+1 234 567 890",
-      "Date of Birth": "1990-01-01",
-      "Membership Status": "Gold Member",
-    },
+  const handleOpenProfile = () => {
+    setIsProfileVisible(true); // Show the profile popup
   };
 
+  const handleCloseProfile = () => {
+    setIsProfileVisible(false); // Close the profile popup
+  };
+
+  const user = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    avatar: "/path/to/avatar.png", // Replace with your actual avatar path
+    details: {
+      // Add user details here
+      bio: "Software Developer",
+      location: "San Francisco, CA"
+    }
+  };
 
   return (
     <div className="top-nav">

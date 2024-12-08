@@ -1,8 +1,8 @@
 // Dashboard.jsx
 import React from "react";
-import "./Dashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRoute, faBus, faUsers } from "@fortawesome/free-solid-svg-icons";
+import "./Dashboard.css";
 
 const Dashboard = ({ trips }) => {
   const totalRoutes = new Set(trips.map((trip) => trip.from_place)).size;

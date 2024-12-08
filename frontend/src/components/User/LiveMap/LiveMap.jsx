@@ -1,27 +1,77 @@
-// LiveMap.jsx
-import React from "react";
-import { MapContainer, TileLayer, Polyline, Marker } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import React, { useState, useEffect } from "react";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { useLocation } from "react-router-dom";
 import "./LiveMap.css";
 
-const LiveMap = ({ route }) => {
-  const startCoords = [route.from_lat, route.from_lng];
-  const endCoords = [route.to_lat, route.to_lng];
-
-  return (
-    <div className="live-map">
-      <h2>Live Map</h2>
-      <MapContainer center={startCoords} zoom={13} style={{ height: "400px" }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; OpenStreetMap contributors"
-        />
-        <Marker position={startCoords} />
-        <Marker position={endCoords} />
-        <Polyline positions={[startCoords, endCoords]} color="blue" />
-      </MapContainer>
-    </div>
-  );
+const containerStyle = {
+    width: "100%",
+    height: "100%",
 };
 
-export default LiveMap;
+const LiveMapDetails = () => {
+    const { state } = useLocation(); // Route details passed from the previous page
+    const [liveLocation, setLiveLocation] = useState({ lat: -1.9573, lng: 30.1127 }); // Kigali Downtown coordinates
+    const passengerLocation = { lat: -1.9573, lng: 30.1127 }; // Kigali Downtown coordinates for reference
+
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY", // Replace with your API key
+    });
+
+    const fetchLaptopLocation = () => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setLiveLocation({ lat: latitude, lng: longitude });
+            },
+            (error) => {
+                console.error("Error fetching laptop location:", error);
+            }
+        );
+    };
+
+    useEffect(() => {
+        fetchLaptopLocation(); // Fetch initial location
+
+        // Update location every 5 seconds to simulate live tracking
+        const interval = setInterval(fetchLaptopLocation, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    if (!isLoaded) return <div>Loading Map...</div>;
+
+    return (
+        <div className="live-map-details">
+            {/* Map Container */}
+            <div className="live-map" style={{ flex: "7" }}>
+                <h2>Live Location</h2>
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={liveLocation}
+                    zoom={12}
+                >
+                    {/* Marker for Bus Location */}
+                    <Marker position={liveLocation} label="Bus" />
+
+                    {/* Marker for Kigali Downtown */}
+                    <Marker position={passengerLocation} label="Passenger" />
+                </GoogleMap>
+            </div>
+
+            {/* Details Container */}
+            <div className="details" style={{ flex: "3" }}>
+                <h2>Trip Details</h2>
+                <p><strong>From:</strong> {state?.from_place}</p>
+                <p><strong>To:</strong> {state?.to_place}</p>
+                <p><strong>Driver:</strong> {state?.driver_name}</p>
+                <p><strong>Passengers:</strong> {state?.passengers}</p>
+                <p><strong>Price:</strong> RWF {state?.price}</p>
+                <p><strong>Distance:</strong> {state?.distance} km</p>
+                <p><strong>Average Speed:</strong> {state?.speed} km/h</p>
+                <button onClick={() => window.history.back()}>Close</button>
+            </div>
+        </div>
+    );
+};
+
+export default LiveMapDetails;

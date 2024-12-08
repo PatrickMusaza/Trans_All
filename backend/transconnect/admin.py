@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Driver, Client, Staff, Route, Agency, Vehicle, Ride, Controlled, Moved, Order, Located
+from .models import Driver, Client, Staff, Route, Agency, Vehicle, Ride, Controlled, Moved, Order, Located,Trip
 
 admin.site.register(Driver)
 admin.site.register(Client)
@@ -12,3 +12,4 @@ admin.site.register(Controlled)
 admin.site.register(Moved)
 admin.site.register(Order)
 admin.site.register(Located)
+admin.site.register(Trip)

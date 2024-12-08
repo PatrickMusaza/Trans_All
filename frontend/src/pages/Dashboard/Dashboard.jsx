@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import Sidebar from "../../components/Admin/Sidebar/Sidebar";
 import TopNav from "../../components/Admin/TopNav/TopNav";
 import SummaryCard from "../../components/Admin/SummaryCard/SummaryCard";
-import Table from "../../components/Admin/Users/Table";
+import Table from "../../components/Admin/CRUD/Table";
 import Chart from "../../components/Admin/Chart/Chart";
-import RecentTrip from "../../components/User/RecentTrip/RecentTripTable";
 import "./Dashboard.css";
 import NotificationPanel from "../../components/Admin/Notification/NotificationPanel";
 

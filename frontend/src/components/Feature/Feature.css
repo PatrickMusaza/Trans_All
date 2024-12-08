@@ -16,6 +16,8 @@
     transition: transform 0.3s ease-in-out;
     text-align: center;
     margin-bottom: 2rem;
+    width: 90%;
+    height: 90%;
 }
 
 .features-section .card:hover {

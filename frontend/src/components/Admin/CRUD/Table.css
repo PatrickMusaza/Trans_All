@@ -212,3 +212,8 @@
   border: 0;
   background-color: #f9f9f9;
 }
+
+
+.drawer-header button:hover {
+  background-color: #f9f9f9;
+}

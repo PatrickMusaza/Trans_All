@@ -22,4 +22,28 @@ axiosInstance.interceptors.request.use(
     }
 )
 
+axiosInstance.interceptors.response.use(
+    (response) => response, // Pass through successful responses
+    async (error) => {
+      const originalRequest = error.config;
+  
+      // Handle 401 Unauthorized errors
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        // Optionally: Add a token refresh mechanism here
+        // const refreshToken = localStorage.getItem('refreshToken');
+        // const response = await axios.post('/auth/refresh/', { refresh: refreshToken });
+        // localStorage.setItem(ACCESS_TOKEN, response.data.access);
+  
+        // For now, clear the token and redirect to login
+        localStorage.removeItem(ACCESS_TOKEN);
+        window.location.href = "/sign-in"; // Redirect to login page
+        return Promise.reject(error);
+      }
+  
+      return Promise.reject(error); // Reject other errors
+    }
+  );
+  
+
 export default axiosInstance;

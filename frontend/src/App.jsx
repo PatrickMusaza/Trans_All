@@ -10,10 +10,9 @@ import ContactUs from './pages/Contact Us/ContactUs';
 import Dashboard from './pages/Dashboard/Dashboard';
 import NotFound from './pages/NotFound/NotFound';
 import AboutPage from './pages/About/About';
-import ViewProfile from './components/Admin/Profile/ViewProfile';
-import TopNav from './components/Admin/TopNav/TopNav';
-import Sidebar from './components/Admin/Sidebar/Sidebar';
 import User from './pages/User/User';
+import Services from './pages/Services/Services';
+import LiveMapDetails from './components/User/LiveMap/LiveMap';
 
 function Logout() {
     localStorage.clear()
@@ -28,31 +27,8 @@ function RegisterAndLogout() {
 const App = () => {
 
     const location = useLocation();
-    const user = {
-        avatar: "https://via.placeholder.com/120",
-        name: "John Doe",
-        email: "john.doe@example.com",
-        details: {
-            Address: "123 Main Street, Springfield",
-            Phone: "+1 234 567 890",
-            "Date of Birth": "1990-01-01",
-            "Membership Status": "Gold Member",
-        },
-    };
 
-    const det = {
-        avatar: "https://via.placeholder.com/120",
-        name: "John Doe",
-        email: "john.doe@example.com",
-        details: {
-            Address: "123 Main Street, Springfield",
-            Phone: "+1 234 567 890",
-            "Date of Birth": "1990-01-01",
-            "Membership Status": "Gold Member",
-        },
-    };
-
-    const standalonePages = ['/dashboard', '/profile_view', '/users'];
+    const standalonePages = ['/dashboard', '/users','/live-map'];
 
     const isStandalonePage = standalonePages.includes(location.pathname);
 
@@ -66,20 +42,14 @@ const App = () => {
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/register" element={<SignUp />} />
                 <Route path='/about' element={<AboutPage />} />
+                <Route path='/services' element={<Services />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/register" element={<RegisterAndLogout />} />
+                <Route path="/live-map" element={<LiveMapDetails />} />
 
                 <Route path='/dashboard' element={
                     <ProtectedRoute>
                         <Dashboard />
-                    </ProtectedRoute>
-                }
-                />
-                <Route path='/profile_view' element={
-                    <ProtectedRoute>
-                        <TopNav />
-                        <Sidebar />
-                        <ViewProfile user={user} />
                     </ProtectedRoute>
                 }
                 />

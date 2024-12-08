@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     CreateUserView, DriverList, VehicleList, ClientList, StaffList, 
-    RoutesAPIView, AgencyList, RideList, ControlledList, MovedList, OrderList, LocatedList
+    RoutesAPIView, AgencyList, RideList, ControlledList, MovedList, OrderList, LocatedList,TripsAPIView
 )
 
 urlpatterns = [
@@ -16,4 +16,5 @@ urlpatterns = [
     path('moved/', MovedList.as_view(), name='moved'),
     path('orders/', OrderList.as_view(), name='orders'),
     path('located/', LocatedList.as_view(), name='located'),
+    path('trips/', TripsAPIView.as_view(), name='trips'),
 ]
