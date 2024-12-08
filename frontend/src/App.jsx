@@ -11,9 +11,9 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import NotFound from './pages/NotFound/NotFound';
 import AboutPage from './pages/About/About';
 import ViewProfile from './components/Admin/Profile/ViewProfile';
-import ProfileDetails from './components/Admin/Profile/ProfileDetails';
 import TopNav from './components/Admin/TopNav/TopNav';
 import Sidebar from './components/Admin/Sidebar/Sidebar';
+import User from './pages/User/User';
 
 function Logout() {
     localStorage.clear()
@@ -29,15 +29,15 @@ const App = () => {
 
     const location = useLocation();
     const user = {
-      avatar: "https://via.placeholder.com/120",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      details: {
-        Address: "123 Main Street, Springfield",
-        Phone: "+1 234 567 890",
-        "Date of Birth": "1990-01-01",
-        "Membership Status": "Gold Member",
-      },
+        avatar: "https://via.placeholder.com/120",
+        name: "John Doe",
+        email: "john.doe@example.com",
+        details: {
+            Address: "123 Main Street, Springfield",
+            Phone: "+1 234 567 890",
+            "Date of Birth": "1990-01-01",
+            "Membership Status": "Gold Member",
+        },
     };
 
     const det = {
@@ -45,14 +45,14 @@ const App = () => {
         name: "John Doe",
         email: "john.doe@example.com",
         details: {
-          Address: "123 Main Street, Springfield",
-          Phone: "+1 234 567 890",
-          "Date of Birth": "1990-01-01",
-          "Membership Status": "Gold Member",
+            Address: "123 Main Street, Springfield",
+            Phone: "+1 234 567 890",
+            "Date of Birth": "1990-01-01",
+            "Membership Status": "Gold Member",
         },
-      };
-  
-    const standalonePages = ['/dashboard','/profile_view',];
+    };
+
+    const standalonePages = ['/dashboard', '/profile_view', '/users'];
 
     const isStandalonePage = standalonePages.includes(location.pathname);
 
@@ -77,12 +77,14 @@ const App = () => {
                 />
                 <Route path='/profile_view' element={
                     <ProtectedRoute>
-                    <TopNav/>
-                    <Sidebar/>
-                        <ViewProfile user={user}/>
+                        <TopNav />
+                        <Sidebar />
+                        <ViewProfile user={user} />
                     </ProtectedRoute>
                 }
                 />
+
+                <Route path='/users' element={<User />} />
 
             </Routes>
             {!isStandalonePage && <Footer />}

@@ -1,0 +1,31 @@
+/* Routes.css */
+.routes {
+    padding: 20px;
+  }
+  
+  .routes h1 {
+    margin-bottom: 20px;
+  }
+  
+  .routes select {
+    width: 50%;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .routes button {
+    padding: 10px 20px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .routes button:hover {
+    background: #45a049;
+  }
+  

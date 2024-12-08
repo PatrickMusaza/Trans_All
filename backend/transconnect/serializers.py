@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import (
-    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located
+    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip
 )
 
 class UserSerializer (serializers.ModelSerializer):
@@ -34,9 +34,15 @@ class StaffSerializer(serializers.ModelSerializer):
         model = Staff
         fields = '__all__'
 
+
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
+        fields = '__all__'
+
+class TripSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trip
         fields = '__all__'
 
 class AgencySerializer(serializers.ModelSerializer):

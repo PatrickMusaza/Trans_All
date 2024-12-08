@@ -5,12 +5,12 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import (
-    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located
+    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip
 )
 from .serializers import (
     DriverSerializer, VehicleSerializer, ClientSerializer, UserSerializer, 
     StaffSerializer, RouteSerializer, AgencySerializer, RideSerializer, 
-    ControlledSerializer, MovedSerializer, OrderSerializer, LocatedSerializer
+    ControlledSerializer, MovedSerializer, OrderSerializer, LocatedSerializer,TripSerializer
 )
 
 # User creation
@@ -47,9 +47,19 @@ class StaffList(GenericListView):
     model = Staff
     serializer_class = StaffSerializer
 
-class RouteList(GenericListView):
-    model = Route
-    serializer_class = RouteSerializer
+
+class RoutesAPIView(APIView):
+    def get(self, request):
+        routes = Route.objects.all()
+        serializer = RouteSerializer(routes, many=True)
+        return Response(serializer.data)
+
+class TripsAPIView(APIView):
+    def get(self, request):
+        filters = request.GET.dict()
+        trips = Trip.objects.filter(**filters)
+        serializer = TripSerializer(trips, many=True)
+        return Response(serializer.data)
 
 class AgencyList(GenericListView):
     model = Agency

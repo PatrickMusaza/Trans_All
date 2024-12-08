@@ -23,12 +23,24 @@ class Staff(models.Model):
     district = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
-class Route(models.Model):
-    start_place = models.CharField(max_length=100)
-    destination = models.CharField(max_length=100)
-    distance = models.FloatField()
-    created_at = models.DateTimeField(auto_now_add=True)
 
+class Route(models.Model):
+    from_place = models.CharField(max_length=100)
+    to_place = models.CharField(max_length=100)
+    distance = models.FloatField()
+
+class Trip(models.Model):
+    ride_no = models.CharField(max_length=50)
+    date = models.DateField()
+    from_place = models.CharField(max_length=100)
+    to_place = models.CharField(max_length=100)
+    departure_time = models.TimeField()
+    arrival_time = models.TimeField()
+    book_time = models.DateTimeField()
+    speed = models.FloatField()
+    driver_name = models.CharField(max_length=100)
+    agency = models.CharField(max_length=100)
+    
 class Agency(models.Model):
     agency_name = models.CharField(max_length=100)
     number_of_vehicles = models.IntegerField()
