@@ -1,5 +1,6 @@
 .features-section {
     padding: 5rem 4rem;
+    box-shadow: 5px rgba(0, 0, 0, 0.1);
 }
 
 .features-section h2 {
@@ -18,6 +19,7 @@
     margin-bottom: 2rem;
     width: 90%;
     height: 90%;
+    box-shadow: 5px rgba(0, 0, 0, 0.1);
 }
 
 .features-section .card:hover {
@@ -28,8 +30,4 @@
     color: #1A2F79;
     text-decoration: none;
     font-weight: bold;
-}
-
-.features-section .btn-link:hover {
-    /*text-decoration: underline;*/
 }

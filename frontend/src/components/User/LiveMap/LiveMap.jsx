@@ -14,7 +14,7 @@ const LiveMapDetails = () => {
     const passengerLocation = { lat: -1.9573, lng: 30.1127 }; // Kigali Downtown coordinates for reference
 
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY", // Replace with your API key
+        googleMapsApiKey: "https://gist.github.com/RyanOkamuro/3829cde1b7db51a739c7ca5f11055c54.js", 
     });
 
     const fetchLaptopLocation = () => {

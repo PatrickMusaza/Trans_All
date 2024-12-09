@@ -33,7 +33,7 @@ const TopNav = () => {
   const user = {
     name: "John Doe",
     email: "john.doe@example.com",
-    avatar: "/path/to/avatar.png", // Replace with your actual avatar path
+    avatar: "https://www.istockphoto.com/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration-gm1300845620-393045799", // Replace with your actual avatar path
     details: {
       // Add user details here
       bio: "Software Developer",
@@ -70,6 +70,7 @@ const TopNav = () => {
         {profileOpen && (
           <div className="profile-dropdown">
             <div className="profile-details">
+              <a href="/dashboard">Admin Mode</a>
               <button className="profile" onClick={handleOpenProfile}>View Profile</button>
               {isProfileVisible && (
                 <ViewProfile user={user} onClose={handleCloseProfile} />

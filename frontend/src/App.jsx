@@ -28,7 +28,7 @@ const App = () => {
 
     const location = useLocation();
 
-    const standalonePages = ['/dashboard', '/users','/live-map'];
+    const standalonePages = ['/dashboard', '/users', '/live-map'];
 
     const isStandalonePage = standalonePages.includes(location.pathname);
 
@@ -45,7 +45,13 @@ const App = () => {
                 <Route path='/services' element={<Services />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/register" element={<RegisterAndLogout />} />
-                <Route path="/live-map" element={<LiveMapDetails />} />
+
+                <Route path="/live-map" element={
+                    <ProtectedRoute>
+                        <LiveMapDetails />
+                    </ProtectedRoute>
+                }
+                />
 
                 <Route path='/dashboard' element={
                     <ProtectedRoute>
@@ -54,7 +60,12 @@ const App = () => {
                 }
                 />
 
-                <Route path='/users' element={<User />} />
+                <Route path='/users' element={
+                    <ProtectedRoute>
+                        <User />
+                    </ProtectedRoute>
+                }
+                />
 
             </Routes>
             {!isStandalonePage && <Footer />}

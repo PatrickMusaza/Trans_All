@@ -18,7 +18,7 @@ const TopNav = () => {
   const handleOpenProfile = () => {
     setIsProfileVisible(true); // Show the profile popup
   };
-  
+
   const handleCloseProfile = () => {
     setIsProfileVisible(false); // Close the profile popup
   };
@@ -72,6 +72,7 @@ const TopNav = () => {
         {profileOpen && (
           <div className="profile-dropdown">
             <div className="profile-details">
+              <a href="/users">User Mode</a>
               <button className="profile" onClick={handleOpenProfile}>View Profile</button>
               {isProfileVisible && (
                 <ViewProfile user={user} onClose={handleCloseProfile} />
