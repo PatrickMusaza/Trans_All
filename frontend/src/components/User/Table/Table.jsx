@@ -25,7 +25,7 @@ const Table = ({ trips }) => {
 
   return (
     <div className="table">
-      <h2>Recent Trips</h2>
+      <h1>Recent Trips</h1>
       <div className="filters">
         <input
           type="text"

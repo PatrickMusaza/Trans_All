@@ -4,9 +4,9 @@ import TopNav from "../../components/User/TopNav/TopNav"
 import Routes from "../../components/User/Route/Routes";
 import LiveMap from "../../components/User/LiveMap/LiveMap";
 import Table from "../../components/User/Table/Table";
+import Sidebar from "../../components/User/Sidebar/Sidebar";
 import axiosInstance from "../../api/axios";
 import "./User.css";
-import Sidebar from "../../components/User/Sidebar/Sidebar";
 
 function User() {
     const [activeView, setActiveView] = useState("dashboard");
@@ -45,14 +45,23 @@ function User() {
                 return (
                     <>
                         <Dashboard trips={trips} />
-                        <Routes routes={routes} onSelectRoute={handleRouteSelect} />
-                        {selectedRoute && <LiveMap route={selectedRoute} />}
-                        <Table trips={trips} />
                     </>);
             case "routes":
-                <Table trips={trips} />
+                return (
+                    <>
+                        <Routes routes={routes} onSelectRoute={handleRouteSelect} />
+                        {selectedRoute &&
+                            <LiveMap route={selectedRoute} />}
+                    </>
+                );
+            case "trips":
+                return (
+                    <>
+                        <Table trips={trips} />
+                    </>
+                );
             default:
-                return <div>Coming Soon...</div>;
+                return <alert>hy</alert>;
         }
     };
 

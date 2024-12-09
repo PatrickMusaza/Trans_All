@@ -1,8 +1,6 @@
 .route-container {
-  width: 75%;
+  width: 60em;
   padding: 20px;
-  margin: 0 auto;
-  text-align: center;
 }
 
 .route-container h1 {

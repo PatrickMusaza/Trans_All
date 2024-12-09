@@ -13,6 +13,12 @@ const Sidebar = ({ activeView,setActiveView }) => {
       label: "Routes",
       view: "routes",
     },
+    {
+      id: 3,
+      icon: "fas fa-route",
+      label: "Trips",
+      view: "trips",
+    },
   ];
 
   const toggleSidebar = () => {
