@@ -7,6 +7,7 @@ import Table from "../../components/User/Table/Table";
 import Sidebar from "../../components/User/Sidebar/Sidebar";
 import axiosInstance from "../../api/axios";
 import "./User.css";
+import Chart from "../../components/Admin/Chart/Chart";
 
 function User() {
     const [activeView, setActiveView] = useState("dashboard");
@@ -45,6 +46,7 @@ function User() {
                 return (
                     <>
                         <Dashboard trips={trips} />
+                       {/* <Chart chartType="bar" xField="" yField="" tableData=""/>*/}
                     </>);
             case "routes":
                 return (

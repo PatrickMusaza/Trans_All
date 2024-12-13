@@ -7,43 +7,51 @@ const axiosInstance = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-})
+});
 
 axiosInstance.interceptors.request.use(
-    (config)=>{
+    (config) => {
         const token = localStorage.getItem(ACCESS_TOKEN);
         if (token) {
-            config.headers.Authorization=`Bearer ${token}`
+            config.headers.Authorization = `Bearer ${token}`;
         }
-        return config
+        return config;
     },
-    (error)=>{
-        return Promise.reject(error)
+    (error) => {
+        return Promise.reject(error);
     }
-)
+);
 
 axiosInstance.interceptors.response.use(
     (response) => response, // Pass through successful responses
     async (error) => {
-      const originalRequest = error.config;
-  
-      // Handle 401 Unauthorized errors
-      if (error.response?.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        // Optionally: Add a token refresh mechanism here
-        // const refreshToken = localStorage.getItem('refreshToken');
-        // const response = await axios.post('/auth/refresh/', { refresh: refreshToken });
-        // localStorage.setItem(ACCESS_TOKEN, response.data.access);
-  
-        // For now, clear the token and redirect to login
-        localStorage.removeItem(ACCESS_TOKEN);
-        window.location.href = "/sign-in"; // Redirect to login page
-        return Promise.reject(error);
-      }
-  
-      return Promise.reject(error); // Reject other errors
+        const originalRequest = error.config;
+
+        // Handle 401 Unauthorized errors
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const refreshToken = localStorage.getItem('refreshToken');
+            try {
+                // Send a request to refresh the token
+                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+                    refresh: refreshToken,
+                });
+                const { access } = response.data;
+                localStorage.setItem(ACCESS_TOKEN, access); // Save the new access token
+
+                // Retry the original request with the new access token
+                originalRequest.headers['Authorization'] = `Bearer ${access}`;
+                return axiosInstance(originalRequest); // Retry the original request with the new token
+            } catch (error) {
+                localStorage.removeItem(ACCESS_TOKEN); // Remove the access token on failure
+                localStorage.removeItem('refreshToken'); // Remove the refresh token if any
+                window.location.href = '/sign-in'; // Redirect to login
+                return Promise.reject(error);
+            }
+        }
+
+        return Promise.reject(error); // Reject other errors
     }
-  );
-  
+);
 
 export default axiosInstance;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../api/axios";
+import { getTableFields } from "./Fields";  
 import "./Table.css";
 
 const Table = ({ apiRoute, name }) => {
@@ -56,7 +57,6 @@ const Table = ({ apiRoute, name }) => {
     }
   };
 
-
   // Pagination
   const totalPages = Math.ceil(data.length / rowsPerPage);
   const currentData = data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -64,6 +64,9 @@ const Table = ({ apiRoute, name }) => {
   useEffect(() => {
     fetchData();
   }, [apiRoute]);
+
+  // Get table fields based on model name
+  const tableFields = getTableFields(name);
 
   return (
     <div className="table-container">
@@ -75,22 +78,18 @@ const Table = ({ apiRoute, name }) => {
       <table className="data-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
-            <th>Address</th>
+            {tableFields.map((field) => (
+              <th key={field.field}>{field.label}</th>
+            ))}
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {currentData.map((row) => (
             <tr key={row.id} onClick={() => openDrawer("edit", row)}>
-              <td>{row.id}</td>
-              <td>{row.first_name}</td>
-              <td>{row.last_name}</td>
-              <td>{row.age}</td>
-              <td>{row.district}</td>
+              {tableFields.map((field) => (
+                <td key={field.field}>{field.field.split('.').reduce((acc, part) => acc && acc[part], row) || '-'}</td>
+              ))}
               <td>
                 <button onClick={() => handleDelete(row.id)}>Delete</button>
               </td>
@@ -123,45 +122,21 @@ const Table = ({ apiRoute, name }) => {
         <div className={`drawer ${drawerState.isOpen ? "open" : ""}`}>
           <div className="drawer-header">
             <h3>{drawerState.mode === "add" ? "Add User" : "Edit User"}</h3>
-            <button onClick={closeDrawer}><i class="fa-solid fa-xmark"></i></button>
+            <button onClick={closeDrawer}><i className="fa-solid fa-xmark"></i></button>
           </div>
           <div className="drawer-body">
-            <input
-              type="text"
-              placeholder="First Name"
-              value={drawerState.rowData.fn || ""}
-              onChange={(e) => setDrawerState({
-                ...drawerState,
-                rowData: { ...drawerState.rowData, fn: e.target.value }
-              })}
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={drawerState.rowData.ln || ""}
-              onChange={(e) => setDrawerState({
-                drawerState,
-                rowData: { ...drawerState.rowData, ln: e.target.value }
-              })}
-            />
-            <input
-              type="number"
-              placeholder="Age"
-              value={drawerState.rowData.age || ""}
-              onChange={(e) => setDrawerState({
-                ...drawerState,
-                rowData: { ...drawerState.rowData, age: e.target.value }
-              })}
-            />
-            <input
-              type="text"
-              placeholder="Address"
-              value={drawerState.rowData.address || ""}
-              onChange={(e) => setDrawerState({
-                ...drawerState,
-                rowData: { ...drawerState.rowData, address: e.target.value }
-              })}
-            />
+            {tableFields.map((field) => (
+              <input
+                key={field.field}
+                type="text"
+                placeholder={field.label}
+                value={drawerState.rowData[field.field] || ""}
+                onChange={(e) => setDrawerState({
+                  ...drawerState,
+                  rowData: { ...drawerState.rowData, [field.field]: e.target.value }
+                })}
+              />
+            ))}
           </div>
           <div className="drawer-footer">
             <button className="cancel-btn" onClick={closeDrawer}>Cancel</button>

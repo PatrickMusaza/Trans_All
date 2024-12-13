@@ -51,6 +51,7 @@ const Table = ({ trips }) => {
         <input
           type="date"
           name="date"
+          placeholder="mm/dd/yy"
           value={filters.date}
           onChange={handleFilterChange}
         />

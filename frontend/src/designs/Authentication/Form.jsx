@@ -3,7 +3,6 @@ import "./Form.css";
 import axiosInstance from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../api/constants";
-import { Alert } from "bootstrap/dist/js/bootstrap.bundle.min";
 
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
@@ -44,7 +43,8 @@ function Form({ route, method }) {
                 navigate("/sign-in");
             }
         } catch (error) {
-            alert(error)
+            setError(error.response?.data?.detail || "Something went wrong");
+            console.error("Error during registration:", error);
         } finally {
             setLoading(false);
         }
