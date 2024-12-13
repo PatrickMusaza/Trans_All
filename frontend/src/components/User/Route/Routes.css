@@ -1,0 +1,98 @@
+.route-container {
+  width: 60em;
+  padding: 20px;
+}
+
+.route-container h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.route-container .dropdown-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.route-container .dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 45%;
+}
+
+.route-container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.route-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.calculate-button , .checkout-button{
+  background-color: #007bff;
+  margin-right: 30px;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calculate-button:hover {
+  background-color: #0056b3;
+}
+
+.distance-display {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #007bff;
+}
+
+.route-container .dropdown-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.route-container .dropdown {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.route-container .dropdown:last-child {
+  margin-right: 0;
+}
+
+.calculate-button {
+  margin-top: 20px;
+}
+
+.route-container .dropdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  margin-right: 30px;
+  justify-content: center;
+}
+
+.route-container .dropdown select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.route-container .dropdown select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}

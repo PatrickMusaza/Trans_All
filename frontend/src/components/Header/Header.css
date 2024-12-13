@@ -1,0 +1,158 @@
+
+/* Header.css */
+
+/* Sticky Header Base */
+.navbar-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent !important; /* Default background */
+    box-shadow: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 600;
+}
+
+/* Scrolled State */
+.navbar-container.scrolled {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar {
+    padding: 10px 20px;
+}
+
+/* Brand Logo */
+.brand-logo {
+    font-weight: bold;
+    color: #000;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.brand-logo:hover {
+    color: #1A2F79;
+}
+
+.brand-icon {
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+/* Toggle Button */
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler .fas {
+    font-size: 24px;
+    color: #1A2F79;
+}
+
+/* Responsive Navbar Links */
+.navbar-collapse {
+    display: none; 
+}
+
+.navbar-collapse.show {
+    display: block; 
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        display: flex !important;
+    }
+}
+
+/* Nav Links */
+.navbar-nav .nav-link {
+    font-size: 16px;
+    color: #000;
+    margin: 0 8px;
+    text-decoration: none;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+    color: #1A2F79;
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 0;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #000;
+    font-size: 14px;
+    padding: 10px 20px;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #1A2F79;
+    color: #fff;
+}
+
+/* Search Icon */
+.search-icon {
+    color: #000;
+    font-size: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.search-input {
+    border-radius: 20px;
+    padding: 8px 15px;
+    width: 100%;
+    max-width: 200px;
+    border: 1px solid #1A2F79;
+}
+
+.search-input:focus {
+    border-color: #1A2F79; /* Optional: Adjust border color on focus */
+    box-shadow: none !important; /* Ensure no box-shadow on focus */
+}
+
+
+/* Get Started Button */
+.get-started-btn {
+    background-color: #1A2F79;
+    border-color: #1A2F79;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.get-started-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-item .dropdown-menu {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.dropdown-item {
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #1A2F79;
+    color: #fff;
+    border-radius: 8px;
+}

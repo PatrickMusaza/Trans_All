@@ -1,0 +1,51 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.dashboard-main {
+  display: flex;
+}
+
+.dashboard-content {
+  margin-top: 20px;
+  position: relative;
+  left: 280px;
+  top: 10%;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.charts-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.recent-trips-table {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-trips-table th,
+.recent-trips-table td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.recent-trips-table th {
+  background-color: #1a2f79;
+  color: #fff;
+}
+
+NotificationPanel {
+  display: none;
+}
