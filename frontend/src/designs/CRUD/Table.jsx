@@ -21,7 +21,12 @@ const Table = ({ apiRoute, name }) => {
 
   // Open Drawer
   const openDrawer = (mode, rowData = {}) => {
-    setDrawerState({ isOpen: true, mode, rowData });
+    const sanitizedData = { ...rowData };
+    delete sanitizedData.id;
+    delete sanitizedData.created_at;
+    delete sanitizedData.login_at;
+    delete sanitizedData.signup_time;
+    setDrawerState({ isOpen: true, mode, rowData: sanitizedData });
   };
 
   // Close Drawer
@@ -33,7 +38,7 @@ const Table = ({ apiRoute, name }) => {
   const handleSave = async () => {
     try {
       if (drawerState.mode === "add") {
-        const response = await axiosInstance.post(apiRoute, drawerState.rowData);
+        const response = await axiosInstance.post(`${apiRoute}/add/`, drawerState.rowData);
         setData((prev) => [...prev, response.data]);
       } else if (drawerState.mode === "edit") {
         const response = await axiosInstance.put(`${apiRoute}/${drawerState.rowData.id}`, drawerState.rowData);
@@ -47,13 +52,13 @@ const Table = ({ apiRoute, name }) => {
     }
   };
 
-  // CRUD: Delete user
+  // Delete operation
   const handleDelete = async (id) => {
     try {
-      await axiosInstance.delete(`${apiRoute}/${id}`);
+      await axiosInstance.delete(`${apiRoute}/${id}/delete/`);
       setData((prevData) => prevData.filter((item) => item.id !== id));
     } catch (error) {
-      console.error("Error deleting user", error);
+      console.error("Error deleting item", error);
     }
   };
 
@@ -65,12 +70,6 @@ const Table = ({ apiRoute, name }) => {
     fetchData();
   }, [apiRoute]);
 
-  // Log the fetched data
-  useEffect(() => {
-    console.log(data);  // Check if the data matches the expected structure
-  }, [data]);
-
-  // Get table fields based on model name
   const tableFields = getTableFields(name);
 
   const getNestedFieldValue = (row, field) => {
@@ -78,14 +77,14 @@ const Table = ({ apiRoute, name }) => {
       return acc && acc[part] !== undefined && acc[part] !== null ? acc[part] : null;
     }, row);
 
-    return value === null ? "" : value;  // Or return a custom fallback value instead of `""`
+    return value === null ? "" : value;
   };
 
   return (
     <div className="table-container">
       <h2>{name} Table</h2>
       {/* Add Button */}
-      <button className="add-button" onClick={() => openDrawer("add")}>+ Add User</button>
+      <button className="add-button" onClick={() => openDrawer("add")}>+ Add</button>
 
       {/* Data Table */}
       <table className="data-table">
@@ -104,16 +103,18 @@ const Table = ({ apiRoute, name }) => {
                 const fieldValue = getNestedFieldValue(row, field.field);
                 return (
                   <td key={field.field}>
-                    {fieldValue !== null ? fieldValue : "-"}  {/* Fallback if field is null */}
+                    {fieldValue !== null ? fieldValue : "-"}
                   </td>
                 );
               })}
               <td>
-                <button onClick={() => handleDelete(row.id)}>Delete</button>
+                <button onClick={(e) => {
+                  e.stopPropagation(); // Prevent row click from triggering
+                  handleDelete(row.id);
+                }}>Delete</button>
               </td>
             </tr>
           ))}
-
         </tbody>
       </table>
 
@@ -136,26 +137,30 @@ const Table = ({ apiRoute, name }) => {
         </button>
       </div>
 
-      {/* Slide-in Drawer */}
+      {/* Drawer */}
       {drawerState.isOpen && (
         <div className={`drawer ${drawerState.isOpen ? "open" : ""}`}>
           <div className="drawer-header">
-            <h3>{drawerState.mode === "add" ? "Add User" : "Edit User"}</h3>
+            <h3>{drawerState.mode === "add" ? "Add Entry" : "Edit Entry"}</h3>
             <button onClick={closeDrawer}><i className="fa-solid fa-xmark"></i></button>
           </div>
           <div className="drawer-body">
-            {tableFields.map((field) => (
-              <input
-                key={field.field}
-                type="text"
-                placeholder={field.label}
-                value={drawerState.rowData[field.field] || ""}
-                onChange={(e) => setDrawerState({
-                  ...drawerState,
-                  rowData: { ...drawerState.rowData, [field.field]: e.target.value }
-                })}
-              />
-            ))}
+            {tableFields.map((field) =>
+              !["id", "created_at", "login_at", "signup_time"].includes(field.field) && (
+                <input
+                  key={field.field}
+                  type="text"
+                  placeholder={field.label}
+                  value={drawerState.rowData[field.field] || ""}
+                  onChange={(e) =>
+                    setDrawerState({
+                      ...drawerState,
+                      rowData: { ...drawerState.rowData, [field.field]: e.target.value },
+                    })
+                  }
+                />
+              )
+            )}
           </div>
           <div className="drawer-footer">
             <button className="cancel-btn" onClick={closeDrawer}>Cancel</button>

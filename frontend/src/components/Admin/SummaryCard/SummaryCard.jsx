@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../api/axios";
 import "./SummaryCard.css";
-import Sidebar from "../Sidebar/Sidebar";
 
 const Overview = () => {
   const [currentTime, setCurrentTime] = useState("");

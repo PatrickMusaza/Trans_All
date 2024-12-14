@@ -84,7 +84,7 @@ export const getTableFields = (name) => {
         { label: "Created At", field: "created_at" },
       ];
 
-    case "Route":
+    case "Routes":
       return [
         { label: "From Place", field: "from_place" },
         { label: "To Place", field: "to_place" },
@@ -108,17 +108,24 @@ export const getTableFields = (name) => {
     case "Moved":
       return [
         { label: "Vehicle License Plate", field: "vehicle.license_plate" },
-        { label: "Route", field: "route.from_place" },  // From place as a representative
+        { label: "Route", field: "route.from_place" },
         { label: "Speed", field: "speed" },
         { label: "Moved At", field: "moved_at" },
       ];
 
-    case "Order":
-      return [
-        { label: "Client", field: "client.first_name" },
-        { label: "Vehicle License Plate", field: "vehicle.license_plate" },
-        { label: "Order Time", field: "order_time" },
-      ];
+      case "Order":
+        return [
+          { label: "Client", field: "client.first_name" },
+          { label: "Vehicle License Plate", field: "vehicle.license_plate" },
+          { label: "Order Time", field: "order_time" },
+        ];
+
+        case "Rides":
+          return [
+            { label: "Id", field: "id" },
+            { label: "Trip Ref", field: "Trip.trip" },
+            { label: "Order Time", field: "ride_time" },
+          ];
 
     default:
       return [
