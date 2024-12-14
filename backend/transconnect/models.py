@@ -23,38 +23,51 @@ class Staff(models.Model):
     district = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
-
-class Route(models.Model):
-    from_place = models.CharField(max_length=100)
-    to_place = models.CharField(max_length=100)
-    distance = models.FloatField()
-
-class Trip(models.Model):
-    ride_no = models.CharField(max_length=50)
-    date = models.DateField()
-    from_place = models.CharField(max_length=100)
-    to_place = models.CharField(max_length=100)
-    departure_time = models.TimeField()
-    arrival_time = models.TimeField()
-    book_time = models.DateTimeField()
-    speed = models.FloatField()
-    driver_name = models.CharField(max_length=100)
-    agency = models.CharField(max_length=100)
-    
 class Agency(models.Model):
     agency_name = models.CharField(max_length=100)
     number_of_vehicles = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+# Route model to define trip routes
+class Route(models.Model):
+    from_place = models.CharField(max_length=100)
+    to_place = models.CharField(max_length=100)
+    distance = models.FloatField()
+
+# Vehicle model
 class Vehicle(models.Model):
-    license_plate = models.CharField(max_length=50)
+    license_plate = models.CharField(max_length=50, unique=True)
     number_of_seats = models.IntegerField()
     buy_time = models.DateTimeField()
 
+# Trip model associated with a route and vehicle
+class Trip(models.Model):
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='trips')
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='trips')
+    driver = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'driver'})
+    date = models.DateField()
+    departure_time = models.TimeField()
+    arrival_time = models.TimeField()
+    agency = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
+
+# Client order model
+class Order(models.Model):
+    client = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'client'})
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    order_time = models.DateTimeField(auto_now_add=True)
+
 class Ride(models.Model):
-    driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='rides')
     ride_time = models.DateTimeField()
+
+class Message(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=150)
+    category = models.CharField(max_length=150)
+    message = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
 
 class Controlled(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)

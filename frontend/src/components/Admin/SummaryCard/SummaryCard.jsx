@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axiosInstance from "../../../api/axios";
 import "./SummaryCard.css";
 
 const Overview = () => {
@@ -6,38 +7,101 @@ const Overview = () => {
   const [currentDate, setCurrentDate] = useState("");
   const [currentDay, setCurrentDay] = useState("");
 
+  const [trips, setTrips] = useState([]);
+  const [drivers, setDrivers] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [cancelledRoutes, setCancelledRoutes] = useState(0);
+  const [pendingRoutes, setPendingRoutes] = useState(0);
+  const [successfulRoutes, setSuccessfulRoutes] = useState(0);
+
+  // Fetch trips, drivers, and users
   useEffect(() => {
+    // Fetch trips
+    axiosInstance.get("api/trips/")
+      .then((response) => {
+        setTrips(response.data);
+        setCancelledRoutes(response.data.filter((trip) => trip.status === "Cancelled").length);
+        setPendingRoutes(response.data.filter((trip) => trip.status === "Pending").length);
+        setSuccessfulRoutes(response.data.filter((trip) => trip.status === "Completed").length);
+      })
+      .catch((error) => {
+        console.error("Error fetching trips:", error);
+      });
+
+    // Fetch drivers
+    axiosInstance.get("api/drivers/")
+      .then((response) => {
+        setDrivers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching drivers:", error);
+      });
+
+    // Fetch users (assuming you have a users endpoint)
+    axiosInstance.get("api/users/")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+
+    // Update Date and Time
     const updateDateTime = () => {
       const now = new Date();
-
-      // Format Time
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
       setCurrentTime(`${hours}:${minutes}:${seconds}`);
-
-      // Format Date
+      
       const date = now.toLocaleDateString("en-GB", { day: 'numeric', month: 'long', year: 'numeric' });
       setCurrentDate(date);
-
-      // Format Day
+      
       const day = now.toLocaleString('en-GB', { weekday: 'long' });
       setCurrentDay(day);
     };
 
-    const intervalId = setInterval(updateDateTime, 1000); 
-    updateDateTime(); 
+    const intervalId = setInterval(updateDateTime, 1000);
+    updateDateTime();
 
     return () => clearInterval(intervalId); 
   }, []);
 
+  // Calculate stats dynamically
   const stats = [
-    { label: "TOTAL USERS", value: 400, details: "ACTIVE 220, UNACTIVE 180" },
-    { label: "TOTAL ROUTES", value: 180, details: "(Inside Kigali)" },
-    { label: "TOTAL DRIVERS", value: 195, details: "ACTIVE 115, UNACTIVE 80" },
-    { label: "SUCCESSFUL ROUTES", value: 150, details: "Go to details", cols: "green" },
-    { label: "PENDING ROUTES", value: 15, details: "Go to details", cols: "yellow" },
-    { label: "CANCELLED ROUTES", value: 25, details: "Go to details", cols: "red" },
+    {
+      label: "TOTAL USERS", 
+      value: users.length, 
+      details: `ACTIVE ${users.filter((user) => user.status === "active").length}, UNACTIVE ${users.filter((user) => user.status === "inactive").length}`
+    },
+    { 
+      label: "TOTAL ROUTES", 
+      value: trips.length, 
+      details: "(Inside Kigali)" 
+    },
+    { 
+      label: "TOTAL DRIVERS", 
+      value: drivers.length, 
+      details: `ACTIVE ${drivers.filter((driver) => driver.status === "active").length}, UNACTIVE ${drivers.filter((driver) => driver.status === "inactive").length}`
+    },
+    { 
+      label: "SUCCESSFUL ROUTES", 
+      value: successfulRoutes, 
+      details: "Go to details", 
+      cols: "green" 
+    },
+    { 
+      label: "PENDING ROUTES", 
+      value: pendingRoutes, 
+      details: "Go to details", 
+      cols: "yellow" 
+    },
+    { 
+      label: "CANCELLED ROUTES", 
+      value: cancelledRoutes, 
+      details: "Go to details", 
+      cols: "red" 
+    }
   ];
 
   return (
@@ -50,8 +114,8 @@ const Overview = () => {
       </div>
       <div className="stat-cards">
         {stats.map((stat, index) => (
-          <div
-            key={index}
+          <div 
+            key={index} 
             className={`stat-card ${stat.cols}`} 
           >
             <h3>{stat.label}</h3>

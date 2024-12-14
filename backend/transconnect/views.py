@@ -5,12 +5,12 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import (
-    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip
+    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip, Message
 )
 from .serializers import (
     DriverSerializer, VehicleSerializer, ClientSerializer, UserSerializer, 
     StaffSerializer, RouteSerializer, AgencySerializer, RideSerializer, 
-    ControlledSerializer, MovedSerializer, OrderSerializer, LocatedSerializer,TripSerializer
+    ControlledSerializer, MovedSerializer, OrderSerializer, LocatedSerializer,TripSerializer, MessageSerializer
 )
 
 # User creation
@@ -84,3 +84,7 @@ class OrderList(GenericListView):
 class LocatedList(GenericListView):
     model = Located
     serializer_class = LocatedSerializer
+
+class MessageList(GenericListView):
+    model = Message
+    serializer_class = MessageSerializer

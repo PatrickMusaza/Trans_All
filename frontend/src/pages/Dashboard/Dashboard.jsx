@@ -1,67 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Admin/Sidebar/Sidebar";
 import TopNav from "../../components/Admin/TopNav/TopNav";
 import SummaryCard from "../../components/Admin/SummaryCard/SummaryCard";
 import Table from "../../components/Admin/CRUD/Table";
 import Chart from "../../components/Admin/Chart/Chart";
+import axiosInstance from "../../api/axios";
 import "./Dashboard.css";
 import NotificationPanel from "../../components/Admin/Notification/NotificationPanel";
 
 const Dashboard = () => {
   const [activeView, setActiveView] = useState("dashboard");
 
-  const sampleData = [
-    { day: "Mon", earnings: 400 },
-    { day: "Tue", earnings: 600 },
-    { day: "Wed", earnings: 800 },
-    { day: "Thu", earnings: 500 },
-    { day: "Fri", earnings: 700 },
-    { day: "Sat", earnings: 900 },
-    { day: "Sun", earnings: 1000 },
-  ];
+  const [trips, setTrips] = useState([]);
+  const [chartFormattedData, setChartFormattedData] = useState([]);
 
-  const sampleTableData = [
-    {
-      id: 1,
-      summary: "Bus 1 is running late",
-      details: "Bus 1 is delayed by 15 minutes due to heavy traffic near the downtown area.",
-    },
-    {
-      id: 2,
-      summary: "Seat availability updated",
-      details: "Seats on Bus 2 have been updated. 10 seats are now available for booking.",
-    },
-    {
-      id: 3,
-      summary: "New route added",
-      details: "A new route from City Center to Parkville has been added to the schedule.",
-    },
-  ];
+  // Fetch trips, drivers, and users
+  useEffect(() => {
+    // Fetch trips
+    axiosInstance.get("api/trips/")
+      .then((response) => {
+        setTrips(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching trips:", error);
+      });
+
+    // Prepare data for the chart component
+    const formattedData = Object.keys(aggregatedData).map((key) => ({
+      route: key,
+      tripsCount: aggregatedData[key],
+    }));
+
+    setChartFormattedData(formattedData); // Set the chart formatted data state
+  })
+
+  // Prepare data for chart
+  const chartData = trips.map((trip) => ({
+    from: trip.from_place,
+    to: trip.to_place,
+  }));
+
+  // Aggregate data for the chart
+  const aggregatedData = chartData.reduce((acc, { from, to }) => {
+    const key = `${from} → ${to}`;
+    if (acc[key]) {
+      acc[key] += 1;
+    } else {
+      acc[key] = 1;
+    }
+    return acc;
+  }, {});
 
   const renderContent = () => {
     switch (activeView) {
       case "dashboard":
         return <>
           <SummaryCard />
-          <Chart chartType="bar" xField="day" yField="earnings" tableData={sampleData} />
-          <Chart chartType="pie" xField="day" yField="earnings" tableData={sampleData} />
+          <Chart chartType="bar" xField="route" yField="tripsCount" tableData={chartFormattedData} />
+          {/*<Chart chartType="pie" xField="day" yField="earnings" tableData={sampleData} />*/}
         </>;
       case "users":
         return <>
           <Table apiRoute="api/auth/user/" name="Users" />
-          <NotificationPanel
+          {/*<NotificationPanel
             tableData={sampleTableData}
             summaryField="summary"
             detailField="details"
-          /></>
+          />
+            */}
+        </>
       case "clients-list":
         return <>
           <Table apiRoute="api/clients/" name="Clients" />
-          <NotificationPanel
+          {/*<NotificationPanel
             tableData={sampleTableData}
             summaryField="summary"
             detailField="details"
-          /></>;
+          />*/}
+
+        </>;
       case "rides":
         return <Table apiRoute="api/rides/" name="Rides" />;
       case "routes":
