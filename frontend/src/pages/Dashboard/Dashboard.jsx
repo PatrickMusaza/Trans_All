@@ -18,7 +18,8 @@ const Dashboard = () => {
     // Fetch counts from individual models
     const fetchStats = async () => {
       try {
-        const [drivers, clients, staff, agencies, vehicles, routes] = await Promise.all([
+        const [users,drivers, clients, staff, agencies, vehicles, routes] = await Promise.all([
+          axiosInstance.get("api/users/").then((res) => res.data.length),
           axiosInstance.get("api/drivers/").then((res) => res.data.length),
           axiosInstance.get("api/clients/").then((res) => res.data.length),
           axiosInstance.get("api/staff/").then((res) => res.data.length),
@@ -29,6 +30,7 @@ const Dashboard = () => {
 
         // Combine results into a single array for the pie chart
         const stats = [
+          { label: "Users", value: users },
           { label: "Drivers", value: drivers },
           { label: "Clients", value: clients },
           { label: "Staff", value: staff },

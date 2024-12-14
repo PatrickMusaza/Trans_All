@@ -8,7 +8,8 @@ const Table = ({ apiRoute, name }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [drawerState, setDrawerState] = useState({ isOpen: false, mode: "", rowData: {} });
   const rowsPerPage = 5;
-
+  const timeIdField = ["id", "created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+  const timeFields = ["created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
   // Fetch data from API
   const fetchData = async () => {
     try {
@@ -22,7 +23,9 @@ const Table = ({ apiRoute, name }) => {
   // Open Drawer
   const openDrawer = (mode, rowData = {}) => {
     const sanitizedData = { ...rowData };
-    delete sanitizedData.id;
+    if (mode === "edit") {
+      sanitizedData.id = rowData.id; // Retain ID for edit mode
+    }
     delete sanitizedData.created_at;
     delete sanitizedData.login_at;
     delete sanitizedData.signup_time;
@@ -38,10 +41,10 @@ const Table = ({ apiRoute, name }) => {
   const handleSave = async () => {
     try {
       if (drawerState.mode === "add") {
-        const response = await axiosInstance.post(`${apiRoute}/add/`, drawerState.rowData);
+        const response = await axiosInstance.post(`${apiRoute}add/`, drawerState.rowData);
         setData((prev) => [...prev, response.data]);
       } else if (drawerState.mode === "edit") {
-        const response = await axiosInstance.put(`${apiRoute}/${drawerState.rowData.id}`, drawerState.rowData);
+        const response = await axiosInstance.put(`${apiRoute}${drawerState.rowData.id}/update/`, drawerState.rowData);
         setData((prev) =>
           prev.map((item) => (item.id === drawerState.rowData.id ? response.data : item))
         );
@@ -55,7 +58,7 @@ const Table = ({ apiRoute, name }) => {
   // Delete operation
   const handleDelete = async (id) => {
     try {
-      await axiosInstance.delete(`${apiRoute}/${id}/delete/`);
+      await axiosInstance.delete(`${apiRoute}${id}/delete/`);
       setData((prevData) => prevData.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting item", error);
@@ -77,8 +80,13 @@ const Table = ({ apiRoute, name }) => {
       return acc && acc[part] !== undefined && acc[part] !== null ? acc[part] : null;
     }, row);
 
-    return value === null ? "" : value;
+    if (value === null) return "";
+    if (timeFields.includes(field)) {
+      return new Date(value).toLocaleString();
+    }
+    return value;
   };
+
 
   return (
     <div className="table-container">
@@ -145,8 +153,51 @@ const Table = ({ apiRoute, name }) => {
             <button onClick={closeDrawer}><i className="fa-solid fa-xmark"></i></button>
           </div>
           <div className="drawer-body">
-            {tableFields.map((field) =>
-              !["id", "created_at", "login_at", "signup_time"].includes(field.field) && (
+            {tableFields.map((field) => {
+              if (timeIdField.includes(field.field)) {
+                return null;
+              }
+
+              if (field.field === "status") {
+                return (
+                  <select
+                    key={field.field}
+                    value={drawerState.rowData[field.field] || ""}
+                    onChange={(e) =>
+                      setDrawerState({
+                        ...drawerState,
+                        rowData: { ...drawerState.rowData, [field.field]: e.target.value },
+                      })
+                    }
+                  >
+                    <option value="">Select Status</option>
+                    <option value="complete">Complete</option>
+                    <option value="pending">Pending</option>
+                    <option value="cancel">Cancel</option>
+                  </select>
+                );
+              }
+
+              if (field.field === "is_active") {
+                return (
+                  <select
+                    key={field.field}
+                    value={drawerState.rowData[field.field] || ""}
+                    onChange={(e) =>
+                      setDrawerState({
+                        ...drawerState,
+                        rowData: { ...drawerState.rowData, [field.field]: e.target.value === "true" },
+                      })
+                    }
+                  >
+                    <option value="">Select Active Status</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                );
+              }
+
+              return (
                 <input
                   key={field.field}
                   type="text"
@@ -159,9 +210,10 @@ const Table = ({ apiRoute, name }) => {
                     })
                   }
                 />
-              )
-            )}
+              );
+            })}
           </div>
+
           <div className="drawer-footer">
             <button className="cancel-btn" onClick={closeDrawer}>Cancel</button>
             <button className="save-btn" onClick={handleSave}>Save</button>

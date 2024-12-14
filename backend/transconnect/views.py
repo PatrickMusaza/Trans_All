@@ -138,9 +138,9 @@ class StaffPost(GenericPostView):
 class StaffDelete(GenericDeleteView):
     model = Staff
 
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class StaffUpdate(GenericUpdateView):
+    model = Staff
+    serializer_class = StaffSerializer
 
 class AgencyPost(GenericPostView):
     model = Agency
@@ -149,9 +149,9 @@ class AgencyPost(GenericPostView):
 class AgencyDelete(GenericDeleteView):
     model = Agency
     
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class AgencyUpdate(GenericUpdateView):
+    model = Agency
+    serializer_class = AgencySerializer
 
 class RoutePost(GenericPostView):
     model = Route
@@ -160,9 +160,9 @@ class RoutePost(GenericPostView):
 class RouteDelete(GenericDeleteView):
     model = Route
 
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class RouteUpdate(GenericUpdateView):
+    model = Route
+    serializer_class = RouteSerializer
 
 class RidePost(GenericPostView):
     model = Ride
@@ -171,9 +171,9 @@ class RidePost(GenericPostView):
 class RideDelete(GenericDeleteView):
     model = Ride
     
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class RideUpdate(GenericUpdateView):
+    model = Ride
+    serializer_class = RideSerializer
 
 class ControlledPost(GenericPostView):
     model = Controlled
@@ -182,9 +182,9 @@ class ControlledPost(GenericPostView):
 class ControlledDelete(GenericDeleteView):
     model = Controlled
     
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class ControlledUpdate(GenericUpdateView):
+    model = Controlled
+    serializer_class = ControlledSerializer
 
 class MovedPost(GenericPostView):
     model = Moved
@@ -193,9 +193,9 @@ class MovedPost(GenericPostView):
 class MovedDelete(GenericDeleteView):
     model = Moved
     
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class MovedUpdate(GenericUpdateView):
+    model = Moved
+    serializer_class = MovedSerializer
 
 class LocatedPost(GenericPostView):
     model = Located
@@ -204,9 +204,9 @@ class LocatedPost(GenericPostView):
 class LocatedDelete(GenericDeleteView):
     model = Located
     
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class LocatedUpdate(GenericUpdateView):
+    model = Located
+    serializer_class = LocatedSerializer
 
 class TripPost(GenericPostView):
     model = Trip
@@ -215,9 +215,9 @@ class TripPost(GenericPostView):
 class TripDelete(GenericDeleteView):
     model = Trip
     
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class TripUpdate(GenericUpdateView):
+    model = Trip
+    serializer_class = TripSerializer
 
 class OrderPost(GenericPostView):
     model = Order
@@ -226,9 +226,9 @@ class OrderPost(GenericPostView):
 class OrderDelete(GenericDeleteView):
     model = Order
 
-class UserUpdate(GenericUpdateView):
-    model = User
-    serializer_class = UserSerializer
+class OrderUpdate(GenericUpdateView):
+    model = Order
+    serializer_class = OrderSerializer
 
 class RoutesAPIView(APIView):
     def get(self, request):

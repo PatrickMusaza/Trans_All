@@ -7,6 +7,7 @@ const Overview = () => {
   const [currentDate, setCurrentDate] = useState("");
   const [currentDay, setCurrentDay] = useState("");
 
+  const [route, setRoute] = useState([]);
   const [trips, setTrips] = useState([]);
   const [drivers, setDrivers] = useState([]);
   const [users, setUsers] = useState([]);
@@ -16,7 +17,16 @@ const Overview = () => {
 
   // Fetch trips, drivers, and users
   useEffect(() => {
-    // Fetch trips
+    // Fetch routes
+    axiosInstance.get("api/routes/")
+      .then((response) => {
+        setRoute(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching routes:", error);
+      });
+
+    //Fetch Trips
     axiosInstance.get("api/trips/")
       .then((response) => {
         setTrips(response.data);
@@ -77,13 +87,13 @@ const Overview = () => {
     },
     {
       label: "TOTAL ROUTES",
-      value: trips.length,
+      value: route.length,
       details: "(Inside Kigali)"
     },
     {
       label: "TOTAL DRIVERS",
       value: drivers.length,
-      details: `ACTIVE ${drivers.filter((driver) => driver.status === "active").length}, UNACTIVE ${drivers.filter((driver) => driver.status === "inactive").length}`
+      details: `ACTIVE ${drivers.filter((driver) => driver.created_at = 1).length}, UNACTIVE ${drivers.filter((driver) => driver.status = 0).length}`
     },
     {
       label: "SUCCESSFUL ROUTES",

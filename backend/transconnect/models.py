@@ -9,6 +9,7 @@ class Driver(models.Model):
     sector = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(auto_created=True,default=True)
 
 class Client(models.Model):
     first_name = models.CharField(max_length=100)
@@ -38,7 +39,7 @@ class Route(models.Model):
 class Vehicle(models.Model):
     license_plate = models.CharField(max_length=50, unique=True)
     number_of_seats = models.IntegerField()
-    buy_time = models.DateTimeField()
+    buy_time = models.DateTimeField(auto_now_add=True)
 
 # Trip model associated with a route and vehicle
 class Trip(models.Model):
@@ -59,7 +60,7 @@ class Order(models.Model):
 
 class Ride(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='rides')
-    ride_time = models.DateTimeField()
+    ride_time = models.DateTimeField(auto_now_add=True)
 
 class Message(models.Model):
     name = models.CharField(max_length=100)
@@ -86,7 +87,7 @@ class Moved(models.Model):
 class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    order_time = models.DateTimeField()
+    order_time = models.DateTimeField(auto_now_add=True)
 
 class Located(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)

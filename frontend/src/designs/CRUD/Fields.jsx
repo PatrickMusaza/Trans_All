@@ -8,7 +8,7 @@ export const getTableFields = (name) => {
         { label: "First Name", field: "first_name" },
         { label: "Last Name", field: "last_name" },
         { label: "Email", field: "email" },
-        { label: "Created At", field: "created_at" },
+        { label: "Created At", field: "date_joined" },
         { label: "Last Login", field: "last_login" },
         { label: "Status", field: "is_active" },
       ];
@@ -47,6 +47,7 @@ export const getTableFields = (name) => {
 
     case "Vehicles":
       return [
+        { label: "id", field: "id" },
         { label: "License Plate", field: "license_plate" },
         { label: "Number of Seats", field: "number_of_seats" },
         { label: "Buy Time", field: "buy_time" },
@@ -79,6 +80,7 @@ export const getTableFields = (name) => {
 
     case "Agencies":
       return [
+        { label: "id", field: "id" },
         { label: "Agency Name", field: "agency_name" },
         { label: "Number of Vehicles", field: "number_of_vehicles" },
         { label: "Created At", field: "created_at" },
@@ -86,6 +88,7 @@ export const getTableFields = (name) => {
 
     case "Routes":
       return [
+        { label: "id", field: "id" },
         { label: "From Place", field: "from_place" },
         { label: "To Place", field: "to_place" },
         { label: "Distance", field: "distance" },
