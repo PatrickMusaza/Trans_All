@@ -10,15 +10,10 @@
 
 .dashboard-content {
   margin-top: 20px;
+  margin-bottom: 20px;
   position: relative;
   left: 280px;
   top: 10%;
-}
-
-.summary-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
 }
 
 .charts-section {

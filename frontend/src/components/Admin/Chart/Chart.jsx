@@ -88,27 +88,33 @@ const Chart = ({ chartType = "bar", xField, yField, tableData }) => {
           chartType === "pie"
             ? {} // No scales for pie chart
             : {
-                x: {
-                  beginAtZero: true,
-                  title: {
-                    display: true,
-                    text: xField,
-                  },
-                },
-                y: {
-                  beginAtZero: true,
-                  title: {
-                    display: true,
-                    text: yField,
-                  },
+              x: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: xField,
                 },
               },
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: yField,
+                },
+              },
+            },
       },
     });
   }, [chartType, xField, yField, tableData]);
 
   return (
-    <div style={{ height: "400px", width: "100%" }}>
+    <div className="chart-container-dashboard" style={{ height: "400px", width: "100%" }}>
+      <h2> {
+        chartType == "bar" ?
+          "Trips Overview" :
+          "Quick Stats"
+      }
+      </h2>
       <canvas ref={chartRef}></canvas>
     </div>
   );

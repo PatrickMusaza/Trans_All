@@ -94,6 +94,14 @@ const ContactUs = () => {
                                     />
                                 </div>
                                 <div className="mb-3">
+                                    <select
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Phone Number*"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-3">
                                     <textarea
                                         className="form-control"
                                         placeholder="Your message..."
