@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "../../../api/axios";
-import { getTableFields } from "./Fields";  
+import axiosInstance from "../../api/axios";
+import { getTableFields } from "./Fields";
 import "./Table.css";
 
 const Table = ({ apiRoute, name }) => {
@@ -65,8 +65,21 @@ const Table = ({ apiRoute, name }) => {
     fetchData();
   }, [apiRoute]);
 
+  // Log the fetched data
+  useEffect(() => {
+    console.log(data);  // Check if the data matches the expected structure
+  }, [data]);
+
   // Get table fields based on model name
   const tableFields = getTableFields(name);
+
+  const getNestedFieldValue = (row, field) => {
+    const value = field.split('.').reduce((acc, part) => {
+      return acc && acc[part] !== undefined && acc[part] !== null ? acc[part] : null;
+    }, row);
+
+    return value === null ? "" : value;  // Or return a custom fallback value instead of `""`
+  };
 
   return (
     <div className="table-container">
@@ -87,14 +100,20 @@ const Table = ({ apiRoute, name }) => {
         <tbody>
           {currentData.map((row) => (
             <tr key={row.id} onClick={() => openDrawer("edit", row)}>
-              {tableFields.map((field) => (
-                <td key={field.field}>{field.field.split('.').reduce((acc, part) => acc && acc[part], row) || '-'}</td>
-              ))}
+              {tableFields.map((field) => {
+                const fieldValue = getNestedFieldValue(row, field.field);
+                return (
+                  <td key={field.field}>
+                    {fieldValue !== null ? fieldValue : "-"}  {/* Fallback if field is null */}
+                  </td>
+                );
+              })}
               <td>
                 <button onClick={() => handleDelete(row.id)}>Delete</button>
               </td>
             </tr>
           ))}
+
         </tbody>
       </table>
 

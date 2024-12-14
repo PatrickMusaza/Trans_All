@@ -7,14 +7,8 @@ const Sidebar = ({ activeView,setActiveView }) => {
 
   const menuItems = [
     { id: 1, icon: "fas fa-tachometer-alt", label: "Dashboard", view: "dashboard" },
-    { id: 2, icon: "fas fa-user", label: "Users", view: "users" },
-    { id: 3, icon: "fas fa-car", label: "Rides", view: "rides" },
-    {
-      id: 4,
-      icon: "fas fa-map",
-      label: "Routes",
-      view: "routes",
-    },
+    { id: 2, icon: "fas fa-users", label: "Users", view: "users" },
+    { id: 9, icon:  "fa-solid fa-user-secret", label: "Staff", view: "staff" },
     {
       id: 5,
       icon: "fas fa-users",
@@ -43,7 +37,13 @@ const Sidebar = ({ activeView,setActiveView }) => {
     },
     { id: 7, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
     { id: 8, icon: "fas fa-handshake", label: "Agencies", view: "agencies" },
-   // { id: 9, icon: "fas fa-chart-bar", label: "Segmentation", view: "segmentation" },
+    { id: 3, icon: "fas fa-car", label: "Rides", view: "rides" },
+    {
+      id: 4,
+      icon: "fas fa-map",
+      label: "Routes",
+      view: "routes",
+    },
   ];
 
   const toggleSidebar = () => {

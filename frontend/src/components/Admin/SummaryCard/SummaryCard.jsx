@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../api/axios";
 import "./SummaryCard.css";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Overview = () => {
   const [currentTime, setCurrentTime] = useState("");
@@ -53,10 +54,10 @@ const Overview = () => {
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
       setCurrentTime(`${hours}:${minutes}:${seconds}`);
-      
+
       const date = now.toLocaleDateString("en-GB", { day: 'numeric', month: 'long', year: 'numeric' });
       setCurrentDate(date);
-      
+
       const day = now.toLocaleString('en-GB', { weekday: 'long' });
       setCurrentDay(day);
     };
@@ -64,43 +65,44 @@ const Overview = () => {
     const intervalId = setInterval(updateDateTime, 1000);
     updateDateTime();
 
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, []);
 
   // Calculate stats dynamically
   const stats = [
     {
-      label: "TOTAL USERS", 
-      value: users.length, 
-      details: `ACTIVE ${users.filter((user) => user.status === "active").length}, UNACTIVE ${users.filter((user) => user.status === "inactive").length}`
+      label: "TOTAL USERS",
+      route: "Users",
+      value: users.length,
+      details: `ACTIVE ${users.filter((user) => user.is_active = 1).length}, UNACTIVE ${users.filter((user) => user.is_active = 0).length}`
     },
-    { 
-      label: "TOTAL ROUTES", 
-      value: trips.length, 
-      details: "(Inside Kigali)" 
+    {
+      label: "TOTAL ROUTES",
+      value: trips.length,
+      details: "(Inside Kigali)"
     },
-    { 
-      label: "TOTAL DRIVERS", 
-      value: drivers.length, 
+    {
+      label: "TOTAL DRIVERS",
+      value: drivers.length,
       details: `ACTIVE ${drivers.filter((driver) => driver.status === "active").length}, UNACTIVE ${drivers.filter((driver) => driver.status === "inactive").length}`
     },
-    { 
-      label: "SUCCESSFUL ROUTES", 
-      value: successfulRoutes, 
-      details: "Go to details", 
-      cols: "green" 
+    {
+      label: "SUCCESSFUL ROUTES",
+      value: successfulRoutes,
+      details: "Go to details",
+      cols: "green"
     },
-    { 
-      label: "PENDING ROUTES", 
-      value: pendingRoutes, 
-      details: "Go to details", 
-      cols: "yellow" 
+    {
+      label: "PENDING ROUTES",
+      value: pendingRoutes,
+      details: "Go to details",
+      cols: "yellow"
     },
-    { 
-      label: "CANCELLED ROUTES", 
-      value: cancelledRoutes, 
-      details: "Go to details", 
-      cols: "red" 
+    {
+      label: "CANCELLED ROUTES",
+      value: cancelledRoutes,
+      details: "Go to details",
+      cols: "red"
     }
   ];
 
@@ -114,11 +116,11 @@ const Overview = () => {
       </div>
       <div className="stat-cards">
         {stats.map((stat, index) => (
-          <div 
-            key={index} 
-            className={`stat-card ${stat.cols}`} 
+          <div
+            key={index}
+            className={`stat-card ${stat.cols}`}
           >
-            <h3>{stat.label}</h3>
+            <h3 >{stat.label}</h3>
             <h1>{stat.value}</h1>
             <p>{stat.details}</p>
           </div>

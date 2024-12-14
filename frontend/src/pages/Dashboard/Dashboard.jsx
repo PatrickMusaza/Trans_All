@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Admin/Sidebar/Sidebar";
 import TopNav from "../../components/Admin/TopNav/TopNav";
 import SummaryCard from "../../components/Admin/SummaryCard/SummaryCard";
-import Table from "../../components/Admin/CRUD/Table";
+import Table from "../../designs/CRUD/Table";
 import Chart from "../../components/Admin/Chart/Chart";
 import NotificationPanel from "../../components/Admin/Notification/NotificationPanel";
 import axiosInstance from "../../api/axios";
 import "./Dashboard.css";
+
 const Dashboard = () => {
   const [activeView, setActiveView] = useState("dashboard");
   const [chartFormattedData, setChartFormattedData] = useState([]);
@@ -67,7 +68,7 @@ const Dashboard = () => {
     // Fetch notifications
     const fetchNotifications = async () => {
       try {
-        const messages = await axiosInstance.get("api/messages/").then((res) => res.data);
+        const messages = await axiosInstance.get("api/messages-details/").then((res) => res.data);
         setNotifications(messages);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -82,7 +83,7 @@ const Dashboard = () => {
 
   const renderContent = () => {
     const filteredNotifications = notifications.filter(
-      (notification) => notification.category === activeView
+      (notification) => notification.category.toLowerCase === activeView
     );
 
     switch (activeView) {
@@ -107,11 +108,11 @@ const Dashboard = () => {
       case "users":
         return (
           <>
-            <Table apiRoute="api/auth/user/" name="Users" />
+            <Table apiRoute="api/users/" name="Users" />
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </>
         );
@@ -132,8 +133,8 @@ const Dashboard = () => {
             <Table apiRoute="api/rides/" name="Rides" />
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </>
         );
@@ -159,17 +160,28 @@ const Dashboard = () => {
             />
           </>
         );
-      case "drivers-list":
-        return (
-          <>
-            <Table apiRoute="api/drivers/" name="Drivers" />
-            <NotificationPanel
-              tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
-            />
-          </>
-        );
+        case "drivers-list":
+          return (
+            <>
+              <Table apiRoute="api/drivers/" name="Drivers" />
+              <NotificationPanel
+                tableData={filteredNotifications}
+                summaryField="Name"
+                detailField="Message"
+              />
+            </>
+          );
+          case "staff":
+            return (
+              <>
+                <Table apiRoute="api/staff/" name="Staff" />
+                <NotificationPanel
+                  tableData={filteredNotifications}
+                  summaryField="Name"
+                  detailField="Message"
+                />
+              </>
+            );
       case "agencies":
         return (
           <>

@@ -1,10 +1,12 @@
 from django.urls import path
 from .views import (
-    DriverList, VehicleList, ClientList, StaffList, MessageList, 
-    RoutesAPIView, AgencyList, RideList, ControlledList, MovedList, OrderList, LocatedList, TripsAPIView
+    DriverList, VehicleList, ClientList, StaffList, MessageList, UserList, 
+    RoutesAPIView, AgencyList, RideList, ControlledList, MovedList, OrderList, LocatedList, TripsAPIView,MessageListView
 )
 
 urlpatterns = [
+    path('users/', UserList.as_view(), name='users'),
+    path('users/<int:id>/', UserList.as_view(), name='user-detail'),
     path('drivers/', DriverList.as_view(), name='drivers'),
     path('drivers/<int:id>/', DriverList.as_view(), name='driver-detail'),
     path('vehicles/', VehicleList.as_view(), name='vehicles'),
@@ -29,5 +31,5 @@ urlpatterns = [
     path('trips/', TripsAPIView.as_view(), name='trips'),
     path('trips/<int:id>/', TripsAPIView.as_view(), name='trip-detail'),
     path('messages/', MessageList.as_view(), name='messages'),
-    path('messages/<int:id>/', MessageList.as_view(), name='message-detail'),
+    path('messages-details/', MessageListView.as_view(), name='message-detail'),
 ]

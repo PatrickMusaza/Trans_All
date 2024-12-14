@@ -13,7 +13,12 @@ class UserSerializer (serializers.ModelSerializer):
     def create(self, validated_data):
         user=User.objects.create_user(**validated_data)
         return user    
-    
+
+class UserSerializerView(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields='__all__' 
+
 class DriverSerializer(serializers.ModelSerializer):
     class Meta:
         model = Driver

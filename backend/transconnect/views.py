@@ -8,7 +8,7 @@ from .models import (
     Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip, Message
 )
 from .serializers import (
-    DriverSerializer, VehicleSerializer, ClientSerializer, UserSerializer, 
+    DriverSerializer, VehicleSerializer, ClientSerializer, UserSerializerView, UserSerializer,
     StaffSerializer, RouteSerializer, AgencySerializer, RideSerializer, 
     ControlledSerializer, MovedSerializer, OrderSerializer, LocatedSerializer,TripSerializer, MessageSerializer
 )
@@ -31,6 +31,10 @@ class GenericListView(APIView):
         return Response(serializer.data)
 
 # Specific Endpoints
+class UserList(GenericListView):
+    model = User
+    serializer_class = UserSerializerView
+
 class DriverList(GenericListView):
     model = Driver
     serializer_class = DriverSerializer
@@ -89,3 +93,7 @@ class MessageList(generics.CreateAPIView):
     model = Message
     serializer_class = MessageSerializer
     permission_classes = [AllowAny]
+
+class MessageListView(GenericListView):
+    model = Message
+    serializer_class = MessageSerializer

@@ -9,8 +9,13 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 999;
   transition: width 0.3s, padding 0.3s;
-  overflow-y: auto; /* Prevent cutting off menu items */
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .sidebar.collapsed {
@@ -127,18 +132,18 @@
 }
 
 /* Active menu item */
-.menu ul li.active > a {
+.menu ul li.active>a {
   background-color: #355ac7;
   color: white;
   font-weight: bold;
   margin: 10px;
 }
 
-.menu ul li.active > a:hover {
+.menu ul li.active>a:hover {
   background-color: #274aa7;
 }
 
-.menu ul li .dropdown-menu li.active > a {
+.menu ul li .dropdown-menu li.active>a {
   background-color: #4966d0;
   color: white;
 }
