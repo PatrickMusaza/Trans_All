@@ -85,6 +85,7 @@ class LocatedList(GenericListView):
     model = Located
     serializer_class = LocatedSerializer
 
-class MessageList(GenericListView):
+class MessageList(generics.CreateAPIView):
     model = Message
     serializer_class = MessageSerializer
+    permission_classes = [AllowAny]

@@ -67,6 +67,8 @@ class Message(models.Model):
     subject = models.CharField(max_length=150)
     category = models.CharField(max_length=150)
     message = models.TextField()
+    phone = models.TextField()
+    status = models.BooleanField(auto_created=False,default=False)
     sent_at = models.DateTimeField(auto_now_add=True)
 
 class Controlled(models.Model):

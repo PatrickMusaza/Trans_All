@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
-    DriverList, VehicleList, ClientList, StaffList, 
-    RoutesAPIView, AgencyList, RideList, ControlledList, MovedList, OrderList, LocatedList, TripsAPIView, MessageSerializer
+    DriverList, VehicleList, ClientList, StaffList, MessageList, 
+    RoutesAPIView, AgencyList, RideList, ControlledList, MovedList, OrderList, LocatedList, TripsAPIView
 )
 
 urlpatterns = [
@@ -28,6 +28,6 @@ urlpatterns = [
     path('located/<int:id>/', LocatedList.as_view(), name='located-detail'),
     path('trips/', TripsAPIView.as_view(), name='trips'),
     path('trips/<int:id>/', TripsAPIView.as_view(), name='trip-detail'),
-    path('messages/', TripsAPIView.as_view(), name='messages'),
-    path('messages/<int:id>/', TripsAPIView.as_view(), name='message-detail'),
+    path('messages/', MessageList.as_view(), name='messages'),
+    path('messages/<int:id>/', MessageList.as_view(), name='message-detail'),
 ]
