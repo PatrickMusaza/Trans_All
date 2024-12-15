@@ -39,7 +39,7 @@ const Overview = () => {
       });
 
     // Fetch drivers
-    axiosInstance.get("api/drivers/")
+    axiosInstance.get("api/users/")
       .then((response) => {
         setDrivers(response.data);
       })
@@ -82,8 +82,8 @@ const Overview = () => {
     {
       label: "TOTAL USERS",
       route: "Users",
-      value: users.length,
-      details: `ACTIVE ${users.filter((user) => user.is_active = 1).length}, UNACTIVE ${users.filter((user) => user.is_active = 0).length}`
+      value: users.filter((user)=>user.role==="user").length,
+      details: `ACTIVE ${users.filter((user) => user.is_active = 1 && user.role  ==="user").length}, UNACTIVE ${users.filter((user) => user.is_active = 0 && user.role === "user").length}`
     },
     {
       label: "TOTAL ROUTES",
@@ -92,8 +92,8 @@ const Overview = () => {
     },
     {
       label: "TOTAL DRIVERS",
-      value: drivers.length,
-      details: `ACTIVE ${drivers.filter((driver) => driver.created_at = 1).length}, UNACTIVE ${drivers.filter((driver) => driver.status = 0).length}`
+      value: drivers.filter((driver)=>driver.role==="driver").length,
+      details: `ACTIVE ${drivers.filter((user) => user.is_active = 1 && user.role === "driver").length}, UNACTIVE ${drivers.filter((user) =>user.is_active = 0 && user.role === "driver").length}`
     },
     {
       label: "SUCCESSFUL ROUTES",

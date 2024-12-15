@@ -3,7 +3,7 @@ import axiosInstance from "../../api/axios";
 import { getTableFields } from "./Fields";
 import "./Table.css";
 
-const Table = ({ apiRoute, name }) => {
+const Table = ({ apiRoute,  name }) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [drawerState, setDrawerState] = useState({ isOpen: false, mode: "", rowData: {} });
@@ -186,13 +186,32 @@ const Table = ({ apiRoute, name }) => {
                     onChange={(e) =>
                       setDrawerState({
                         ...drawerState,
-                        rowData: { ...drawerState.rowData, [field.field]: e.target.value === "true" },
+                        rowData: { ...drawerState.rowData, [field.field]: e.target.value },
                       })
                     }
                   >
-                    <option value="">Select Active Status</option>
                     <option value="true">true</option>
                     <option value="false">false</option>
+                  </select>
+                );
+              }
+
+              if (field.field === "role") {
+                return (
+                  <select
+                    key={field.field}
+                    value={drawerState.rowData[field.field] || ""}
+                    onChange={(e) =>
+                      setDrawerState({
+                        ...drawerState,
+                        rowData: { ...drawerState.rowData, [field.field]: e.target.value },
+                      })
+                    }
+                  >
+                    <option value="user">User</option>
+                    <option value="client">Client</option>
+                    <option value="driver">Driver</option>
+                    <option value="staff">Staff</option>
                   </select>
                 );
               }

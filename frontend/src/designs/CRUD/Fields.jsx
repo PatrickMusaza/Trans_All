@@ -11,38 +11,46 @@ export const getTableFields = (name) => {
         { label: "Created At", field: "date_joined" },
         { label: "Last Login", field: "last_login" },
         { label: "Status", field: "is_active" },
+        { label: "Role", field: "role" },
       ];
 
     case "Clients":
       return [
-        { label: "ID", field: "id" },
+        { label: "No", field: "id" },
+        { label: "User Name", field: "username" },
         { label: "First Name", field: "first_name" },
         { label: "Last Name", field: "last_name" },
-        { label: "Age", field: "age" },
-        { label: "Signup Time", field: "signup_time" },
+        { label: "Email", field: "email" },
+        { label: "Created At", field: "date_joined" },
+        { label: "Last Login", field: "last_login" },
+        { label: "Status", field: "is_active" },
+        { label: "Role", field: "role" },
       ];
 
     case "Drivers":
       return [
-        { label: "ID", field: "id" },
+        { label: "No", field: "id" },
+        { label: "User Name", field: "username" },
         { label: "First Name", field: "first_name" },
         { label: "Last Name", field: "last_name" },
-        { label: "Age", field: "age" },
-        { label: "District", field: "district" },
-        { label: "Sector", field: "sector" },
-        { label: "Street Number", field: "street_number" },
-        { label: "Created At", field: "created_at" },
+        { label: "Email", field: "email" },
+        { label: "Created At", field: "date_joined" },
+        { label: "Last Login", field: "last_login" },
+        { label: "Status", field: "is_active" },
+        { label: "Role", field: "role" },
       ];
 
     case "Staff":
       return [
-        { label: "ID", field: "id" },
+        { label: "No", field: "id" },
+        { label: "User Name", field: "username" },
         { label: "First Name", field: "first_name" },
         { label: "Last Name", field: "last_name" },
-        { label: "Age", field: "age" },
-        { label: "Address", field: "district" },
-        { label: "Street Number", field: "street_number" },
-        { label: "Created At", field: "created_at" },
+        { label: "Email", field: "email" },
+        { label: "Created At", field: "date_joined" },
+        { label: "Last Login", field: "last_login" },
+        { label: "Status", field: "is_active" },
+        { label: "Role", field: "role" },
       ];
 
     case "Vehicles":

@@ -85,7 +85,7 @@ const Dashboard = () => {
 
   const renderContent = () => {
     const filteredNotifications = notifications.filter(
-      (notification) => notification.category.toLowerCase === activeView
+      (notification) => notification.category.toLowerCase() === activeView
     );
 
     switch (activeView) {

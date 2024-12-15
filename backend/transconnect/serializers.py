@@ -1,8 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import (
-    Driver, Vehicle, Client, Staff, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip, Message
+     Vehicle,  Route, Agency, Ride, Controlled, Moved, Order, Located, Trip, Message
 )
+
+User = get_user_model()
 
 class UserSerializer (serializers.ModelSerializer):
     class Meta:
@@ -19,26 +21,10 @@ class UserSerializerView(serializers.ModelSerializer):
         model=User
         fields='__all__' 
 
-class DriverSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Driver
-        fields = '__all__'
-
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = '__all__'
-
-class ClientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Client
-        fields = '__all__'
-
-class StaffSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Staff
-        fields = '__all__'
-
 
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:

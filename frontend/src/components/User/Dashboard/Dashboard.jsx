@@ -15,7 +15,7 @@ const Dashboard = ({ trips }) => {
       <div className="card-container">
         <div className="card">
           <FontAwesomeIcon icon={faRoute} className="icon" />
-          Total Routes: {totalRoutes}
+          Total Trips: {totalRoutes}
         </div>
         <div className="card">
           <FontAwesomeIcon icon={faUsers} className="icon" />

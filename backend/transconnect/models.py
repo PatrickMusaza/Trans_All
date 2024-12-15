@@ -1,47 +1,41 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
-class Driver(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    age = models.IntegerField()
+# Extend User model
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('user', 'User'),
+        ('client', 'Client'),
+        ('driver', 'Driver'),
+        ('staff', 'Staff'),
+    ]
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
+    age = models.IntegerField(null=True, blank=True, default=0)
     street_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(auto_created=True,default=True)
 
-class Client(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    age = models.IntegerField()
-    signup_time = models.DateTimeField()
-
-class Staff(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    street_number = models.CharField(max_length=50)
-    district = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
 class Agency(models.Model):
     agency_name = models.CharField(max_length=100)
     number_of_vehicles = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-# Route model to define trip routes
 class Route(models.Model):
     from_place = models.CharField(max_length=100)
     to_place = models.CharField(max_length=100)
     distance = models.FloatField()
 
-# Vehicle model
 class Vehicle(models.Model):
     license_plate = models.CharField(max_length=50, unique=True)
+    lat = models.CharField(max_length=50)
+    log = models.CharField(max_length=50)
     number_of_seats = models.IntegerField()
     buy_time = models.DateTimeField(auto_now_add=True)
 
-# Trip model associated with a route and vehicle
 class Trip(models.Model):
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='trips')
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='trips')
@@ -52,7 +46,6 @@ class Trip(models.Model):
     agency = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
 
-# Client order model
 class Order(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'client'})
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
@@ -74,7 +67,7 @@ class Message(models.Model):
 
 class Controlled(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    staff = models.ForeignKey(User, limit_choices_to={'role': 'staff'}, on_delete=models.CASCADE)
     work_hour = models.IntegerField()
     controlled_at = models.DateTimeField(auto_now_add=True)
 
@@ -83,11 +76,6 @@ class Moved(models.Model):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     speed = models.FloatField()
     moved_at = models.DateTimeField(auto_now_add=True)
-
-class Order(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    order_time = models.DateTimeField(auto_now_add=True)
 
 class Located(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
