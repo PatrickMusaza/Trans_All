@@ -290,6 +290,15 @@ class TripsAPIView(APIView):
         serializer = TripSerializer(trips, many=True)
         return Response(serializer.data)
 
+class TripDetailView(APIView):
+    def get(self, request, id):
+        try:
+            trip = Trip.objects.get(pk=id)
+            serializer = TripSerializer(trip)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Trip.DoesNotExist:
+            return Response({"error": "Trip not found"}, status=status.HTTP_404_NOT_FOUND)
+        
 # Other Model-based Views
 class AgencyList(GenericListView):
     model = Agency

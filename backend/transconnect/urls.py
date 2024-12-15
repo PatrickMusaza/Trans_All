@@ -11,7 +11,7 @@ from .views import (
     MovedList, MovedPost, MovedDelete,MovedUpdate,
     OrderList, OrderPost, OrderDelete,OrderUpdate,
     LocatedList, LocatedPost, LocatedDelete,LocatedUpdate,
-    TripsAPIView, TripPost, TripDelete,TripUpdate,
+    TripsAPIView, TripPost, TripDelete,TripUpdate,TripDetailView,
     MessageList, MessagePost, MessageDelete,MessageUpdate,
     UserList, UserPost, UserDelete,UserUpdate,UserProfile
 )
@@ -80,6 +80,7 @@ urlpatterns = [
     path('located/<int:id>/update/', LocatedUpdate.as_view(), name='located-edit'),  
 
     path('trips/', TripsAPIView.as_view(), name='trips'),
+    path('trips/<int:id>/', TripDetailView.as_view(), name='trip-detail'),
     path('trips/add/', TripPost.as_view(), name='trip-create'),
     path('trips/<int:id>/delete/', TripDelete.as_view(), name='trip-delete'),
     path('trips/<int:id>/update/', TripUpdate.as_view(), name='trip-edit'),  
