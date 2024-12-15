@@ -73,6 +73,11 @@ class UserList(GenericListView):
     model = User
     serializer_class = UserSerializerView
 
+    def get(self, request):
+        queryset = self.model.objects.filter(role='user')
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 class UserPost(GenericPostView):
     model = User
     serializer_class = UserSerializerView
@@ -114,26 +119,13 @@ class ClientPost(GenericPostView):
     model = User
     serializer_class = UserSerializerView
 
-    def post(self, request):
-        request.data['role'] = 'client'
-        return super().post(request)
-
 class ClientDelete(GenericDeleteView):
     model = User
     serializer_class = UserSerializerView
 
-    def delete(self, request, id):
-        queryset = self.model.objects.filter(role='client')
-        return super().delete(request, id)
-
 class ClientUpdate(GenericUpdateView):
     model = User
     serializer_class = UserSerializerView
-
-    def put(self, request, id):
-        if 'role' in request.data:
-            request.data['role'] = 'client'
-        return super().put(request, id)
 
 # Staff Views
 class StaffList(GenericListView):
@@ -149,26 +141,13 @@ class StaffPost(GenericPostView):
     model = User
     serializer_class = UserSerializerView
 
-    def post(self, request):
-        request.data['role'] = 'staff'
-        return super().post(request)
-
 class StaffDelete(GenericDeleteView):
     model = User
     serializer_class = UserSerializerView
 
-    def delete(self, request, id):
-        queryset = self.model.objects.filter(role='staff')
-        return super().delete(request, id)
-
 class StaffUpdate(GenericUpdateView):
     model = User
     serializer_class = UserSerializerView
-
-    def put(self, request, id):
-        if 'role' in request.data:
-            request.data['role'] = 'staff'
-        return super().put(request, id)
 
 # Driver Views
 class DriverList(GenericListView):
@@ -184,26 +163,13 @@ class DriverPost(GenericPostView):
     model = User
     serializer_class = UserSerializerView
 
-    def post(self, request):
-        request.data['role'] = 'driver'
-        return super().post(request)
-
 class DriverDelete(GenericDeleteView):
     model = User
     serializer_class = UserSerializerView
 
-    def delete(self, request, id):
-        queryset = self.model.objects.filter(role='driver')
-        return super().delete(request, id)
-
 class DriverUpdate(GenericUpdateView):
     model = User
     serializer_class = UserSerializerView
-
-    def put(self, request, id):
-        if 'role' in request.data:
-            request.data['role'] = 'driver'
-        return super().put(request, id)
 
 # Agency Views
 class AgencyPost(GenericPostView):

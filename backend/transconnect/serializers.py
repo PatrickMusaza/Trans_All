@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
+from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 from .models import (
      Vehicle,  Route, Agency, Ride, Controlled, Moved, Order, Located, Trip, Message
 )
 
 User = get_user_model()
+validator = UniqueValidator(queryset=User.objects.all())
+print(validator)
 
 class UserSerializer (serializers.ModelSerializer):
     class Meta:
@@ -19,8 +22,33 @@ class UserSerializer (serializers.ModelSerializer):
 class UserSerializerView(serializers.ModelSerializer):
     class Meta:
         model=User
-        fields='__all__' 
+        fields = [
+            'id', 'username', 'email', 'first_name', 'last_name', 'is_staff',
+            'is_active', 'role', 'age', 'street_number', 'sector', 'district','date_joined'
+        ]
+        read_only_fields = ['id', 'last_login', 'date_joined']
+        extra_kwargs = {
+            'email': {
+                'required': True,
+                'validators': [UniqueValidator(queryset=User.objects.all())]
+            },
+            'username': {
+                'required': True,
+                'validators': [UniqueValidator(queryset=User.objects.all())]
+            },
+            'password': {'write_only': True}
+        }
 
+    def put(self, instance, validated_data):
+        # Handle password separately
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)  # Hash the password
+        instance.save()
+        return instance
+    
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle

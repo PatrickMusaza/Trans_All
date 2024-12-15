@@ -14,6 +14,7 @@ class User(AbstractUser):
     street_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
+    password=models.CharField(max_length=300,default="pbkdf2_sha256$870000$LhE324Wo9VX2CzAf6uTwdK$GOdkTNB6mK6Oa3zXJHpYV5u1vKknKFluau7QgiyZmsM=")
 
     class Meta:
         verbose_name = 'User'

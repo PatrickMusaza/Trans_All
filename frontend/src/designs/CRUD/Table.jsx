@@ -3,13 +3,14 @@ import axiosInstance from "../../api/axios";
 import { getTableFields } from "./Fields";
 import "./Table.css";
 
-const Table = ({ apiRoute,  name }) => {
+const Table = ({ apiRoute, name }) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [drawerState, setDrawerState] = useState({ isOpen: false, mode: "", rowData: {} });
   const rowsPerPage = 5;
-  const timeIdField = ["id", "created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+  const timeIdField = ["created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
   const timeFields = ["created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+
   // Fetch data from API
   const fetchData = async () => {
     try {
@@ -79,13 +80,19 @@ const Table = ({ apiRoute,  name }) => {
     const value = field.split('.').reduce((acc, part) => {
       return acc && acc[part] !== undefined && acc[part] !== null ? acc[part] : null;
     }, row);
-
+  
     if (value === null) return "";
+  
     if (timeFields.includes(field)) {
       return new Date(value).toLocaleString();
     }
+  
+    if (typeof value === "boolean") {
+      return value ? "Active" : "Inactive";
+    }
+  
     return value;
-  };
+  };  
 
 
   return (

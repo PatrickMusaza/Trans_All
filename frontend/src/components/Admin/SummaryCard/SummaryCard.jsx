@@ -39,7 +39,7 @@ const Overview = () => {
       });
 
     // Fetch drivers
-    axiosInstance.get("api/users/")
+    axiosInstance.get("api/drivers/")
       .then((response) => {
         setDrivers(response.data);
       })
@@ -82,8 +82,8 @@ const Overview = () => {
     {
       label: "TOTAL USERS",
       route: "Users",
-      value: users.filter((user)=>user.role==="user").length,
-      details: `ACTIVE ${users.filter((user) => user.is_active = 1 && user.role  ==="user").length}, UNACTIVE ${users.filter((user) => user.is_active = 0 && user.role === "user").length}`
+      value: users.filter((user) => user.role === "user").length,
+      details: `ACTIVE ${users.filter((user) => user.is_active === true && user.role === "user").length}, UNACTIVE ${users.filter((user) => user.is_active === false && user.role === "user").length}`
     },
     {
       label: "TOTAL ROUTES",
@@ -92,23 +92,23 @@ const Overview = () => {
     },
     {
       label: "TOTAL DRIVERS",
-      value: drivers.filter((driver)=>driver.role==="driver").length,
-      details: `ACTIVE ${drivers.filter((user) => user.is_active = 1 && user.role === "driver").length}, UNACTIVE ${drivers.filter((user) =>user.is_active = 0 && user.role === "driver").length}`
+      value: drivers.filter((driver) => driver.role === "driver").length,
+      details: `ACTIVE ${drivers.filter((user) => user.is_active === true && user.role === "driver").length}, UNACTIVE ${drivers.filter((user) => user.is_active === false  && user.role === "driver").length}`
     },
     {
-      label: "SUCCESSFUL ROUTES",
+      label: "SUCCESSFUL TRIPS",
       value: successfulRoutes,
       details: "Go to details",
       cols: "green"
     },
     {
-      label: "PENDING ROUTES",
+      label: "PENDING TRIPS",
       value: pendingRoutes,
       details: "Go to details",
       cols: "yellow"
     },
     {
-      label: "CANCELLED ROUTES",
+      label: "CANCELLED TRIPS",
       value: cancelledRoutes,
       details: "Go to details",
       cols: "red"

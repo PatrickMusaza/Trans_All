@@ -17,4 +17,4 @@ const ProfileDetails = ({ details }) => {
   );
 };
 
-export default ProfileDetails;
+export default ProfileDetails; 
