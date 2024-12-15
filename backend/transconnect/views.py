@@ -90,6 +90,14 @@ class UserUpdate(GenericUpdateView):
     model = User
     serializer_class = UserSerializerView
 
+class UserProfile(APIView):
+    permission_classes = [IsAuthenticated] 
+
+    def get(self, request):
+        user = request.user 
+        serializer = UserSerializerView(user)  
+        return Response(serializer.data)  
+    
 class VehicleList(GenericListView):
     model = Vehicle
     serializer_class = VehicleSerializer

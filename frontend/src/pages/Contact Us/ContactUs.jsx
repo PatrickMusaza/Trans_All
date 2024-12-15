@@ -16,7 +16,7 @@ const rightVariants = {
   visible: { opacity: 1, x: 0, transition: { duration: 1 } },
 };
 
-const categories = ["Users", "Drivers", "Routes","Rides","Clients","Drivers","Vehicles","Agencies"];
+const categories = ["Feedback","Users", "Drivers", "Routes","Rides","Clients","Drivers","Vehicles","Agencies"];
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ const ContactUs = () => {
     e.preventDefault();
     try {
       // Send data to your API
-      await axiosInstance.post("api/messages/", formData);
+      await axiosInstance.post("api/messages/add/", formData);
 
       // Show success toast
       setToastMessage("We have received your message and will reach out to you soon.");

@@ -8,7 +8,7 @@ const ProfileDetails = ({ details }) => {
       <ul>
         {Object.keys(details).map((key) => (
           <li key={key} className="detail-item">
-            <span className="detail-key">{key}:</span>
+            <span className="detail-key">{key.charAt(0).toUpperCase() + key.slice(1)}:</span>
             <span className="detail-value">{details[key]}</span>
           </li>
         ))}
@@ -17,4 +17,4 @@ const ProfileDetails = ({ details }) => {
   );
 };
 
-export default ProfileDetails; 
+export default ProfileDetails;

@@ -1,16 +1,28 @@
 import React, { useState } from "react";
-import "./NotificationPanel.css"; // Optional: Add styles for better UI
+import axiosInstance from "../../../api/axios";
+import "./NotificationPanel.css";
 
 const NotificationPanel = ({ tableData, summaryField, detailField }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
 
-  // Handle opening the detail modal
   const handleReadMore = (notification) => {
     setSelectedNotification(notification);
   };
 
-  // Handle closing the modal
-  const closeModal = () => {
+  const closeModal = async () => {
+    if (selectedNotification) {
+      const updatedNotification = {
+        ...selectedNotification,
+        status: true,
+      };
+
+      try {
+        await axiosInstance.put(`api/messages/${selectedNotification.id}/update/`, updatedNotification);
+      } catch (error) {
+        console.error("Error updating notification status:", error);
+      }
+    }
+
     setSelectedNotification(null);
   };
 
@@ -18,22 +30,32 @@ const NotificationPanel = ({ tableData, summaryField, detailField }) => {
     <div className="notification-panel">
       <h2>Notifications</h2>
       <div className="notifications">
-        {tableData.map((item, index) => (
-          <div key={index} className="notification-item">
-            <p className="summary">
-              {item[summaryField]} {/* Display the summary */}
-            </p>
-            <button
-              className="read-more-btn"
-              onClick={() => handleReadMore(item)}
-            >
-              Read More
-            </button>
+        {tableData.length > 0 ? (
+          tableData.map((item) => (
+            <div key={item.id} className="notification-item">
+              <div className="notification-details">
+                <p className="summary">{item[summaryField]}</p>
+                <p className="time-sent">{item.sent_at}</p>
+                <p className={`status ${item.status ? "read" : "unread"}`}>
+                  {item.status ? "Read" : "Unread"}
+                </p>
+              </div>
+              <button
+                className="read-more-btn"
+                onClick={() => handleReadMore(item)}
+              >
+                Read More
+              </button>
+            </div>
+          ))
+        ) : (
+          <div className="data-container-error">
+            <i className="fa-solid fa-database"></i>
+            <h6>No data yet</h6>
           </div>
-        ))}
+        )}
       </div>
 
-      {/* Modal for detailed notification */}
       {selectedNotification && (
         <div className="modal-overlay">
           <div className="modal-content">

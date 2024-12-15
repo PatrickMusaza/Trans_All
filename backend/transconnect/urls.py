@@ -13,12 +13,13 @@ from .views import (
     LocatedList, LocatedPost, LocatedDelete,LocatedUpdate,
     TripsAPIView, TripPost, TripDelete,TripUpdate,
     MessageList, MessagePost, MessageDelete,MessageUpdate,
-    UserList, UserPost, UserDelete,UserUpdate
+    UserList, UserPost, UserDelete,UserUpdate,UserProfile
 )
 
 urlpatterns = [
     # List and Detail
     path('users/', UserList.as_view(), name='users'),
+    path('users/profile/', UserProfile.as_view(), name='user-profile'),
     path('users/add/', UserPost.as_view(), name='user-create'),
     path('users/<int:id>/delete/', UserDelete.as_view(), name='user-delete'),
     path('users/<int:id>/update/', UserUpdate.as_view(), name='user-edit'),  

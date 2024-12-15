@@ -14,11 +14,22 @@ const Dashboard = () => {
   const [pieChartFormattedData, setPieChartFormattedData] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
+  const notificationMapping = {
+    "dashboard": null,
+    "users": "users",
+    "staff": "staff",
+    "clients-list": "clients",
+    "drivers-list": "drivers",
+    "vehicles": "vehicles",
+    "agencies": "agencies",
+    "rides": "rides",
+    "routes": "routes",
+  };
+
   useEffect(() => {
-    // Fetch counts from individual models
     const fetchStats = async () => {
       try {
-        const [users,drivers, clients, staff, agencies, vehicles, routes] = await Promise.all([
+        const [users, drivers, clients, staff, agencies, vehicles, routes] = await Promise.all([
           axiosInstance.get("api/users/").then((res) => res.data.length),
           axiosInstance.get("api/drivers/").then((res) => res.data.length),
           axiosInstance.get("api/clients/").then((res) => res.data.length),
@@ -28,7 +39,6 @@ const Dashboard = () => {
           axiosInstance.get("api/routes/").then((res) => res.data.length),
         ]);
 
-        // Combine results into a single array for the pie chart
         const stats = [
           { label: "Users", value: users },
           { label: "Drivers", value: drivers },
@@ -45,7 +55,6 @@ const Dashboard = () => {
       }
     };
 
-    // Fetch trip data for the bar chart
     const fetchTripData = async () => {
       try {
         const trips = await axiosInstance.get("api/trips/").then((res) => res.data);
@@ -67,26 +76,28 @@ const Dashboard = () => {
       }
     };
 
-    // Fetch notifications
     const fetchNotifications = async () => {
       try {
-        const messages = await axiosInstance.get("api/messages-details/").then((res) => res.data);
+        const messages = await axiosInstance.get("api/messages/").then((res) => res.data);
         setNotifications(messages);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
     };
 
-    // Trigger all fetches
     fetchStats();
     fetchTripData();
     fetchNotifications();
   }, []);
 
   const renderContent = () => {
-    const filteredNotifications = notifications.filter(
-      (notification) => notification.category.toLowerCase() === activeView
-    );
+    const notificationCategory = notificationMapping[activeView];
+
+    const filteredNotifications = notificationCategory
+      ? notifications.filter(
+        (notification) => notification.category.toLowerCase() === notificationCategory.toLowerCase()
+      )
+      : [];
 
     switch (activeView) {
       case "dashboard":
@@ -124,8 +135,8 @@ const Dashboard = () => {
             <Table apiRoute="api/clients/" name="Clients" />
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </>
         );
@@ -146,8 +157,8 @@ const Dashboard = () => {
             <Table apiRoute="api/routes/" name="Routes" />
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </>
         );
@@ -157,41 +168,41 @@ const Dashboard = () => {
             <Table apiRoute="api/vehicles/" name="Vehicles" />
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </>
         );
-        case "drivers-list":
-          return (
-            <>
-              <Table apiRoute="api/drivers/" name="Drivers" />
-              <NotificationPanel
-                tableData={filteredNotifications}
-                summaryField="Name"
-                detailField="Message"
-              />
-            </>
-          );
-          case "staff":
-            return (
-              <>
-                <Table apiRoute="api/staff/" name="Staff" />
-                <NotificationPanel
-                  tableData={filteredNotifications}
-                  summaryField="Name"
-                  detailField="Message"
-                />
-              </>
-            );
+      case "drivers-list":
+        return (
+          <>
+            <Table apiRoute="api/drivers/" name="Drivers" />
+            <NotificationPanel
+              tableData={filteredNotifications}
+              summaryField="subject"
+              detailField="message"
+            />
+          </>
+        );
+      case "staff":
+        return (
+          <>
+            <Table apiRoute="api/staff/" name="Staff" />
+            <NotificationPanel
+              tableData={filteredNotifications}
+              summaryField="subject"
+              detailField="message"
+            />
+          </>
+        );
       case "agencies":
         return (
           <>
             <Table apiRoute="api/agencies/" name="Agencies" />
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </>
         );
@@ -201,20 +212,23 @@ const Dashboard = () => {
             Coming Soon...
             <NotificationPanel
               tableData={filteredNotifications}
-              summaryField="Name"
-              detailField="Message"
+              summaryField="subject"
+              detailField="message"
             />
           </div>
         );
     }
   };
 
+
   return (
     <div className="dashboard-container">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <div className="dashboard-main">
         <TopNav />
-        <div className="dashboard-content">{renderContent()}</div>
+        <div className="dashboard-content">
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

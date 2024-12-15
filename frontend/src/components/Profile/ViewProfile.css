@@ -4,21 +4,21 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it overlays above other content */
+  z-index: 1000; 
 }
 
 .view-profile {
   max-width: 600px;
-  margin: 20px; /* Adjusted for smaller view */
+  margin: 20px; 
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
-  position: relative; /* For positioning the close button */
+  position: relative; 
 }
 
 .close-btn {
@@ -69,4 +69,26 @@
 
 .profile-edit-btn:hover {
   background-color: #0056b3;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.edit-profile-form input {
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-profile-form button {
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
