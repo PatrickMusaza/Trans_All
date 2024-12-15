@@ -36,19 +36,40 @@ function Form({ route, method }) {
             const res = await axiosInstance.post(route, { username, password });
 
             if (method === "login") {
+                // Save tokens
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/dashboard");
+
+                // Fetch user role
+                const token = res.data.access;
+                const profile = await axiosInstance.get('/api/users/profile/', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const role = profile.data.role;
+
+                // Save role to localStorage
+                localStorage.setItem('USER_ROLE', role);
+
+                // Navigate based on role
+                if (role === 'driver' || role === 'staff') {
+                    navigate('/dashboard');
+                } else if (role === 'client' || role === 'user') {
+                    navigate('/users');
+                } else {
+                    navigate('/not-found');
+                }
             } else {
                 navigate("/sign-in");
             }
         } catch (error) {
+            console.error("Error during login/registration:", error);
             setError(error.response?.data?.detail || "Something went wrong");
-            console.error("Error during registration:", error);
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit} className="sign-in-form">

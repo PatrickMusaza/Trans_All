@@ -16,10 +16,12 @@ const Table = ({ trips }) => {
 
   const filteredTrips = trips.filter((trip) => {
     return (
-      (!filters.status || trip.status.includes(filters.status)) &&
-      (!filters.driver || trip.driver_name.includes(filters.driver)) &&
-      (!filters.location || trip.from_place.includes(filters.location) || trip.to_place.includes(filters.location)) &&
-      (!filters.date || trip.date.includes(filters.date))
+      (!filters.status || trip.status?.toLowerCase().includes(filters.status.toLowerCase())) &&
+      (!filters.driver || trip.driver.driver_name?.toLowerCase().includes(filters.driver.toLowerCase())) &&
+      (!filters.location ||
+        trip.route.from_place?.toLowerCase().includes(filters.location.toLowerCase()) ||
+        trip.route.to_place?.toLowerCase().includes(filters.location.toLowerCase())) &&
+      (!filters.date || trip.date === filters.date)
     );
   });
 
@@ -51,7 +53,6 @@ const Table = ({ trips }) => {
         <input
           type="date"
           name="date"
-          placeholder="mm/dd/yy"
           value={filters.date}
           onChange={handleFilterChange}
         />
@@ -72,13 +73,13 @@ const Table = ({ trips }) => {
         <tbody>
           {filteredTrips.map((trip) => (
             <tr key={trip.id}>
-              <td>{trip.ride_no}</td>
+              <td>{trip.id}</td>
               <td>{trip.date}</td>
-              <td>{trip.from_place}</td>
-              <td>{trip.to_place}</td>
+              <td>{trip.route.from_place}</td>
+              <td>{trip.route.to_place}</td>
               <td>{trip.departure_time}</td>
               <td>{trip.arrival_time}</td>
-              <td>{trip.driver_name}</td>
+              <td>{trip.driver.first_name}</td>
               <td>{trip.status}</td>
             </tr>
           ))}

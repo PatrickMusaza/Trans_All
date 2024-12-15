@@ -58,9 +58,9 @@ const Dashboard = () => {
     const fetchTripData = async () => {
       try {
         const trips = await axiosInstance.get("api/trips/").then((res) => res.data);
-
+        
         const aggregatedTrips = trips.reduce((acc, trip) => {
-          const routeKey = `${trip.route.from_place} → ${trip.route.to_place}`;
+          const routeKey = `${trip.route.from_place}→${trip.route.to_place}`;
           acc[routeKey] = (acc[routeKey] || 0) + 1;
           return acc;
         }, {});
@@ -140,10 +140,10 @@ const Dashboard = () => {
             />
           </>
         );
-      case "rides":
+      case "trips":
         return (
           <>
-            <Table apiRoute="api/rides/" name="Rides" />
+            <Table apiRoute="api/trips/" name="Trips" />
             <NotificationPanel
               tableData={filteredNotifications}
               summaryField="subject"

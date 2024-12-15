@@ -37,7 +37,7 @@ const Sidebar = ({ activeView,setActiveView }) => {
     },
     { id: 7, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
     { id: 8, icon: "fas fa-handshake", label: "Agencies", view: "agencies" },
-    { id: 3, icon: "fas fa-car", label: "Rides", view: "rides" },
+    { id: 3, icon: "fas fa-car", label: "Trips", view: "trips" },
     {
       id: 4,
       icon: "fas fa-map",

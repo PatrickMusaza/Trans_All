@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import "./TopNav.css";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../../api/axios";
 import busImage from "../../../assets/images/download.jpg";
 import LogoutModal from "../../Logout/LogoutModal";
 import ViewProfile from "../../Profile/ViewProfile";
+import "./TopNav.css";
 
 const TopNav = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Set initial state to false
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
 
   const toggleProfileDropdown = () => {
     setProfileOpen(!profileOpen);
@@ -16,31 +20,55 @@ const TopNav = () => {
   };
 
   const handleOpenProfile = () => {
-    setIsProfileVisible(true); // Show the profile popup
+    setIsProfileVisible(true);
   };
 
   const handleCloseProfile = () => {
-    setIsProfileVisible(false); // Close the profile popup
+    setIsProfileVisible(false); 
   };
 
-  const showLogoutModal = () => setShowModal(true); // Show modal
-  const closeLogoutModal = () => setShowModal(false); // Close modal
+  const showLogoutModal = () => setShowModal(true); 
+  const closeLogoutModal = () => setShowModal(false); 
 
   const handleLogout = () => {
     window.location.href = "/sign-in";
   };
+  /*
+    const user = {
+      avatar: "https://via.placeholder.com/120",
+      name: "John Doe",
+      email: "john.doe@example.com",
+      details: {
+        Address: "123 Main Street, Springfield",
+        Phone: "+1 234 567 890",
+        "Date of Birth": "1990-01-01",
+        "Membership Status": "Gold Member",
+      },
+    };
+  */
 
-  const user = {
-    avatar: "https://via.placeholder.com/120",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    details: {
-      Address: "123 Main Street, Springfield",
-      Phone: "+1 234 567 890",
-      "Date of Birth": "1990-01-01",
-      "Membership Status": "Gold Member",
-    },
-  };
+  useEffect(() => {
+
+    const token = localStorage.getItem("token"); 
+
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axiosInstance.get("api/users/profile/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data);
+      } catch (error) {
+        setError("Failed to fetch user profile.");
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
 
   return (
@@ -64,15 +92,16 @@ const TopNav = () => {
 
       <div className="user-profile" onClick={toggleProfileDropdown}>
         <img src={busImage} alt="Profile" />
-        <div className="profile-info">
-          <span className="name">M. Patrick</span>
-          <span className="status">Admin</span>
-        </div>
+        {user && (
+          <div className="profile-info">
+            <span className="name">{user.first_name}</span>
+            <span className="status">{user.role}</span>
+          </div>
+        )}
         <i className={`fas ${collapsed ? "fa-chevron-up" : "fa-chevron-down"}`}></i>
         {profileOpen && (
           <div className="profile-dropdown">
             <div className="profile-details">
-              <a href="/users">User Mode</a>
               <button className="profile" onClick={handleOpenProfile}>View Profile</button>
               {isProfileVisible && (
                 <ViewProfile user={user} onClose={handleCloseProfile} />

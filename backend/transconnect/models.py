@@ -35,6 +35,7 @@ class Vehicle(models.Model):
     lat = models.CharField(max_length=50)
     log = models.CharField(max_length=50)
     number_of_seats = models.IntegerField()
+    passengers = models.IntegerField(blank=True,default=0)
     buy_time = models.DateTimeField(auto_now_add=True)
 
 class Trip(models.Model):

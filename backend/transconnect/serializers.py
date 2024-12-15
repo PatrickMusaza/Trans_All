@@ -60,6 +60,10 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TripSerializer(serializers.ModelSerializer):
+    route = RouteSerializer()  
+    driver = UserSerializerView()
+    vehicle = VehicleSerializer()
+
     class Meta:
         model = Trip
         fields = '__all__'

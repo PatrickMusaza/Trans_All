@@ -285,8 +285,8 @@ class RoutesAPIView(APIView):
 # Trips API Views
 class TripsAPIView(APIView):
     def get(self, request):
-        filters = request.GET.dict()
-        trips = Trip.objects.filter(**filters)
+        filters = request.GET.dict() 
+        trips = Trip.objects.select_related('route', 'vehicle', 'driver').filter(**filters)
         serializer = TripSerializer(trips, many=True)
         return Response(serializer.data)
 

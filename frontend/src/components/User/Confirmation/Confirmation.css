@@ -1,0 +1,29 @@
+.confirmation-container {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.confirmation-container p {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.confirmation-container button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.confirmation-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.confirmation-container button:last-child {
+    background-color: #dc3545;
+}

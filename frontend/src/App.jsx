@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation, Navigation, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import axiosInstance from './api/axios';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home/Home';
 import Header from './components/Header/Header';
@@ -13,60 +14,122 @@ import AboutPage from './pages/About/About';
 import User from './pages/User/User';
 import Services from './pages/Services/Services';
 import LiveMapDetails from './components/User/LiveMap/LiveMap';
+import Confirmation from './components/User/Confirmation/Confirmation';
 
 function Logout() {
-    localStorage.clear()
-    return <Navigate to='/sign-in' />
-}
-
-function RegisterAndLogout() {
-    localStorage.clear()
-    return <SignUp />
+    localStorage.clear();
+    return <Navigate to="/sign-in" />;
 }
 
 const App = () => {
-
     const location = useLocation();
+    const [users, setUser] = useState(null);
+    const [loading, setLoading] = useState(true); 
 
-    const standalonePages = ['/dashboard', '/users', '/live-map'];
+    const token = localStorage.getItem('token');
 
+    const user = {
+        role: localStorage.getItem("USER_ROLE")
+    }
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const response = await axiosInstance.get('api/users/profile/', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    setUser(response.data); // Set user data
+                } else {
+                    console.error('Failed to fetch user profile:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user profile:', error.response ? error.response.data : error.message);
+            } finally {
+                setLoading(false); // Set loading to false after fetching
+            }
+        };
+
+        if (token) {
+            fetchUserProfile();
+        } else {
+            setLoading(false); // If no token, set loading to false
+        }
+    }, [token]);
+
+    const standalonePages = ['/users', '/dashboard', '/live-map'];
     const isStandalonePage = standalonePages.includes(location.pathname);
+
+    if (loading) {
+        return <div>Loading...</div>; // Show loading state
+    }
 
     return (
         <div className="app">
             {!isStandalonePage && <Header />}
             <Routes>
+                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
-                <Route path="*" element={<NotFound />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/register" element={<SignUp />} />
-                <Route path='/about' element={<AboutPage />} />
-                <Route path='/services' element={<Services />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/services" element={<Services />} />
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/register" element={<RegisterAndLogout />} />
+                <Route path="*" element={<NotFound />} />
 
-                <Route path="/live-map" element={
-                    <ProtectedRoute>
-                        <LiveMapDetails />
-                    </ProtectedRoute>
-                }
+                {/* Protected Routes */}
+                <Route
+                    path="/users"
+                    element={
+                        user && (user.role === 'user' || user.role === 'client') ? (
+                            <ProtectedRoute>
+                                <User />
+                            </ProtectedRoute>
+                        ) : (
+                            <Navigate to="/sign-in" />
+                        )
+                    }
                 />
-
-                <Route path='/dashboard' element={
-                    <ProtectedRoute>
-                        <Dashboard />
-                    </ProtectedRoute>
-                }
+                <Route
+                    path="/live-map"
+                    element={
+                        user && (user.role === 'user' || user.role === 'client') ? (
+                            <ProtectedRoute>
+                                <LiveMapDetails />
+                            </ProtectedRoute>
+                        ) : (
+                            <Navigate to="/sign-in" />
+                        )
+                    }
                 />
-
-                <Route path='/users' element={
-                    <ProtectedRoute>
-                        <User />
-                    </ProtectedRoute>
-                }
+                <Route
+                    path="/confirmation"
+                    element={
+                        user && (user.role === 'user' || user.role === 'client') ? (
+                            <ProtectedRoute>
+                                <Confirmation />
+                            </ProtectedRoute>
+                        ) : (
+                            <Navigate to="/sign-in" />
+                        )
+                    }
                 />
-
+                <Route
+                    path="/dashboard"
+                    element={
+                        user || (user.role === 'staff' || user.role === 'driver') ? (
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        ) : (
+                            <Navigate to="/sign-in" />
+                        )
+                    }
+                />
             </Routes>
             {!isStandalonePage && <Footer />}
         </div>

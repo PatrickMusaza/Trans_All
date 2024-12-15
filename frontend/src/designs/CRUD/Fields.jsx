@@ -148,7 +148,7 @@ export const getTableFields = (name) => {
         case "Rides":
           return [
             { label: "Id", field: "id" },
-            { label: "Trip Ref", field: "Trip.trip" },
+            { label: "Trip Ref", field: "trip.id" },
             { label: "Order Time", field: "ride_time" },
           ];
 
