@@ -1,0 +1,60 @@
+.book-page {
+    padding: 2em;
+    text-align: center;
+  }
+  
+  .book-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5em;
+    color: #333;
+  }
+  
+  .book-page p {
+    font-size: 1.2rem;
+    margin-bottom: 2em;
+    color: #555;
+  }
+  
+  .book-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5em;
+  }
+  
+  .book-option {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.5em;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .book-option h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1em;
+  }
+  
+  .book-option p {
+    font-size: 1rem;
+    margin-bottom: 1.5em;
+  }
+  
+  .book-button {
+    display: inline-block;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .book-button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -15,6 +15,7 @@ import User from './pages/User/User';
 import Services from './pages/Services/Services';
 import LiveMapDetails from './components/User/LiveMap/LiveMap';
 import Confirmation from './components/User/Confirmation/Confirmation';
+import { BookPage } from './pages/Book/Book';
 
 function Logout() {
     localStorage.clear();
@@ -79,6 +80,7 @@ const App = () => {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/logout" element={<Logout />} />
+                <Route path="/book" element={<BookPage />} />
                 <Route path="*" element={<NotFound />} />
 
                 {/* Protected Routes */}
