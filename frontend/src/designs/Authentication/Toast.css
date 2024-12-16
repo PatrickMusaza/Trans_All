@@ -1,0 +1,35 @@
+/* Basic styling for the toast */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 99999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    max-width: 300px;
+}
+
+/* Error toast styles */
+.toast.error {
+    background-color: #dc3545;
+}
+
+/* Close button */
+.toast .close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.toast.success {
+    background-color: #28a745;
+}

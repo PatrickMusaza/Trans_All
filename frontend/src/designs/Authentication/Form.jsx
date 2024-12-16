@@ -3,6 +3,7 @@ import "./Form.css";
 import axiosInstance from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../api/constants";
+import Toast from "./Toast";
 
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
@@ -10,6 +11,9 @@ function Form({ route, method }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");  // For success message
+    const [toastType, setToastType] = useState("");  // Type of toast ('success' or 'error')
+    const [showToast, setShowToast] = useState(false);  // To control toast visibility
     const navigate = useNavigate();
 
     const [passwordType, setPasswordType] = useState("password");
@@ -51,92 +55,114 @@ function Form({ route, method }) {
                 // Save role to localStorage
                 localStorage.setItem('USER_ROLE', role);
 
-                // Navigate based on role
-                if (role === 'driver' || role === 'staff') {
-                    navigate('/dashboard');
-                } else if (role === 'client' || role === 'user') {
-                    navigate('/users');
-                } else {
-                    navigate('/not-found');
-                }
+                // Set success message and show toast
+                setMessage("Login successful!");
+                setToastType("success");
+                setShowToast(true);
+
+                // Navigate based on role after a short delay
+                setTimeout(() => {
+                    if (role === 'driver' || role === 'staff') {
+                        navigate('/dashboard');
+                    } else if (role === 'client' || role === 'user') {
+                        navigate('/users');
+                    } else {
+                        navigate('/not-found');
+                    }
+                }, 3000); // Delay navigation to show toast
             } else {
                 navigate("/sign-in");
             }
         } catch (error) {
             console.error("Error during login/registration:", error);
             setError(error.response?.data?.detail || "Something went wrong");
+
+            // Set error message and show toast
+            setMessage(error.response?.data?.detail || "Something went wrong");
+            setToastType("error");
+            setShowToast(true);
         } finally {
             setLoading(false);
         }
     };
 
-
     return (
-        <form onSubmit={handleSubmit} className="sign-in-form">
-            <div className="input-group">
-                <input
-                    type="email"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter email"
-                    required
-                />
-                <span className="icon"><i className="fa-regular fa-envelope"></i></span>
-            </div>
-            <div className="input-group">
-                <input
-                    type={passwordType}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="●●●●●●●●"
-                    required
-                    className={error && name === "Register" ? "error" : ""}
-                />
-                <span
-                    className="icon toggle-icon"
-                    onClick={() => togglePasswordVisibility(setPasswordType)}
-                >
-                    <i className={`fa-regular ${passwordType === "password" ? "fa-eye" : "fa-eye-slash"}`}></i>
-                </span>
-            </div>
-            {name === "Register" && (
+        <>
+            <form onSubmit={handleSubmit} className="sign-in-form">
                 <div className="input-group">
                     <input
-                        type={confirmPasswordType}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm Password"
+                        type="email"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Enter email"
+                        required
+                    />
+                    <span className="icon"><i className="fa-regular fa-envelope"></i></span>
+                </div>
+                <div className="input-group">
+                    <input
+                        type={passwordType}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="●●●●●●●●"
                         required
                         className={error && name === "Register" ? "error" : ""}
                     />
                     <span
                         className="icon toggle-icon"
-                        onClick={() => togglePasswordVisibility(setConfirmPasswordType)}
+                        onClick={() => togglePasswordVisibility(setPasswordType)}
                     >
-                        <i className={`fa-regular ${confirmPasswordType === "password" ? "fa-eye" : "fa-eye-slash"}`}></i>
+                        <i className={`fa-regular ${passwordType === "password" ? "fa-eye" : "fa-eye-slash"}`}></i>
                     </span>
                 </div>
+                {name === "Register" && (
+                    <div className="input-group">
+                        <input
+                            type={confirmPasswordType}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            placeholder="Confirm Password"
+                            required
+                            className={error && name === "Register" ? "error" : ""}
+                        />
+                        <span
+                            className="icon toggle-icon"
+                            onClick={() => togglePasswordVisibility(setConfirmPasswordType)}
+                        >
+                            <i className={`fa-regular ${confirmPasswordType === "password" ? "fa-eye" : "fa-eye-slash"}`}></i>
+                        </span>
+                    </div>
+                )}
+                {error && <div className="error-message">{error}</div>}
+                <a href="/recover-password" className="recover-password-link">Recover Password?</a>
+                <button className="sign-in-button" type="submit" disabled={loading}>
+                    {name}
+                </button>
+                <div className="divider">
+                    <span>Or continue with</span>
+                </div>
+                <div className="social-buttons">
+                    <button className="social-button google">
+                        <span className="fa-brands fa-google"></span>
+                    </button>
+                    <button className="social-button apple">
+                        <span className="fa-brands fa-apple"></span>
+                    </button>
+                    <button className="social-button facebook">
+                        <span className="fa-brands fa-facebook"></span>
+                    </button>
+                </div>
+            </form>
+
+            {/* Show Toast on Success or Error */}
+            {showToast && (
+                <Toast
+                    message={message}
+                    type={toastType}
+                    onClose={() => setShowToast(false)}
+                />
             )}
-            {error && <div className="error-message">{error}</div>}
-            <a href="/recover-password" className="recover-password-link">Recover Password?</a>
-            <button className="sign-in-button" type="submit" disabled={loading}>
-                {name}
-            </button>
-            <div className="divider">
-                <span>Or continue with</span>
-            </div>
-            <div className="social-buttons">
-                <button className="social-button google">
-                    <span className="fa-brands fa-google"></span>
-                </button>
-                <button className="social-button apple">
-                    <span className="fa-brands fa-apple"></span>
-                </button>
-                <button className="social-button facebook">
-                    <span className="fa-brands fa-facebook"></span>
-                </button>
-            </div>
-        </form>
+        </>
     );
 }
 
