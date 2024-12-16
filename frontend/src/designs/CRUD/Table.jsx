@@ -8,8 +8,9 @@ const Table = ({ apiRoute, name }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [drawerState, setDrawerState] = useState({ isOpen: false, mode: "", rowData: {} });
   const rowsPerPage = 5;
-  const timeIdField = ["created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
-  const timeFields = ["created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+  const timeIdField = ["id", "created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+  const timeFieldRow = ["created_at","date", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+  const timeFields = ["created_at","departure_time","date","arrival_time", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
 
   // Fetch data from API
   const fetchData = async () => {
@@ -80,19 +81,19 @@ const Table = ({ apiRoute, name }) => {
     const value = field.split('.').reduce((acc, part) => {
       return acc && acc[part] !== undefined && acc[part] !== null ? acc[part] : null;
     }, row);
-  
+
     if (value === null) return "";
-  
-    if (timeFields.includes(field)) {
+
+    if (timeFieldRow.includes(field)) {
       return new Date(value).toLocaleString();
     }
-  
+
     if (typeof value === "boolean") {
       return value ? "Active" : "Inactive";
     }
-  
+
     return value;
-  };  
+  };
 
 
   return (
@@ -159,6 +160,7 @@ const Table = ({ apiRoute, name }) => {
             <h3>{drawerState.mode === "add" ? "Add Entry" : "Edit Entry"}</h3>
             <button onClick={closeDrawer}><i className="fa-solid fa-xmark"></i></button>
           </div>
+
           <div className="drawer-body">
             {tableFields.map((field) => {
               if (timeIdField.includes(field.field)) {
@@ -220,6 +222,30 @@ const Table = ({ apiRoute, name }) => {
                     <option value="driver">Driver</option>
                     <option value="staff">Staff</option>
                   </select>
+                );
+              }
+
+              if (timeFields.includes(field.field)) {
+                // Determine the input type based on field type
+                const inputType = field.field.includes("time")
+                  ? "time"
+                  : field.field.includes("date")
+                    ? "date"
+                    : "datetime-local";
+
+                return (
+                  <input
+                    key={field.field}
+                    type={inputType}
+                    placeholder={field.label}
+                    value={drawerState.rowData[field.field] || ""}
+                    onChange={(e) =>
+                      setDrawerState({
+                        ...drawerState,
+                        rowData: { ...drawerState.rowData, [field.field]: e.target.value },
+                      })
+                    }
+                  />
                 );
               }
 

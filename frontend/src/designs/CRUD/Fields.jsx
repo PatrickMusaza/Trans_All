@@ -78,19 +78,22 @@ export const getTableFields = (name) => {
     case "Trips":
       return [
         { label: "ID", field: "id" },
-        { label: "Route", field: "route.from_place" },  // From place as a representative
+        { label: "From", field: "route.from_place" },  
+        { label: "To", field: "route.to_place" },  
         { label: "Vehicle", field: "vehicle.license_plate" },
-        { label: "Driver", field: "driver.first_name" },  // You can modify based on your use case
+        { label: "Driver", field: "driver.first_name" },  
         { label: "Date", field: "date" },
         { label: "Departure Time", field: "departure_time" },
         { label: "Arrival Time", field: "arrival_time" },
-        { label: "Agency", field: "agency" },
+        { label: "User", field: "arrival_time" },
+     //   { label: "Agency", field: "agency" },
         { label: "Status", field: "status" },
       ];
 
     case "Messages":
       return [
-        { label: "Name", field: "name" },
+        { label: "Id", field: "id" },
+        { label: "Sender Name", field: "name" },
         { label: "Email", field: "email" },
         { label: "Subject", field: "subject" },
         { label: "Category", field: "category" },
@@ -125,7 +128,7 @@ export const getTableFields = (name) => {
     case "Controlled":
       return [
         { label: "Vehicle License Plate", field: "vehicle.license_plate" },
-        { label: "Staff Name", field: "staff.first_name" },  // You can modify for first and last name
+        { label: "Staff Name", field: "staff.first_name" },  
         { label: "Work Hours", field: "work_hour" },
         { label: "Controlled At", field: "controlled_at" },
       ];
@@ -151,7 +154,7 @@ export const getTableFields = (name) => {
             { label: "Trip Ref", field: "trip.id" },
             { label: "Order Time", field: "ride_time" },
           ];
-
+  
     default:
       return [
         {

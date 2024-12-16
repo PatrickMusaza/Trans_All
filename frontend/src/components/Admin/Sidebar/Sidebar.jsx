@@ -44,6 +44,12 @@ const Sidebar = ({ activeView,setActiveView }) => {
       label: "Routes",
       view: "routes",
     },
+    {
+      id: 10,
+      icon: "fas fa-message",
+      label: "Notification",
+      view: "messages",
+    },
   ];
 
   const toggleSidebar = () => {

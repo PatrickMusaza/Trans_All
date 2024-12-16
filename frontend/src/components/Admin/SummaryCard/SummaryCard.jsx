@@ -30,9 +30,9 @@ const Overview = () => {
     axiosInstance.get("api/trips/")
       .then((response) => {
         setTrips(response.data);
-        setCancelledRoutes(response.data.filter((trip) => trip.status === "Cancelled").length);
-        setPendingRoutes(response.data.filter((trip) => trip.status === "Pending").length);
-        setSuccessfulRoutes(response.data.filter((trip) => trip.status === "Completed").length);
+        setCancelledRoutes(response.data.filter((trip) => trip.status === "cancelled").length);
+        setPendingRoutes(response.data.filter((trip) => trip.status === "pending").length);
+        setSuccessfulRoutes(response.data.filter((trip) => trip.status === "completed").length);
       })
       .catch((error) => {
         console.error("Error fetching trips:", error);

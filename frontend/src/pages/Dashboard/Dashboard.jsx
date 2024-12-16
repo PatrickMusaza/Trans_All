@@ -195,17 +195,23 @@ const Dashboard = () => {
             />
           </>
         );
-      case "agencies":
-        return (
-          <>
-            <Table apiRoute="api/agencies/" name="Agencies" />
-            <NotificationPanel
-              tableData={filteredNotifications}
-              summaryField="subject"
-              detailField="message"
-            />
-          </>
-        );
+        case "agencies":
+          return (
+            <>
+              <Table apiRoute="api/agencies/" name="Agencies" />
+              <NotificationPanel
+                tableData={filteredNotifications}
+                summaryField="subject"
+                detailField="message"
+              />
+            </>
+          );
+          case "messages":
+            return (
+              <>
+                <Table apiRoute="api/messages/" name="Messages" />
+              </>
+            );
       default:
         return (
           <div>
