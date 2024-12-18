@@ -50,6 +50,8 @@ class UserSerializerView(serializers.ModelSerializer):
         return instance
     
 class VehicleSerializer(serializers.ModelSerializer):
+    route = serializers.StringRelatedField()
+    
     class Meta:
         model = Vehicle
         fields = '__all__'
@@ -84,6 +86,9 @@ class ControlledSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MovedSerializer(serializers.ModelSerializer):
+    vehicle = VehicleSerializer()
+    route = RouteSerializer()
+
     class Meta:
         model = Moved
         fields = '__all__'

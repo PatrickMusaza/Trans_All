@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from rest_framework import generics, status
+from rest_framework import generics, status, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from django.db.models import Q 
 from .models import (
     Vehicle, Route, Agency, Ride, Controlled, Moved, Order, Located, Trip, Message
 )
@@ -340,3 +341,29 @@ class MessageDelete(GenericDeleteView):
 class MessageUpdate(GenericUpdateView):
     model = Message
     serializer_class = MessageSerializer
+
+class MovedFilterView(APIView):
+    serializer_class = MovedSerializer
+    
+    def get(self, request):
+        # Retrieve query parameters
+        from_place = request.query_params.get('from_place', None)
+        to_place = request.query_params.get('to_place', None)
+
+        # Build the filter query using Q objects for OR logic
+        filter_conditions = Q()
+
+        if from_place:
+            filter_conditions |= Q(route__from_place=from_place)
+        
+        if to_place:
+            filter_conditions |= Q(route__to_place=to_place)
+
+        # Apply the filter to Moved objects
+        filtered_moved = Moved.objects.filter(filter_conditions)
+
+        # Serialize the data
+        serializer = MovedSerializer(filtered_moved, many=True)
+
+        # Return the serialized data
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../api/axios";
+import axiosInstance from "../../../api/axios"; // Update the import as necessary
 import "./Routes.css";
 
 const Routes = () => {
     const [routes, setRoutes] = useState([]);
+    const [vehicles, setVehicles] = useState([]);
     const [fromPlace, setFromPlace] = useState("");
     const [toPlace, setToPlace] = useState("");
-    const [distance, setDistance] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -19,33 +19,32 @@ const Routes = () => {
                 setRoutes(response.data);
             } catch (err) {
                 console.error("Error fetching routes:", err);
-            } finally {
-                setLoading(false);
             }
         };
 
         fetchRoutes();
+        setLoading(false);
     }, []);
 
-    const calculateDistance = () => {
-        if (fromPlace && toPlace) {
-            const route = routes.find(
-                (route) => route.from_place === fromPlace && route.to_place === toPlace
-            );
-            setDistance(route ? route.distance : "Route not found");
-        }
-    };
+    // Fetch vehicles based on selected route
+    useEffect(() => {
+        const fetchVehicles = async () => {
+            if (fromPlace && toPlace) {
+                try {
+                    // Fetch vehicles based on the selected fromPlace and toPlace
+                    const response = await axiosInstance.get(`/api/moved/?from_place=${fromPlace}&to_place=${toPlace}`);
+                    setVehicles(response.data);  // Set vehicles fetched based on route
+                } catch (err) {
+                    console.error("Error fetching vehicles:", err);
+                }
+            }
+        };
 
-    const handleCheckout = () => {
-        const selectedRoute = routes.find(
-            (route) => route.from_place === fromPlace && route.to_place === toPlace
-        );
+        fetchVehicles();
+    }, [fromPlace, toPlace]);
 
-        if (selectedRoute) {
-            navigate("/live-map", { state: selectedRoute }); // Pass route details via state
-        } else {
-            alert("Please select a valid route.");
-        }
+    const handleRowClick = (route) => {
+        navigate("/live-map", { state: route });
     };
 
     if (loading) return <div>Loading...</div>;
@@ -59,9 +58,7 @@ const Routes = () => {
                     <select value={fromPlace} onChange={(e) => setFromPlace(e.target.value)}>
                         <option value="">Select</option>
                         {[...new Set(routes.map((route) => route.from_place))].map((place) => (
-                            <option key={place} value={place}>
-                                {place}
-                            </option>
+                            <option key={place} value={place}>{place}</option>
                         ))}
                     </select>
                 </div>
@@ -71,22 +68,42 @@ const Routes = () => {
                     <select value={toPlace} onChange={(e) => setToPlace(e.target.value)}>
                         <option value="">Select</option>
                         {[...new Set(routes.map((route) => route.to_place))].map((place) => (
-                            <option key={place} value={place}>
-                                {place}
-                            </option>
+                            <option key={place} value={place}>{place}</option>
                         ))}
                     </select>
                 </div>
             </div>
 
-            <button className="calculate-button" onClick={calculateDistance} disabled={!fromPlace || !toPlace}>
-                Calculate Distance
-            </button>
-            <button className="checkout-button" onClick={handleCheckout} disabled={!fromPlace || !toPlace}>
-                Proceed
-            </button>
-
-            {distance && <p>Distance: {distance} km</p>}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Distance</th>
+                        <th>Available Seats</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {vehicles.map((vehicle) => (
+                        <tr key={vehicle.vehicle.id} onClick={() => handleRowClick(vehicle.route)}>
+                            <td>{vehicle.vehicle.license_plate}</td>
+                            <td>{vehicle.route.from_place}</td>
+                            <td>{vehicle.route.to_place}</td>
+                            <td>{vehicle.route.distance} KM</td>
+                            <td>{vehicle.vehicle.number_of_seats - vehicle.vehicle.passengers}</td>
+                            <td>
+                                {vehicle.vehicle.number_of_seats > vehicle.vehicle.passengers ? (
+                                    <button className="book-button">Book</button>
+                                ) : (
+                                    <span>Full</span>
+                                )}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

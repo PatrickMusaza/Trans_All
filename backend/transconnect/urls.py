@@ -8,7 +8,7 @@ from .views import (
     AgencyList, AgencyPost,AgencyDelete,AgencyUpdate,
     RideList, RidePost, RideDelete,RideUpdate,
     ControlledList, ControlledPost, ControlledDelete,ControlledUpdate,
-    MovedList, MovedPost, MovedDelete,MovedUpdate,
+    MovedList, MovedPost, MovedDelete,MovedUpdate,MovedFilterView,
     OrderList, OrderPost, OrderDelete,OrderUpdate,
     LocatedList, LocatedPost, LocatedDelete,LocatedUpdate,
     TripsAPIView, TripPost, TripDelete,TripUpdate,TripDetailView,
@@ -64,7 +64,8 @@ urlpatterns = [
     path('controlled/<int:id>/delete/', ControlledDelete.as_view(), name='controlled-delete'),
     path('controlled/<int:id>/update/', ControlledUpdate.as_view(), name='controlled-edit'),  
 
-    path('moved/', MovedList.as_view(), name='moved'),
+    path('moved/', MovedList.as_view(), name='moved'),    
+    path('moves/', MovedFilterView.as_view(), name='moved-filtered'),
     path('moved/add/', MovedPost.as_view(), name='moved-create'),
     path('moved/<int:id>/delete/', MovedDelete.as_view(), name='moved-delete'),
     path('moved/<int:id>/update/', MovedUpdate.as_view(), name='moved-edit'),  

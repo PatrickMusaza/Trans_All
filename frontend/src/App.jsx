@@ -16,6 +16,8 @@ import Services from './pages/Services/Services';
 import LiveMapDetails from './components/User/LiveMap/LiveMap';
 import Confirmation from './components/User/Confirmation/Confirmation';
 import { BookPage } from './pages/Book/Book';
+import Driver from './pages/Driver/Driver';
+import BookingConfirmation from './components/User/Confirmation/Confirmation';
 
 function Logout() {
     localStorage.clear();
@@ -25,7 +27,7 @@ function Logout() {
 const App = () => {
     const location = useLocation();
     const [users, setUser] = useState(null);
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
 
     const token = localStorage.getItem('token');
 
@@ -61,7 +63,7 @@ const App = () => {
         }
     }, [token]);
 
-    const standalonePages = ['/users', '/dashboard', '/live-map'];
+    const standalonePages = ['/users', '/dashboard', '/live-map', '/drivers','/confirm'];
     const isStandalonePage = standalonePages.includes(location.pathname);
 
     if (loading) {
@@ -81,6 +83,7 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/book" element={<BookPage />} />
+                <Route path="/confirm" element={<BookingConfirmation />} />
                 <Route path="*" element={<NotFound />} />
 
                 {/* Protected Routes */}
@@ -123,7 +126,7 @@ const App = () => {
                 <Route
                     path="/dashboard"
                     element={
-                        user || (user.role === 'staff' || user.role === 'driver') ? (
+                        user && (user.role === 'staff') ? (
                             <ProtectedRoute>
                                 <Dashboard />
                             </ProtectedRoute>
@@ -132,6 +135,19 @@ const App = () => {
                         )
                     }
                 />
+                <Route
+                    path="/drivers"
+                    element={
+                        user && (user.role === 'driver') ? (
+                            <ProtectedRoute>
+                                <Driver />
+                            </ProtectedRoute>
+                        ) : (
+                            <Navigate to="/sign-in" />
+                        )
+                    }
+                />
+
             </Routes>
             {!isStandalonePage && <Footer />}
         </div>

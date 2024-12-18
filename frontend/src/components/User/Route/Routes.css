@@ -96,3 +96,21 @@
   border-color: #007bff;
   box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
+
+/* Routes.css */
+.book-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.book-button:hover {
+  background-color: #45a049; /* Darker green */
+}

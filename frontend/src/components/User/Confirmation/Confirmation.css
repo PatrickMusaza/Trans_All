@@ -1,29 +1,30 @@
-.confirmation-container {
-    width: 50%;
-    margin: 0 auto;
+.booking-confirmation {
+    padding: 20px;
+    font-family: Arial, sans-serif;
     text-align: center;
 }
 
-.confirmation-container p {
-    margin: 10px 0;
-    font-size: 18px;
+.booking-confirmation h1 {
+    font-size: 2rem;
+    color: green;
 }
 
-.confirmation-container button {
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
+.confirmation-details {
+    margin: 20px 0;
+    font-size: 1.2rem;
 }
 
-.confirmation-container button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+.confirmation-details p {
+    margin: 5px 0;
 }
 
-.confirmation-container button:last-child {
-    background-color: #dc3545;
+.tracking-info {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.tracking-info a {
+    color: blue;
+    text-decoration: underline;
+    font-weight: bold;
 }

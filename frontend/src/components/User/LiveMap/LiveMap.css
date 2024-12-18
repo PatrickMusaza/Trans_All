@@ -18,6 +18,11 @@
   position: relative;
 }
 
+#live-map {
+  height: 500px;  /* Ensure a valid height */
+  width: 100%;    /* Ensure the map fills the width of its container */
+}
+
 /* Placeholder for Map Loading */
 .map-placeholder {
   height: 300px;

@@ -3,7 +3,6 @@ import "./Form.css";
 import axiosInstance from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../api/constants";
-import Toast from "./Toast";
 
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
@@ -11,9 +10,6 @@ function Form({ route, method }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");  // For success message
-    const [toastType, setToastType] = useState("");  // Type of toast ('success' or 'error')
-    const [showToast, setShowToast] = useState(false);  // To control toast visibility
     const navigate = useNavigate();
 
     const [passwordType, setPasswordType] = useState("password");
@@ -55,15 +51,13 @@ function Form({ route, method }) {
                 // Save role to localStorage
                 localStorage.setItem('USER_ROLE', role);
 
-                // Set success message and show toast
-                setMessage("Login successful!");
-                setToastType("success");
-                setShowToast(true);
-
                 // Navigate based on role after a short delay
                 setTimeout(() => {
-                    if (role === 'driver' || role === 'staff') {
+                    if (role === 'staff') {
                         navigate('/dashboard');
+                    }
+                    else if (role === 'driver') {
+                        navigate('/drivers');
                     } else if (role === 'client' || role === 'user') {
                         navigate('/users');
                     } else {
@@ -75,12 +69,7 @@ function Form({ route, method }) {
             }
         } catch (error) {
             console.error("Error during login/registration:", error);
-            setError(error.response?.data?.detail || "Something went wrong");
-
-            // Set error message and show toast
-            setMessage(error.response?.data?.detail || "Something went wrong");
-            setToastType("error");
-            setShowToast(true);
+            setError(error.response?.data?.detail || "Something went wrong");   
         } finally {
             setLoading(false);
         }
@@ -153,15 +142,6 @@ function Form({ route, method }) {
                     </button>
                 </div>
             </form>
-
-            {/* Show Toast on Success or Error */}
-            {showToast && (
-                <Toast
-                    message={message}
-                    type={toastType}
-                    onClose={() => setShowToast(false)}
-                />
-            )}
         </>
     );
 }
