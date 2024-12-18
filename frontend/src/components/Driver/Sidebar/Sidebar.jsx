@@ -9,8 +9,8 @@ const Sidebar = ({ activeView,setActiveView }) => {
     { id: 1, icon: "fas fa-tachometer-alt", label: "Dashboard", view: "dashboard" },
     {
       id: 6,
-      icon: "fas fa-users-cog",
-      label: "Drivers",
+      icon:"fa-solid fa-car-side",
+      label: "Rides",
       /*
       dropdown: [
         { label: "List of Drivers", view: "drivers-list" },
@@ -18,15 +18,9 @@ const Sidebar = ({ activeView,setActiveView }) => {
         { label: "Documents", view: "drivers-documents" },
         { label: "Comments", view: "drivers-comments" },
       ],*/
-      view: "drivers-list",
+      view: "rides",
     },
-    { id: 7, icon: "fas fa-bus", label: "Vehicles", view: "vehicles" },
-    { id: 3, icon: "fas fa-car", label: "Trips", view: "trips" },
-    {
-      id: 4,
-      icon: "fas fa-map",
-      label: "Routes",
-      view: "routes",
+    { id: 7, icon:"fa-solid fa-minimize", label: "Moved", view: "moved" 
     },
   ];
 
