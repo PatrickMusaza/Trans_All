@@ -45,6 +45,9 @@ const Sidebar = ({ activeView,setActiveView }) => {
       view: "routes",
     },
     {
+      id: 11, icon: "fa-solid fa-minimize", label: "Moved", view: "moved"
+    },
+    {
       id: 10,
       icon: "fas fa-message",
       label: "Notification",

@@ -24,6 +24,7 @@ const Dashboard = () => {
     "agencies": "agencies",
     "rides": "rides",
     "routes": "routes",
+    "moved": "moved",
   };
 
   useEffect(() => {
@@ -140,17 +141,28 @@ const Dashboard = () => {
             />
           </>
         );
-      case "trips":
-        return (
-          <>
-            <Table apiRoute="api/trips/" name="Trips" />
-            <NotificationPanel
-              tableData={filteredNotifications}
-              summaryField="subject"
-              detailField="message"
-            />
-          </>
-        );
+        case "trips":
+          return (
+            <>
+              <Table apiRoute="api/trips/" name="Trips" />
+              <NotificationPanel
+                tableData={filteredNotifications}
+                summaryField="subject"
+                detailField="message"
+              />
+            </>
+          );
+          case "moved":
+            return (
+              <>
+                <Table apiRoute="api/moved/" name="Moved" />
+                <NotificationPanel
+                  tableData={filteredNotifications}
+                  summaryField="subject"
+                  detailField="message"
+                />
+              </>
+            );
       case "routes":
         return (
           <>

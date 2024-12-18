@@ -43,9 +43,22 @@ const Routes = () => {
         fetchVehicles();
     }, [fromPlace, toPlace]);
 
-    const handleRowClick = (route) => {
-        navigate("/live-map", { state: route });
-    };
+    const handleRowClick = (vehicle) => {
+        
+        if (!vehicle || !vehicle.route) {
+          console.error("Invalid vehicle or route data:", vehicle);
+          alert("Unable to load trip details. Please try again.");
+          return;
+        }
+      
+        navigate("/live-map", {
+          state: {
+            route: vehicle.route, 
+            vehicle: vehicle.vehicle,     
+          },
+        });
+      };
+      
 
     if (loading) return <div>Loading...</div>;
 
@@ -86,8 +99,7 @@ const Routes = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {vehicles.map((vehicle) => (
-                        <tr key={vehicle.vehicle.id} onClick={() => handleRowClick(vehicle.route)}>
+                    {vehicles.map((vehicle) => (<tr key={vehicle.vehicle.id} onClick={() => handleRowClick(vehicle)}>
                             <td>{vehicle.vehicle.license_plate}</td>
                             <td>{vehicle.route.from_place}</td>
                             <td>{vehicle.route.to_place}</td>

@@ -8,9 +8,9 @@ const Table = ({ apiRoute, name }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [drawerState, setDrawerState] = useState({ isOpen: false, mode: "", rowData: {} });
   const rowsPerPage = 5;
-  const timeIdField = ["id", "created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
-  const timeFieldRow = ["created_at","date", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
-  const timeFields = ["created_at","departure_time","date","arrival_time", "login_at", "date_joined", "last_login", "signup_time", "buy_time"];
+  const timeIdField = ["id", "created_at", "login_at", "date_joined", "last_login", "signup_time", "buy_time","moved_at"];
+  const timeFieldRow = ["created_at","date", "login_at", "date_joined", "last_login", "signup_time", "buy_time","moved_at"];
+  const timeFields = ["created_at","departure_time","date","arrival_time", "login_at", "date_joined", "last_login","moved_at", "signup_time", "buy_time"];
 
   // Fetch data from API
   const fetchData = async () => {

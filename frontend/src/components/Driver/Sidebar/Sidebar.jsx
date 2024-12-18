@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
 
-const Sidebar = ({ activeView,setActiveView }) => {
+const Sidebar = ({ activeView, setActiveView }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -9,7 +9,7 @@ const Sidebar = ({ activeView,setActiveView }) => {
     { id: 1, icon: "fas fa-tachometer-alt", label: "Dashboard", view: "dashboard" },
     {
       id: 6,
-      icon:"fa-solid fa-car-side",
+      icon: "fa-solid fa-car-side",
       label: "Rides",
       /*
       dropdown: [
@@ -20,7 +20,8 @@ const Sidebar = ({ activeView,setActiveView }) => {
       ],*/
       view: "rides",
     },
-    { id: 7, icon:"fa-solid fa-minimize", label: "Moved", view: "moved" 
+    {
+      id: 7, icon: "fa-solid fa-minimize", label: "Moved", view: "moved"
     },
   ];
 
@@ -57,9 +58,8 @@ const Sidebar = ({ activeView,setActiveView }) => {
                 {!collapsed && item.label}
                 {item.dropdown && (
                   <i
-                    className={`fas fa-chevron-down ${
-                      activeDropdown === item.id ? "rotate" : ""
-                    }`}
+                    className={`fas fa-chevron-down ${activeDropdown === item.id ? "rotate" : ""
+                      }`}
                   ></i>
                 )}
               </a>

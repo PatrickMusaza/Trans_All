@@ -4,44 +4,30 @@
   gap: 1rem;
   padding: 1rem;
   overflow: hidden;
+  flex-direction: row;
   animation: slide-in 0.5s ease-out;
   height: 100vh;
-  font-family: Arial, sans-serif;
 }
 
 /* Map Section Styling */
-.live-map {
+.live-map-details .live-map {
   flex: 7;
+  height: 120%;
   background: #f0f0f0;
   padding: 1rem;
-  border-radius: 8px;
-  position: relative;
-}
-
-#live-map {
-  height: 500px;  /* Ensure a valid height */
-  width: 100%;    /* Ensure the map fills the width of its container */
-}
-
-/* Placeholder for Map Loading */
-.map-placeholder {
-  height: 300px;
-  background: #dcdcdc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 8px;
 }
 
 /* Details Section Styling */
 .live-map-details .details {
   flex: 3;
+  position: relative;
+  left: 43%;
   background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .details h2 {
@@ -83,6 +69,7 @@
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
