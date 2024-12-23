@@ -33,7 +33,7 @@ const teamMembers = [
   },
   {
     id: 3,
-    name: 'Jane Doe',
+    name: 'Ishimwe Claude',
     title: 'Head of Marketing',
     image: ivanImage,
     bio: `Jane Doe brings creativity and expertise to the marketing team, helping the company reach new audiences and strengthen its brand.`,
@@ -46,7 +46,7 @@ const teamMembers = [
   },
   {
     id: 4,
-    name: 'John Smith',
+    name: 'Mbabazi Yvette',
     title: 'Operations Manager',
     image: patrickImage,
     bio: `John Smith ensures smooth operations and efficient workflows across all departments, fostering a culture of collaboration.`,
