@@ -1,6 +1,5 @@
 .booking-confirmation {
     padding: 20px;
-    font-family: Arial, sans-serif;
     text-align: center;
 }
 
@@ -27,4 +26,12 @@
     color: blue;
     text-decoration: underline;
     font-weight: bold;
+}
+
+.booking-confirmation button{
+    gap: 2px;
+    padding:15px;
+    background-color: #121212;
+    color: white;
+    border-radius: 10px;
 }
