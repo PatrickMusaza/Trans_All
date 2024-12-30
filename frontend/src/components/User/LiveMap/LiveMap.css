@@ -1,0 +1,97 @@
+/* Container for Live Map and Details */
+.live-map-details {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  overflow: hidden;
+  flex-direction: row;
+  animation: slide-in 0.5s ease-out;
+  height: 100vh;
+}
+
+/* Map Section Styling */
+.live-map-details .live-map {
+  flex: 7;
+  height: 120%;
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Details Section Styling */
+.live-map-details .details {
+  flex: 3;
+  position: relative;
+  left: 43%;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.details h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.details p {
+  margin: 0.5rem 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Buttons */
+.live-map-details .details button {
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  margin-right: 2em;
+  font-size: 1rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.live-map-details .details button:hover {
+  background-color: #0056b3;
+}
+
+.live-map-details .details button:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+/* Keyframe Animation */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .live-map-details {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .live-map {
+    flex: none;
+    width: 100%;
+    height: 300px;
+  }
+
+  .details {
+    flex: none;
+    width: 100%;
+    margin-top: 1rem;
+  }
+}

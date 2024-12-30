@@ -1,0 +1,155 @@
+.notification-panel {
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f9f9f9;
+  max-width: 400px;
+}
+
+.notification-panel h2 {
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-item {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.summary {
+  font-size: 14px;
+  color: #555;
+}
+
+.time-sent {
+  font-size: 12px;
+  color: #888;
+}
+
+.status {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.read {
+  color: green;
+}
+
+.status.unread {
+  color: red;
+}
+
+.read-more-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.read-more-btn:hover {
+  background: #0056b3;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+}
+
+.modal-content p {
+  font-size: 14px;
+  color: #555;
+}
+
+.close-btn {
+  background: #f44336;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: #c62828;
+}
+
+.data-container-error {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center;  
+  gap: 1.5em; 
+  padding: 2em;
+  background-color: #32373e; 
+  border: 1px solid #dddddd; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.data-container-error:hover{
+  transform:scale(1.02);
+}
+
+.data-container-error i {
+  color: white !important; /* Icon color */
+  font-size: 2em; /* Increase icon size for better visibility */
+}
+
+.data-container-error h6 {
+  text-align: center;
+  font-size: 1.2em; 
+  margin: 0; 
+}
+
+@media (max-width: 600px) {
+  .data-container-error {
+    padding: 1em; 
+    gap: 1em; 
+  }
+
+  .data-container-error h6 {
+    font-size: 1em;
+  }
+}

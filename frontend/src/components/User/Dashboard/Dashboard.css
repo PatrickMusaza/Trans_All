@@ -1,0 +1,38 @@
+.dashboard {
+  width: 60em;
+  box-sizing: border-box;
+}
+
+.dashboard .card-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.card-container .card {
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 30%;
+  height: 200px;
+  font-size: 18px;
+  gap:2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a2f79;
+  color: white;
+  transition: transform 0.3s ease-in-out;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 50px;
+}
+
+.card-container .card:hover{
+  transform: translateY(-15px);
+  cursor: pointer;
+}

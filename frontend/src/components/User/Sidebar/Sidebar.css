@@ -1,0 +1,144 @@
+/* General Sidebar Styles */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #1a3c72;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: width 0.3s, padding 0.3s;
+  overflow-y: auto; /* Prevent cutting off menu items */
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  padding: 0 10px;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.brand i {
+  font-size: 2rem;
+}
+
+.brand span {
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+.brand .toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.menu ul {
+  list-style: none;
+  margin-top: 20px;
+  padding: 0;
+}
+
+.menu ul li {
+  margin-bottom: 10px;
+}
+
+.menu ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: background 0.3s;
+  border-radius: 5px;
+}
+
+.menu ul li a:hover {
+  background-color: #355ac7;
+}
+
+.dropdown .dropdown-menu {
+  display: none;
+  flex-direction: column;
+  margin-top: 5px;
+  padding-left: 30px;
+}
+
+.dropdown .dropdown-menu li a {
+  padding: 10px;
+}
+
+.dropdown.open .dropdown-menu {
+  display: flex;
+}
+
+.dropdown .fa-chevron-down {
+  margin-left: auto;
+  font-size: 0.9rem;
+  transition: transform 0.3s;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* Hover behavior */
+.sidebar:hover .menu ul li a {
+  font-size: 1rem;
+  justify-content: flex-start;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  .sidebar.collapsed {
+    width: 60px;
+  }
+
+  .sidebar .brand span {
+    display: none;
+  }
+
+  .sidebar.collapsed .brand span {
+    display: none;
+  }
+
+  .menu ul li a {
+    font-size: 0;
+    justify-content: center;
+  }
+
+  .sidebar:hover .menu ul li a {
+    font-size: 1rem;
+    justify-content: flex-start;
+  }
+}
+
+/* Active menu item */
+.menu ul li.active > a {
+  background-color: #355ac7;
+  color: white;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.menu ul li.active > a:hover {
+  background-color: #274aa7;
+}
+
+.menu ul li .dropdown-menu li.active > a {
+  background-color: #4966d0;
+  color: white;
+}

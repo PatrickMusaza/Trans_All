@@ -1,0 +1,13 @@
+.chart-container-dashboard {
+  margin-top: 50px;
+}
+.chart-container-dashboard h2{
+  color: #1A2F97;
+  font-size: 32px;
+}
+
+.chart-container-dashboard canvas {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 50px;
+}

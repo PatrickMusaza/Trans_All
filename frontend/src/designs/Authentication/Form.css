@@ -1,0 +1,134 @@
+/* Form Styling */
+.sign-in-form .input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.sign-in-form .input-group input {
+    width: 100%;
+    padding: 12px 40px;
+    border: 1px solid #1A2F79;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.sign-in-form .input-group input:focus {
+    border-color: #1A2F79;
+    box-shadow: 0 0 5px rgba(26, 47, 121, 0.3);
+}
+
+.sign-in-form .input-group .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Recover Password */
+.recover-password-link {
+    display: block;
+    text-align: right;
+    margin-bottom: 20px;
+    color: #1A2F79;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.recover-password-link:hover {
+    text-decoration: underline;
+}
+
+/* Sign-In Button */
+.sign-in-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1A2F79;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.sign-in-button a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.sign-in-button:hover {
+    background-color: #153062;
+}
+
+/* Divider */
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+.divider span {
+    background: #fff;
+    padding: 0 10px;
+}
+
+.divider:before,
+.divider:after {
+    content: "";
+    display: inline-block;
+    width: 21%;
+    height: 1px;
+    background: #ccc;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+
+/* Social Buttons */
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-button {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.social-button.google:hover {
+    background-color: #1A2F79;
+    color: #fff;
+}
+
+.social-button.apple:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.social-button.facebook:hover {
+    background-color: #1A2F79;
+    color: #fff;
+}
+
+.error {
+    border: 1px solid red; /* Red border for error */
+}
+
+.error-message {
+    color: red; /* Red text for error message */
+    margin-top: 5px; /* Space above the error message */
+}
