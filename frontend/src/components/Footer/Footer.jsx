@@ -11,7 +11,7 @@ const Footer = () => {
                     <h3>
                         <i className="fas fa-bus"></i>
                         TransConnect</h3>
-                    <p>We provide exceptional services to help you grow.</p><br/><br/>
+                    <p>We provide exceptional services to help you grow.</p><br /><br />
                     <div className="social-icons">
                         <i className="fab fa-facebook"></i>
                         <i className="fab fa-twitter"></i>
@@ -54,7 +54,7 @@ const Footer = () => {
 
             {/* Footer Bottom Section */}
             <div className="footer-bottom">
-                <p>&copy; 2024 TransConnect | Powered by Patrick Designs | All rights reserved.</p>
+                <p>&copy; {new Date().toLocaleDateString("en-GB", {year: 'numeric' })} TransConnect | Powered by Patrick Designs | All rights reserved.</p>
             </div>
         </footer>
     );

@@ -110,7 +110,7 @@ const Chart = ({ chartType = "bar", xField, yField, tableData }) => {
   return (
     <div className="chart-container-dashboard" style={{ height: "400px", width: "100%" }}>
       <h2> {
-        chartType == "bar" ?
+        chartType === "bar" ?
           "Trips Overview" :
           "Quick Stats"
       }
