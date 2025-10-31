@@ -1,0 +1,37 @@
+route_id,route_name,stop_id,stop_sequence,latitude,longitude,stop_name,distance_to_next,cumulative_distance,estimated_travel_time_min,route_segment,travel_time_category,distance_category,condition
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,1,1,-1.97922,30.22352,Kabuga Bus Park1,0.9701075590621605,0.0,2.328258141749185,Start,Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,2,2,-1.98699,30.21955,Masaka Hospital,3.336086710390547,0.9701075590621605,8.006608104937312,Start,Medium,Far,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,3,3,-1.99804,30.19164,Masaka Bus Terminal,0.24150017957086886,4.306194269452708,0.5796004309700853,Start,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,4,4,-1.99587,30.19155,Masaka Rd_2,0.3206555056227317,4.5476944490235764,0.7695732134945561,Start,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,5,5,-1.99302,30.19111,Masaka Health Centre,0.386537039171874,4.868349954646308,0.9276888940124975,Start,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,6,6,-1.99001,30.19285,Masaka Rd_1,0.5573654001193555,5.254886993818182,1.3376769602864533,Start,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,7,7,-1.98532,30.19108,At 19_Inyange1,1.1732298318493493,5.812252393937538,2.8157515964384383,Start,Short,Medium,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,8,8,-1.9792,30.18248,KK 3 Rd_15,0.21912329212771858,6.985482225786887,0.5258959011065246,Early,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,9,9,-1.97749,30.1815,Kibaya Minagri,0.5349574566587709,7.204605517914605,1.2838978959810503,Early,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,10,10,-1.97365,30.1786,Bus Route 107_3,0.4138808070169698,7.739562974573376,0.9933139368407276,Early,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,11,11,-1.97129,30.17572,Mulindi1,0.7142764137104124,8.153443781590346,1.7142633929049897,Early,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,12,12,-1.96891,30.16975,KK 3 Rd_11,0.7548198593853719,8.867720195300757,1.8115676625248924,Early,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,13,13,-1.96715,30.16319,At 15 Ndera1,1.774549572288848,9.622540054686128,4.258918973493236,Early,Short,Medium,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,14,14,-1.95801,30.1501,SEZ B2,1.309339477933483,11.397089626974976,3.1424147470403594,Early,Short,Medium,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,15,15,-1.95409,30.13899,Kigali Parents School2,0.8524479522483169,12.706429104908459,2.0458750853959606,Early,Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,16,16,-1.95748,30.13211,La Parisse1,1.0178540793831503,13.558877057156776,2.4428497905195607,Mid,Short,Medium,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,17,17,-1.96272,30.1246,Ku Cyamutzig,1.0702725922093392,14.576731136539927,2.568654221302414,Mid,Short,Medium,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,18,18,-1.96011,30.11533,Prince House2,0.3725484308359312,15.647003728749265,0.8941162340062349,Mid,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,19,19,-1.9612,30.11216,Alpha Palace Hotel,0.39615128446227776,16.019552159585196,0.9507630827094666,Mid,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,20,20,-1.96281,30.10898,Good Year2,1.00684016386932,16.415703444047473,2.416416393286368,Mid,Short,Medium,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,21,21,-1.9682,30.1017,Sonatubes,0.4197804868025006,17.422543607916793,1.0074731683260012,Mid,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,22,22,-1.96891,30.09799,Bralirwa3,0.42490554001022995,17.842324094719295,1.0197732960245518,Mid,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,23,23,-1.96807,30.09426,Amasezerano,0.8425591186725521,18.267229634729524,2.0221418848141246,Mid,Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,24,24,-1.96918,30.08676,Rwandex,0.47209631174012007,19.109788753402075,1.1330311481762882,Mid,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,25,25,-1.96752,30.08285,Kwa Mironko2,0.4003229889293893,19.581885065142195,0.9607751734305342,Late,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,26,26,-1.96489,30.08039,KN 3 Rd_6,0.40824328873015586,19.982208054071585,0.9797838929523741,Late,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,27,27,-1.96249,30.07761,Volta Super1,0.6016278753874896,20.39045134280174,1.4439069009299752,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,28,28,-1.9573,30.07608,Ku Mazi1,0.7948486265211265,20.99207921818923,1.9076367036507038,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,29,29,-1.95026,30.07484,Chez Rasta,0.4152765583912416,21.786927844710355,0.9966637401389798,Late,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,30,30,-1.94667,30.07381,One Love,0.801787985750797,22.202204403101597,1.9242911658019126,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,31,31,-1.94101,30.06934,Forex Form_Poids Lourd,0.7231421345887415,23.003992388852392,1.7355411230129796,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,32,32,-1.93686,30.06433,Kigali Gaz_Kinamba,0.4573088604235281,23.727134523441133,1.0975412650164675,Late,Very Short,Very Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,33,33,-1.93549,30.06045,Kinamba Bridge,0.7785650226464954,24.18444338386466,1.8685560543515891,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,34,34,-1.93596,30.05346,Handicap HQs,0.5587761121784696,24.963008406511157,1.341062669228327,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,35,35,-1.93841,30.04907,Ku Magare,0.5450074108193256,25.52178451868963,1.3080177859663813,Late,Very Short,Close,normal
+Kabuga_Nyabugogo_001,Kabuga - Nyabugogo,36,36,-1.94073,30.04475,Nyabugogo Bus Park,0.0,26.066791929508955,0.0,Late,Very Short,,normal

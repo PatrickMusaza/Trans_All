@@ -17,7 +17,7 @@ from .views import (
 )
 
 urlpatterns = [
-    # List and Detail
+    # List and Detail   
     path('users/', UserList.as_view(), name='users'),
     path('users/profile/', UserProfile.as_view(), name='user-profile'),
     path('users/add/', UserPost.as_view(), name='user-create'),

@@ -1,0 +1,8 @@
+TRANSCONNECT DATA PREPROCESSING SUMMARY
+==================================================
+Original stops: 36
+Cleaned stops: 36
+Total route distance: 26.07 km
+Total travel time: 62.6 minutes
+Augmented dataset size: 216 rows
+Conditions simulated: 6
