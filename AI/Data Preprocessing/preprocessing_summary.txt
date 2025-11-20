@@ -1,8 +1,13 @@
 TRANSCONNECT DATA PREPROCESSING SUMMARY
-==================================================
+WITH REALISTIC TIMING SCENARIOS - FIXED VERSION
+============================================================
 Original stops: 36
 Cleaned stops: 36
 Total route distance: 26.07 km
-Total travel time: 62.6 minutes
+Normal day travel time: 34.8 minutes
+Morning traffic time: 44.7 minutes
+Time delay in traffic: +9.9 minutes
 Augmented dataset size: 216 rows
 Conditions simulated: 6
+Average speed - Normal: 45 km/h
+Average speed - Traffic: 35 km/h
