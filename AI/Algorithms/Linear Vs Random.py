@@ -1,148 +1,124 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings('ignore')
 
-# --------------------------------------------------
-# 1. Load or generate sample data
-# --------------------------------------------------
+# -------------------------
+# 1. Generate Example Data
+# -------------------------
+np.random.seed(42)
 
-def load_data():
-    try:
-        df = pd.read_csv("transconnect_processed_data.csv")
-    except:
-        print("Dataset not found. Generating sample data...")
-        df = pd.DataFrame({
-            'latitude': np.random.uniform(-1.95, -1.97, 100),
-            'longitude': np.random.uniform(30.10, 30.22, 100),
-            'stop_sequence': np.arange(100),
-            'distance_to_next': np.random.uniform(0.1, 2.0, 100),
-            'cumulative_distance': np.cumsum(np.random.uniform(0.1, 2.0, 100)),
-            'estimated_travel_time_min': np.random.uniform(0.5, 10, 100),
-            'hour': np.random.randint(5, 22, 100),
-            'day_of_week': np.random.randint(0, 7, 100)
-        })
-        df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
-        df['is_rush_hour'] = ((df['hour'] >= 7) & (df['hour'] <= 9) |
-                              (df['hour'] >= 16) & (df['hour'] <= 19)).astype(int)
-    return df
+# Distances along route (Kabuga–Nyabugogo)
+distances = np.linspace(0, 15, 60)
 
+# Normal day (45 km/h)
+normal_time = (distances / 45) * 60 + np.random.normal(0, 0.8, len(distances))
 
-# --------------------------------------------------
-# 2. Feature setup
-# --------------------------------------------------
+# Traffic (35 km/h)
+traffic_time = (distances / 35) * 60 + np.random.normal(0, 1.2, len(distances))
 
-def prepare_features(df):
-    feature_columns = [
-        'latitude', 'longitude', 'stop_sequence',
-        'distance_to_next', 'cumulative_distance',
-        'hour', 'day_of_week', 'is_weekend', 'is_rush_hour'
-    ]
+df = pd.DataFrame({
+    "distance": np.concatenate([distances, distances]),
+    "condition": ["normal"] * len(distances) + ["traffic"] * len(distances),
+    "travel_time": np.concatenate([normal_time, traffic_time])
+})
 
-    X = df[feature_columns]
-    y = df["estimated_travel_time_min"]
-    return X, y
+df["is_traffic"] = (df["condition"] == "traffic").astype(int)
 
+X = df[["distance", "is_traffic"]]
+y = df["travel_time"]
 
-# --------------------------------------------------
-# 3. Train and compare models
-# --------------------------------------------------
+# -------------------------
+# 2. Train-Test Split
+# -------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
-def compare_models(X, y):
-    # split the data
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
+# -------------------------
+# 3. Train Linear Regression
+# -------------------------
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+lr = LinearRegression()
+lr.fit(X_train_scaled, y_train)
+lr_pred = lr.predict(X_test_scaled)
 
-    # -------- Linear Regression --------
-    lr = LinearRegression()
-    lr.fit(X_train_scaled, y_train)
-    lr_pred = lr.predict(X_test_scaled)
+# -------------------------
+# 4. Train Random Forest
+# -------------------------
+rf = RandomForestRegressor(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+rf_pred = rf.predict(X_test)
 
-    # -------- Random Forest --------
-    rf = RandomForestRegressor(n_estimators=150, random_state=42)
-    rf.fit(X_train, y_train)
-    rf_pred = rf.predict(X_test)
+# -------------------------
+# 5. Metrics Function
+# -------------------------
+def compute_metrics(y_true, y_pred):
+    return {
+        "MAE": mean_absolute_error(y_true, y_pred),
+        "MSE": mean_squared_error(y_true, y_pred),
+        "RMSE": np.sqrt(mean_squared_error(y_true, y_pred)),
+        "R²": r2_score(y_true, y_pred)
+    }
 
-    # -------- Evaluation --------
-    results = pd.DataFrame({
-        'Model': ['Linear Regression', 'Random Forest'],
-        'MAE': [
-            mean_absolute_error(y_test, lr_pred),
-            mean_absolute_error(y_test, rf_pred)
-        ],
-        'MSE': [
-            mean_squared_error(y_test, lr_pred),
-            mean_squared_error(y_test, rf_pred)
-        ],
-        'RMSE': [
-            np.sqrt(mean_squared_error(y_test, lr_pred)),
-            np.sqrt(mean_squared_error(y_test, rf_pred))
-        ],
-        'R² Score': [
-            r2_score(y_test, lr_pred),
-            r2_score(y_test, rf_pred)
-        ]
-    })
+lr_metrics = compute_metrics(y_test, lr_pred)
+rf_metrics = compute_metrics(y_test, rf_pred)
 
-    print("\n===== MODEL PERFORMANCE COMPARISON =====\n")
-    print(results.to_string(index=False))
+# -------------------------
+# 6. Combine Metrics
+# -------------------------
+results = pd.DataFrame([lr_metrics, rf_metrics], index=["Linear Regression", "Random Forest"])
+print("\nMODEL PERFORMANCE COMPARISON:")
+print(results)
 
-    return results, y_test, lr_pred, rf_pred
+# -------------------------
+# 7. Visualization
+# -------------------------
+plt.figure(figsize=(15, 10))
 
+# --- Actual vs Predicted ---
+plt.subplot(2, 2, 1)
+plt.scatter(y_test, lr_pred, label="Linear Regression", alpha=0.7)
+plt.scatter(y_test, rf_pred, label="Random Forest", alpha=0.7, color='green')
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], "r--")
+plt.xlabel("Actual Travel Time (min)")
+plt.ylabel("Predicted Travel Time (min)")
+plt.title("Actual vs Predicted")
+plt.legend()
 
-# --------------------------------------------------
-# 4. Visualization
-# --------------------------------------------------
+# --- Residuals ---
+plt.subplot(2, 2, 2)
+plt.scatter(lr_pred, y_test - lr_pred, label="Linear Regression Residuals")
+plt.scatter(rf_pred, y_test - rf_pred, label="Random Forest Residuals")
+plt.axhline(0, color="red", linestyle="--")
+plt.xlabel("Predicted")
+plt.ylabel("Residuals")
+plt.title("Residual Plot")
+plt.legend()
 
-def visualize_results(y_test, lr_pred, rf_pred):
-    plt.figure(figsize=(14, 6))
+# --- Metrics Bar Chart ---
+plt.subplot(2, 1, 2)
+metrics_names = ["MAE", "RMSE", "R²"]
+lr_vals = [lr_metrics["MAE"], lr_metrics["RMSE"], lr_metrics["R²"]]
+rf_vals = [rf_metrics["MAE"], rf_metrics["RMSE"], rf_metrics["R²"]]
 
-    # Compare predictions
-    plt.subplot(1, 2, 1)
-    plt.scatter(y_test, lr_pred, label='Linear Regression', alpha=0.6)
-    plt.scatter(y_test, rf_pred, label='Random Forest', alpha=0.6)
-    plt.plot([y_test.min(), y_test.max()],
-             [y_test.min(), y_test.max()],
-             'k--', linewidth=2)
-    plt.xlabel("Actual Values")
-    plt.ylabel("Predicted Values")
-    plt.title("Actual vs Predicted")
-    plt.legend()
+x = np.arange(len(metrics_names))
+width = 0.35
 
-    # Error distribution
-    plt.subplot(1, 2, 2)
-    plt.hist(y_test - lr_pred, bins=20, alpha=0.6, label="Linear Regression")
-    plt.hist(y_test - rf_pred, bins=20, alpha=0.6, label="Random Forest")
-    plt.xlabel("Residuals (Actual - Predicted)")
-    plt.ylabel("Frequency")
-    plt.title("Error Distribution")
-    plt.legend()
+plt.bar(x - width/2, lr_vals, width, label="Linear Regression")
+plt.bar(x + width/2, rf_vals, width, label="Random Forest")
 
-    plt.tight_layout()
-    plt.show()
+plt.xticks(x, metrics_names)
+plt.ylabel("Score")
+plt.title("Model Metrics Comparison")
+plt.legend()
 
-
-# --------------------------------------------------
-# 5. Main function
-# --------------------------------------------------
-
-def main():
-    df = load_data()
-    X, y = prepare_features(df)
-    results, y_test, lr_pred, rf_pred = compare_models(X, y)
-    visualize_results(y_test, lr_pred, rf_pred)
-
-
-if __name__ == "__main__":
-    main()
+plt.tight_layout()
+plt.show()

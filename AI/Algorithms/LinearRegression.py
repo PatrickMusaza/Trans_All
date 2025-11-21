@@ -1,176 +1,146 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-import warnings
-warnings.filterwarnings('ignore')
-    
-class TransConnectModel:
-    def __init__(self):
-        self.model = LinearRegression()
-        self.results = {}
-        self.scaler = StandardScaler()
-        self.label_encoder = LabelEncoder()
-        
-    def load_and_prepare_data(self, file_path):
-        print("Loading and preparing data...")
-        
-        df = pd.read_csv(file_path)
-        
-        df['hour'] = pd.to_datetime(df['timestamp']).dt.hour if 'timestamp' in df.columns else 12
-        df['day_of_week'] = pd.to_datetime(df['timestamp']).dt.dayofweek if 'timestamp' in df.columns else 1
-        df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
-        df['is_rush_hour'] = ((df['hour'] >= 7) & (df['hour'] <= 9) |
-                             (df['hour'] >= 16) & (df['hour'] <= 19)).astype(int)
+from sklearn.preprocessing import StandardScaler
 
-        if 'timestamp' not in df.columns:
-            df['hour'] = np.random.randint(5, 22, len(df))
-            df['day_of_week'] = np.random.randint(0, 7, len(df))
-            df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
-            df['is_rush_hour'] = ((df['hour'] >= 7) & (df['hour'] <= 9) |
-                                 (df['hour'] >= 16) & (df['hour'] <= 19)).astype(int)
+# -------------------------
+# 1. Generate Synthetic Data (Kabuga → Nyabugogo)
+# -------------------------
+np.random.seed(42)
 
-        return df
-    
-    def create_features(self, df):
-        print("Creating features...")
-        
-        feature_columns = [
-            'latitude', 'longitude', 'stop_sequence', 
-            'distance_to_next', 'cumulative_distance',
-            'hour', 'day_of_week', 'is_weekend', 'is_rush_hour'
-        ]
-        
-        available_features = [col for col in feature_columns if col in df.columns]
-        
-        if 'estimated_travel_time_min' not in df.columns and 'distance_to_next' in df.columns:
-            df['estimated_travel_time_min'] = (df['distance_to_next'] / 25) * 60
-        
-        X = df[available_features]
-        y = df['estimated_travel_time_min']
-        
-        print(f"Features used: {available_features}")
-        print("Target variable: estimated_travel_time_min")
-        
-        return X, y
-    
-    def train_models(self, X, y):
-        """Train only Linear Regression"""
-        print("\nTraining Linear Regression model...")
-        
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-        X_train_scaled = self.scaler.fit_transform(X_train)
-        X_test_scaled = self.scaler.transform(X_test)
-        
-        self.model.fit(X_train_scaled, y_train)
-        y_pred = self.model.predict(X_test_scaled)
-        
-        mae = mean_absolute_error(y_test, y_pred)
-        mse = mean_squared_error(y_test, y_pred)
-        rmse = np.sqrt(mse)
-        r2 = r2_score(y_test, y_pred)
-        
-        self.results = {
-            'Linear Regression': {
-                'model': self.model,
-                'mae': mae,
-                'mse': mse,
-                'rmse': rmse,
-                'r2': r2,
-                'predictions': y_pred
-            }
-        }
-        
-        print(f"Linear Regression - RMSE: {rmse:.2f}, R²: {r2:.2f}")
-        
-        return X_test, y_test
-    
-    def evaluate_models(self, X_test, y_test):
-        print("\n" + "="*50)
-        print("MODEL EVALUATION RESULTS")
-        print("="*50)
+# Real route: 26 km
+distances = np.linspace(0, 26, 100)
 
-        result = self.results['Linear Regression']
-        
-        df = pd.DataFrame({
-            'Model': ['Linear Regression'],
-            'MAE': [result['mae']],
-            'MSE': [result['mse']],
-            'RMSE': [result['rmse']],
-            'R²': [result['r2']]
-        })
-        
-        print(df.to_string(index=False))
-        return df
-    
-    def visualize_results(self, X_test, y_test):
-        print("\nCreating visualizations...")
-        
-        result = self.results['Linear Regression']
-        y_pred = result['predictions']
-        
-        fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-        
-        # Actual vs Predicted
-        axes[0].scatter(y_test, y_pred, alpha=0.6)
-        axes[0].plot([y_test.min(), y_test.max()],
-                     [y_test.min(), y_test.max()], 'r--')
-        axes[0].set_title("Actual vs Predicted (Linear Regression)")
-        axes[0].set_xlabel("Actual")
-        axes[0].set_ylabel("Predicted")
-        
-        # Residual plot
-        residuals = y_test - y_pred
-        axes[1].scatter(y_pred, residuals, alpha=0.6)
-        axes[1].axhline(0, color='red', linestyle='--')
-        axes[1].set_title("Residual Plot (Linear Regression)")
-        axes[1].set_xlabel("Predicted")
-        axes[1].set_ylabel("Residuals")
-        
-        plt.tight_layout()
-        plt.show()
-    
-    def predict_arrival_time(self, features):
-        """Predict using Linear Regression only"""
-        features_scaled = self.scaler.transform([features])
-        prediction = self.model.predict(features_scaled)[0]
-        return prediction
+# --- Realistic speeds based on your update ---
+normal_speed = 31.2      # 26 km / 50 min → 31.2 km/h
+traffic_speed = 17.3     # 26 km / 90 min → 17.3 km/h
 
-# Main execution
-def main():
-    transconnect_model = TransConnectModel()
-    
-    try:
-        df = transconnect_model.load_and_prepare_data('transconnect_processed_data.csv')
-    except:
-        print("Processed data not found, generating sample data...")
-        df = pd.DataFrame({
-            'latitude': np.random.uniform(-1.95, -1.97, 100),
-            'longitude': np.random.uniform(30.10, 30.22, 100),
-            'stop_sequence': np.arange(100),
-            'distance_to_next': np.random.uniform(0.1, 2.0, 100),
-            'cumulative_distance': np.cumsum(np.random.uniform(0.1, 2.0, 100)),
-            'estimated_travel_time_min': np.random.uniform(0.5, 10, 100)
-        })
-    
-    X, y = transconnect_model.create_features(df)
-    X_test, y_test = transconnect_model.train_models(X, y)
-    results_df = transconnect_model.evaluate_models(X_test, y_test)
-    
-    transconnect_model.visualize_results(X_test, y_test)
-    results_df.to_csv('model_results_linear_regression.csv', index=False)
-    
-    sample = X.iloc[0].values
-    prediction = transconnect_model.predict_arrival_time(sample)
-    
-    print("\nExample prediction:")
-    print(f"Predicted: {prediction:.2f} minutes")
-    print(f"Actual: {y.iloc[0]:.2f} minutes")
+# Travel time formula: time = distance / speed * 60
+normal_time = (distances / normal_speed) * 60
+traffic_time = (distances / traffic_speed) * 60
 
-if __name__ == "__main__":
-    main()
+# Add noise for realistic variation
+normal_time += np.random.normal(0, 1.5, len(distances))
+traffic_time += np.random.normal(0, 2.5, len(distances))
+
+df = pd.DataFrame({
+    "distance": np.concatenate([distances, distances]),
+    "condition": ["normal"] * len(distances) + ["traffic"] * len(distances),
+    "travel_time": np.concatenate([normal_time, traffic_time])
+})
+
+df["is_traffic"] = (df["condition"] == "traffic").astype(int)
+
+# -------------------------
+# 2. Features / Target
+# -------------------------
+X = df[["distance", "is_traffic"]]
+y = df["travel_time"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
+
+# -------------------------
+# 3. Train Linear Regression
+# -------------------------
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)
+
+model = LinearRegression()
+model.fit(X_train_s, y_train)
+
+y_pred = model.predict(X_test_s)
+residuals = y_test - y_pred
+
+# -------------------------
+# 4. Compute Metrics
+# -------------------------
+mae  = mean_absolute_error(y_test, y_pred)
+mse  = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r2   = r2_score(y_test, y_pred)
+
+metrics_text = (
+    f"MAE:  {mae:.2f}\n"
+    f"MSE:  {mse:.2f}\n"
+    f"RMSE: {rmse:.2f}\n"
+    f"R²:   {r2:.3f}"
+)
+
+# -------------------------
+# 5. Visualization (4 Graphs)
+# -------------------------
+plt.figure(figsize=(12, 8))
+
+# ------------------------------------------------------
+# 1. Actual vs Predicted
+# ------------------------------------------------------
+plt.subplot(2, 2, 1)
+plt.scatter(y_test, y_pred, alpha=0.7)
+plt.plot([y_test.min(), y_test.max()],
+         [y_test.min(), y_test.max()], 'r--')
+plt.title("Actual vs Predicted (Linear Regression)")
+plt.xlabel("Actual Travel Time (min)")
+plt.ylabel("Predicted Travel Time (min)")
+
+plt.gca().text(0.05, 0.95, metrics_text,
+    transform=plt.gca().transAxes, fontsize=8,
+    verticalalignment='top',
+    bbox=dict(facecolor='white', edgecolor='black', alpha=0.8)
+)
+
+# ------------------------------------------------------
+# 2. Residual Plot
+# ------------------------------------------------------
+plt.subplot(2, 2, 2)
+plt.scatter(y_pred, residuals, alpha=0.7)
+plt.axhline(0, color='red', linestyle='--')
+plt.title("Residual Plot")
+plt.xlabel("Predicted Travel Time (min)")
+plt.ylabel("Residuals")
+
+plt.gca().text(0.05, 0.95, metrics_text,
+    transform=plt.gca().transAxes, fontsize=8,
+    verticalalignment='top',
+    bbox=dict(facecolor='white', edgecolor='black', alpha=0.8)
+)
+
+# ------------------------------------------------------
+# 3. Error Distribution Histogram
+# ------------------------------------------------------
+plt.subplot(2, 2, 3)
+plt.hist(residuals, bins=20, alpha=0.7, color='skyblue', edgecolor='black')
+plt.title("Distribution of Errors (Residuals)")
+plt.xlabel("Error Value")
+plt.ylabel("Frequency")
+
+plt.gca().text(0.05, 0.95, metrics_text,
+    transform=plt.gca().transAxes, fontsize=8,
+    verticalalignment='top',
+    bbox=dict(facecolor='white', edgecolor='black', alpha=0.8)
+)
+
+# ------------------------------------------------------
+# 4. Prediction Line vs Actual Points
+# ------------------------------------------------------
+plt.subplot(2, 2, 4)
+plt.scatter(X_test["distance"], y_test, label="Actual", alpha=0.7)
+plt.scatter(X_test["distance"], y_pred, label="Predicted", alpha=0.7)
+plt.title("Predicted vs Actual Travel Time Along Route")
+plt.xlabel("Distance (km)")
+plt.ylabel("Travel Time (min)")
+plt.legend()
+
+plt.gca().text(0.05, 0.95, metrics_text,
+    transform=plt.gca().transAxes, fontsize=8,
+    verticalalignment='top',
+    bbox=dict(facecolor='white', edgecolor='black', alpha=0.8)
+)
+
+plt.tight_layout()
+plt.show()
