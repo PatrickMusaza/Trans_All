@@ -37,7 +37,7 @@ def load_transconnect_model():
 
     if h5_path:
         print("Loading LSTM model (.h5)...")
-        model = tf.keras.models.load_model(h5_path)
+        model = tf.keras.models.load_model(h5_path, compile=False)
         return model, "LSTM", scaler
 
     elif pkl_path:
@@ -83,7 +83,7 @@ def predict_travel_time(distance_km, condition="normal", hour=12):
     features_scaled = scaler.transform(features)
 
     # Predict using correct model type
-    if model_type == "h5":
+    if model_type == "LSTM":
         # LSTM expects shape: (batch, timesteps, features)
         prediction = model.predict(features_scaled.reshape(1, 1, 3))[0][0]
     else:
