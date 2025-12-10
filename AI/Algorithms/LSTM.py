@@ -88,17 +88,18 @@ mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
 r2 = r2_score(y_test, y_pred)
 
-print("\n===== LSTM MODEL PERFORMANCE =====")
-print(f"MAE:  {mae:.3f}")
-print(f"MSE:  {mse:.3f}")
-print(f"RMSE: {rmse:.3f}")
-print(f"R²:   {r2:.3f}")
+metrics_text = (
+    f"MAE:  {mae:.2f}\n"
+    f"MSE:  {mse:.2f}\n"
+    f"RMSE: {rmse:.2f}\n"
+    f"R²:   {r2:.3f}"
+)
 
 
 # ----------------------------------------------------------
 # 8. VISUALIZATIONS
 # ----------------------------------------------------------
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(13, 8))
 
 
 # --- (1) Actual vs Predicted ---
@@ -138,6 +139,11 @@ metrics = ["MAE", "RMSE", "R²"]
 values = [mae, rmse, r2]
 plt.bar(metrics, values, color=["orange", "green", "purple"])
 plt.title("LSTM Metrics Overview")
+plt.gca().text(0.05, 0.95, metrics_text,
+    transform=plt.gca().transAxes, fontsize=8,
+    verticalalignment='top',
+    bbox=dict(facecolor='white', edgecolor='black', alpha=0.8)
+)
 
 
 plt.tight_layout()
