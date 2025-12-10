@@ -173,12 +173,14 @@ print("===========================================\n")
 
 
 # ======================================================
-# 9. Save Best Model — .h5 Format
+# 9. Save Best Model — .h5 or .pkl Format
 # ======================================================
 if best_model_name == "LSTM":
     best_model.save("best_transconnect_model.h5")
 else:
     # Save ML models as h5 using tensorflow wrapper
     joblib.dump(best_model, "best_transconnect_model.pkl")
+
+joblib.dump(scaler, "scaler.pkl") # Save scaler for future use
 
 print("Saved:", "best_transconnect_model.h5" if best_model_name == "LSTM" else "best_transconnect_model.pkl")
